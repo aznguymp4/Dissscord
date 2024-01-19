@@ -1,18 +1,25 @@
-from app.models import db, User, environment, SCHEMA
+from app.models import db, Reaction, environment, SCHEMA
 from sqlalchemy.sql import text
+reactions = [
+    '😀',
+    '👍',
+    '🫡'
+]
 
 # Adds a demo user, you can add other users here if you want
-def seed_users():
-    demo = User(
-        username='Demo', email='demo@aa.io', password='password')
-    marnie = User(
-        username='marnie', email='marnie@aa.io', password='password')
-    bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password')
-
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+def seed_reactions():
+    for x in range(0,3):
+        db.session.add(Reaction(
+            message_id=x+1,
+            author_id=(x%3)+1,
+            emoji=reactions[x]
+        ))
+    for x in range(0,3):
+        db.session.add(Reaction(
+            message_id=x+10,
+            author_id=(x%3)+1,
+            emoji=reactions[x]
+        ))
     db.session.commit()
 
 
@@ -22,10 +29,10 @@ def seed_users():
 # incrementing primary key, CASCADE deletes any dependent entities.  With
 # sqlite3 in development you need to instead use DELETE to remove all data and
 # it will reset the primary keys for you as well.
-def undo_users():
+def undo_reactions():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.reactions RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM users"))
+        db.session.execute(text("DELETE FROM reactions"))
         
     db.session.commit()

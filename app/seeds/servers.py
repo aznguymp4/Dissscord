@@ -1,15 +1,18 @@
-from app.models import db, User, Server, environment, SCHEMA
+from app.models import db, Server, environment, SCHEMA
 from sqlalchemy.sql import text
 
 # Adds a demo user, you can add other users here if you want
 def seed_servers():
-    demo = Server(
+    db.session.add(Server(
         owner_id = 1,
-        displayname = 'Dissscord Server Test',
+        displayname = 'Dissscord Server Test 1',
         public = True
-    )
-    
-    db.session.add(demo)
+    ))
+    db.session.add(Server(
+        owner_id = 2,
+        displayname = 'Dissscord Server Test 2',
+        public = True
+    ))
     db.session.commit()
 
 

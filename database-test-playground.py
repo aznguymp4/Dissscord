@@ -6,7 +6,7 @@ load_dotenv()
 # so that the environment variables are
 # properly loaded.
 from app import app, db
-from app.models import User
+from app.models import User, Server
 
 with app.app_context():
     # db.drop_all()
@@ -38,7 +38,9 @@ with app.app_context():
     #         )
     #         db.session.add(item)
     #     db.session.add(pkmn)
+
     user = User.query.get(1)
     db.session.delete(user)
+    # db.session.delete(User.query.get(1))
 
     db.session.commit()

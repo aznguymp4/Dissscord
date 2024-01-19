@@ -21,6 +21,8 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     server = db.relationship('Server', back_populates='owner', cascade='all, delete-orphan')
+    message = db.relationship('Message', back_populates='author')
+    reaction = db.relationship('Reaction', back_populates='author')
 
     @property
     def password(self):
