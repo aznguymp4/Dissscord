@@ -1,1 +1,27 @@
 /* TODO: Add sitewide styles */
+/* h1 {
+  display: grid;
+  justify-content: center;
+  background-color: rgb(0, 128, 96);
+  margin: 0;
+}
+
+form {
+  background-color: rgb(131, 122, 111);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  width: 100px;
+}
+
+html, body {
+  background-color: #181a1b;
+  color: white;
+}
+
+button {
+  cursor: pointer;
+} */
