@@ -23,3 +23,12 @@ def user(id):
     """
     user = User.query.get(id)
     return user.to_dict()
+
+
+
+@user_routes.route('/test')
+@login_required
+
+def user_update():
+    user = flask_login.current_user
+    return user.to_dict()
