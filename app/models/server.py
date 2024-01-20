@@ -4,7 +4,7 @@ from datetime import datetime
 class Server(db.Model):
     __tablename__ = 'servers'
 
-    if environment == "production":
+    if environment == 'production':
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
@@ -19,6 +19,7 @@ class Server(db.Model):
 
     owner = db.relationship('User', back_populates='server')
     channel = db.relationship('Channel', back_populates='server', cascade='all, delete-orphan')
+    joined_users = db.relationship('User', secondary='server_users', back_populates='joined_servers')
 
     def to_dict(self):
         return {
