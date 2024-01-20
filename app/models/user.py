@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     displayname = db.Column(db.String(40))
     bio = db.Column(db.String(256))
-    icon = db.Column(db.String(128), default=f'https://cdn.discordapp.com/embed/avatars/{randint(0,5)}.png')
+    icon = db.Column(db.String(256), default=f'https://cdn.discordapp.com/embed/avatars/{randint(0,5)}.png')
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
