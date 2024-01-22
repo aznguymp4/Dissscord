@@ -1,5 +1,5 @@
 from flask import Blueprint, request, redirect
-from app.models import Channel, db, Message
+from app.models import Channel, db, Message, Server
 from flask_login import current_user,login_required
 
 channel_routes = Blueprint("channels", __name__)
@@ -29,18 +29,6 @@ def channel_messages(channel_id):
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
 
-#Get single message by channel id and message id
-@channel_routes.route('/<int:channel_id>/messages/<int:message_id>')
-@login_required
-def channel_message(channel_id, message_id):
-  """Get a channel by ID"""
-  channel = Channel.query.get(channel_id)
-  message = Message.query.get(message_id)
-  if channel and channel.id == message.channel_id:
-    return message.to_dict()
-  else:
-    return {"errors": {"message": "Channel couldn't be found"}}, 404
-
 #Get Channel by channel id
 @channel_routes.route('/<int:channel_id>')
 @login_required
@@ -52,12 +40,27 @@ def channel(channel_id):
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
 
-@channel_routes.route('/<int:channel_id/messages', methods=['POST'])
+@channel_routes.route('/<int:channel_id>/messages', methods=['POST'])
 @login_required
 def create_message(channel_id):
   channel = Channel.query.get(channel_id)
   data = request.json
-  
+  server = Server.query.get(channel.server_id)
+
+  if current_user in server.joined_users:
+    params = {
+      "author_id": current_user.id,
+      "channel_id": channel_id,
+      "content": data["content"]
+    }
+    message = Message(**params)
+    db.session.add(message)
+    db.session.commit()
+    # print("MESSAGE: -------", message.to_dict())
+    redirect('/<int:channel_id>/messages')
+    return message.to_dict()
+  else:
+    return {'errors': {'message': 'You must first join the server before sending a message'}}
 
 
 #modify Channel
@@ -86,6 +89,7 @@ def delete_channel(channel_id):
       db.session.commit()
       return {"message":"Successfully deleted"}
     else:
-      return {"messages": "Forbidden"}, 403
+      return {"message": "Forbidden"}, 403
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
+
