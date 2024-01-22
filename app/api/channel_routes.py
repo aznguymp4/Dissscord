@@ -1,5 +1,5 @@
 from flask import Blueprint, request,redirect
-from app.models import Channel, db
+from app.models import Channel, db, Message
 from flask_login import current_user,login_required
 
 channel_routes = Blueprint("channels", __name__)
@@ -16,17 +16,35 @@ channel_routes = Blueprint("channels", __name__)
 #   else:
 #     return {"errors": {"message": "Server couldn't be found"}}, 404
 
+#Get All Messages by channel id
+# @channel_routes.route('/<int:channel_id>/messages')
+# @login_required
+# def channel(channel_id):
+#   """Get a channel by ID"""
+#   channel = Channel.query.get(channel_id)
+#   print("CHANNEL:", channel)
+#   messages = Message.query.filter(Message.channel_id == channel_id)
+#   print("MESSAGE:.....", messages)
+#   if channel:
+#     return messages.to_dict()
+#   else:
+#     return {"errors": {"message": "Channel couldn't be found"}}, 404
 
-#Get Channel by specify
-@channel_routes.route('/<int:channel_id>')
+#Get Channel by channel id
+@channel_routes.route('/<int:id>')
 @login_required
-def channel(channel_id):
+def channel(id):
   """Get a channel by ID"""
-  channel = Channel.query.get(channel_id)
+  channel = Channel.query.get(id)
+  messages = Message.query.all()
+  print('MESSAGES:.....', messages)
   if channel:
+    # channel.message=messages
     return channel.to_dict()
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
+
+
 
 #modify Channel
 @channel_routes.route('/<int:channel_id>', methods=["PUT"])
@@ -34,7 +52,7 @@ def channel(channel_id):
 def modify_channel_name(channel_id):
   data = request.json
   channel = Channel.query.get(channel_id)
-  if channel.server.owner_id == current_user.id:
+  if channel and channel.server.owner_id == current_user.id:
     channel.displayname = data["displayname"]
     db.session.commit()
     return channel.to_dict()
@@ -57,5 +75,3 @@ def delete_channel(channel_id):
       return {"messages": "Forbidden"}, 403
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
-
-
