@@ -26,12 +26,12 @@ def channel(channel_id):
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
 
-
+#modify Channel
 @channel_routes.route('/<int:channel_id>', methods=["PUT"])
 def modify_channel_name(channel_id):
   data = request.json
   channel = Channel.query.get(channel_id)
-  
+
   channel.displayname = data["displayname"]
   db.session.commit()
   return channel.to_dict()
@@ -39,3 +39,16 @@ def modify_channel_name(channel_id):
 # create a channel based on server id
 # @channel_routes.route('/int:server_id', methods=["POST"])
 # def
+
+#delete Channel
+@channel_routes.route('/<int:channel_id>',methods=['DELETE'])
+def delete_channel(channel_id):
+  channel = Channel.query.get(channel_id)
+  if channel:
+    db.session.delete(channel)
+    db.session.commit()
+    return {"message":"Successfully deleted"}
+  else:
+    return {"errors": {"message": "Channel couldn't be found"}}, 404
+
+
