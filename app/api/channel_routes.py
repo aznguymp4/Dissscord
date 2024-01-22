@@ -1,5 +1,6 @@
-from flask import Blueprint, request
+from flask import Blueprint, request,redirect
 from app.models import Channel, db
+from flask_login import current_user,login_required
 
 channel_routes = Blueprint("channels", __name__)
 
@@ -16,8 +17,9 @@ channel_routes = Blueprint("channels", __name__)
 #     return {"errors": {"message": "Server couldn't be found"}}, 404
 
 
-#Get Channel
+#Get Channel by specify
 @channel_routes.route('/<int:channel_id>')
+@login_required
 def channel(channel_id):
   """Get a channel by ID"""
   channel = Channel.query.get(channel_id)
@@ -28,26 +30,31 @@ def channel(channel_id):
 
 #modify Channel
 @channel_routes.route('/<int:channel_id>', methods=["PUT"])
+@login_required
 def modify_channel_name(channel_id):
   data = request.json
   channel = Channel.query.get(channel_id)
-
-  channel.displayname = data["displayname"]
-  db.session.commit()
-  return channel.to_dict()
+  if channel.server.owner_id == current_user.id:
+    channel.displayname = data["displayname"]
+    db.session.commit()
+    return channel.to_dict()
+  return redirect('api/auth/unauthorized')
 
 # create a channel based on server id
-# @channel_routes.route('/int:server_id', methods=["POST"])
-# def
+#it should be a modal
 
 #delete Channel
 @channel_routes.route('/<int:channel_id>',methods=['DELETE'])
+@login_required
 def delete_channel(channel_id):
   channel = Channel.query.get(channel_id)
   if channel:
-    db.session.delete(channel)
-    db.session.commit()
-    return {"message":"Successfully deleted"}
+    if channel.server.owner_id == current_user.id:
+      db.session.delete(channel)
+      db.session.commit()
+      return {"message":"Successfully deleted"}
+    else:
+      return {"messages": "Forbidden"}, 403
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
 
