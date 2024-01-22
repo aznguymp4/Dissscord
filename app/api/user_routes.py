@@ -1,6 +1,6 @@
-from flask import Blueprint, jsonify, request 
+from flask import Blueprint, jsonify, request, redirect
 from flask_login import login_required, current_user
-from app.models import User, db
+from app.models import User, db, Server, server_users
 
 user_routes = Blueprint('users', __name__)
 
@@ -32,15 +32,40 @@ def get_current_user():
 def update_current_user():
     data = request.json
 
-    user = User.query.get(current_user['id'])
-    # current_user.displayname = data['displayname']
-    # current_user.username = data['username']
-    # current_user.email = data['email']
-    # current_user.bio = data['bio']
-    # current_user.icon = data['icon']
-
-    for key in ['displayname','username','email','bio','icon']:
-        user[key] = current_user[key] if data[key] is None else data[key]
+    current_user.displayname = data['displayname'] if 'displayname' in data else current_user.displayname
+    current_user.username = data['username'] if 'username' in data else current_user.username
+    current_user.email = data['email'] if 'email' in data else current_user.email
+    current_user.bio = data['bio'] if 'bio' in data else current_user.bio
+    current_user.icon = data['icon'] if 'icon' in data else current_user.icon
 
     db.session.commit()
     return current_user.to_dict()
+
+@user_routes.route('/@me/servers')
+@login_required
+def get_current_user_servers():
+    return [server.to_dict() for server in current_user.joined_servers]
+
+@user_routes.route('/@me/servers/<int:server_id>', methods=['DELETE'])
+@login_required
+def leave_server(server_id):
+    server = Server.query.get(server_id)
+    if server in current_user.joined_servers:
+        current_user.joined_servers.remove(server)
+        db.session.commit()
+        return {}, 204
+    return {'errors': {'message': 'Server not joined'}}, 401
+
+# TODO: Move to server_routes.py
+@user_routes.route('/join/<int:server_id>')
+@login_required
+def join_server(server_id):
+    server = Server.query.get(server_id)
+
+    if not server.public:
+        return {'errors': {'message': 'Server is not accepting joins'}}, 401
+
+    current_user.joined_servers.append(server)
+
+    db.session.commit()
+    return redirect(f'/servers/{server_id}')

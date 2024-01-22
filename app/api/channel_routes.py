@@ -1,4 +1,4 @@
-from flask import Blueprint, request,redirect
+from flask import Blueprint, request, redirect
 from app.models import Channel, db, Message
 from flask_login import current_user,login_required
 
@@ -17,33 +17,47 @@ channel_routes = Blueprint("channels", __name__)
 #     return {"errors": {"message": "Server couldn't be found"}}, 404
 
 #Get All Messages by channel id
-# @channel_routes.route('/<int:channel_id>/messages')
-# @login_required
-# def channel(channel_id):
-#   """Get a channel by ID"""
-#   channel = Channel.query.get(channel_id)
-#   print("CHANNEL:", channel)
-#   messages = Message.query.filter(Message.channel_id == channel_id)
-#   print("MESSAGE:.....", messages)
-#   if channel:
-#     return messages.to_dict()
-#   else:
-#     return {"errors": {"message": "Channel couldn't be found"}}, 404
+@channel_routes.route('/<int:channel_id>/messages')
+@login_required
+def channel_messages(channel_id):
+  """Get a channel by ID"""
+  channel = Channel.query.get(channel_id)
+  messages = Message.query.filter(Message.channel_id == channel_id).all()
+
+  if channel:
+    return [mess.to_dict() for mess in messages]
+  else:
+    return {"errors": {"message": "Channel couldn't be found"}}, 404
+
+#Get single message by channel id and message id
+@channel_routes.route('/<int:channel_id>/messages/<int:message_id>')
+@login_required
+def channel_message(channel_id, message_id):
+  """Get a channel by ID"""
+  channel = Channel.query.get(channel_id)
+  message = Message.query.get(message_id)
+  if channel and channel.id == message.channel_id:
+    return message.to_dict()
+  else:
+    return {"errors": {"message": "Channel couldn't be found"}}, 404
 
 #Get Channel by channel id
-@channel_routes.route('/<int:id>')
+@channel_routes.route('/<int:channel_id>')
 @login_required
-def channel(id):
+def channel(channel_id):
   """Get a channel by ID"""
-  channel = Channel.query.get(id)
-  messages = Message.query.all()
-  print('MESSAGES:.....', messages)
+  channel = Channel.query.get(channel_id)
   if channel:
-    # channel.message=messages
     return channel.to_dict()
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
 
+@channel_routes.route('/<int:channel_id/messages', methods=['POST'])
+@login_required
+def create_message(channel_id):
+  channel = Channel.query.get(channel_id)
+  data = request.json
+  
 
 
 #modify Channel

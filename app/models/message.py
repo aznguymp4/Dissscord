@@ -24,7 +24,7 @@ class Message(db.Model):
 
     @ret_channel_id.setter
     def ret_channel_id(self, val):
-        
+         self.channel_id = val
 
     def to_dict(self):
         return {
