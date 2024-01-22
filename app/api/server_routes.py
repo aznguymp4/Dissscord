@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, redirect
 from flask_login import login_required, current_user
 from app.models import Server, Channel, db
 
@@ -134,3 +134,17 @@ def delete_server(id):
       return {"message": "Successfully deleted"}
    else:
       return {'errors': {'message': 'Unauthorized'}}, 401
+
+
+@server_routes.route('/join/<int:server_id>')
+@login_required
+def join_server(server_id):
+    server = Server.query.get(server_id)
+
+    if not server.public:
+        return {'errors': {'message': 'Server is not accepting joins'}}, 401
+
+    current_user.joined_servers.append(server)
+
+    db.session.commit()
+    return redirect(f'/servers/{server_id}')
