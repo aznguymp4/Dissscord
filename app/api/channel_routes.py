@@ -54,7 +54,7 @@ def delete_channel(channel_id):
       db.session.commit()
       return {"message":"Successfully deleted"}
     else:
-      return {"messages": "Forbidden"}, 403
+      return {"errors": "Forbidden"}, 403
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
 
