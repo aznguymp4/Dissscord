@@ -1,4 +1,5 @@
 from flask import Blueprint, request, redirect
+from app.forms import ServerForm, ChannelForm
 from flask_login import login_required, current_user
 from app.models import Server, Channel, db
 
@@ -40,53 +41,59 @@ def channels(id):
 @server_routes.route('/', methods=['POST'])
 @login_required
 def create_server():
-	data = request.json
-	user = current_user.to_dict()
+	form = ServerForm()
+	form['csrf_token'].data = request.cookies['csrf_token']
+	if form.validate_on_submit():
+		user = current_user.to_dict()
 
-	server = Server(
-		owner_id = user["id"],
-		displayname = data["displayname"],
-		icon = data["icon"] if "icon" in data else None,
-		desc = data["desc"] if "desc" in data else None,
-		banner = data["banner"] if "banner" in data else None,
-		public = False if data["public"].lower() == "false" else None
-	)
+		server = Server(
+			owner_id = user["id"],
+			displayname = form.data["displayname"],
+			icon = form.data["icon"] if "icon" in form.data else None,
+			desc = form.data["desc"] if "desc" in form.data else None,
+			banner = form.data["banner"] if "banner" in form.data else None,
+			public = False if form.data["public"].lower() == "false" else None
+		)
 
-	db.session.add(server)
-	db.session.commit()
+		db.session.add(server)
+		db.session.commit()
 
-	new_server = server.to_dict()
-	channel = Channel(
-		server_id = new_server["id"],
-		displayname = "general",
-	)
+		new_server = server.to_dict()
+		channel = Channel(
+			server_id = new_server["id"],
+			displayname = "general",
+		)
 
-	db.session.add(channel)
-	db.session.commit()
-	return server.to_dict()
+		db.session.add(channel)
+		db.session.commit()
+		return server.to_dict()
+	return form.errors, 401
 
 
 #CREATE A NEW CHANNEL FOR A SERVER BY SERVER ID
 @server_routes.route('/<int:id>/channels', methods=["POST"])
 @login_required
 def add_new_channel(id):
-	data = request.json
+	form = ChannelForm()
 	server = Server.query.get(id)
 	user = current_user.to_dict()
 	if not server:
 		return {"errors": {"message": "Server couldn't be found"}}, 404
 
-	server_dict = server.to_dict()
-	if user["id"] == server_dict["owner_id"]:
-		new_channel = Channel(
-			server_id = server_dict["id"],
-			displayname = data["displayname"]
-		)
-		db.session.add(new_channel)
-		db.session.commit()
-		return new_channel.to_dict()
-	else:
-		return {'errors': {'message': 'Unauthorized'}}, 401
+	form['csrf_token'].data = request.cookies['csrf_token']
+	if form.validate_on_submit():
+		server_dict = server.to_dict()
+		if user["id"] == server_dict["owner_id"]:
+			new_channel = Channel(
+				server_id = server_dict["id"],
+				displayname = form.data["displayname"]
+			)
+			db.session.add(new_channel)
+			db.session.commit()
+			return new_channel.to_dict()
+		else:
+			return {'errors': {'message': 'Unauthorized'}}, 401
+	return form.errors, 401
 
 
 #MODIFY A SERVER BY SERVER ID
@@ -98,23 +105,27 @@ def modify_server(id):
 	if not server:
 		return {"errors": {"message": "Server couldn't be found"}}, 404
 
-	if user["id"] == server.owner_id:
-		data = request.json
+	form = ServerForm()
+	form['csrf_token'].data = request.cookies['csrf_token']
+	if form.validate_on_submit():
+		if user["id"] == server.owner_id:
+			data = request.json
 
-		server.displayname = data["displayname"] if "displayname" in data else server.displayname
-		server.icon = data["icon"] if "icon" in data else server.icon
-		server.desc = data["desc"] if "desc" in data else server.desc
-		server.banner = data["banner"] if "banner" in data else server.banner
-		if "public" in data and data["public"].lower() == "true":
-			server.public = True
-		elif "public" in data and data["public"].lower() == "false":
-				server.public = False
+			server.displayname = data["displayname"] if "displayname" in data else server.displayname
+			server.icon = data["icon"] if "icon" in data else server.icon
+			server.desc = data["desc"] if "desc" in data else server.desc
+			server.banner = data["banner"] if "banner" in data else server.banner
+			if "public" in data and data["public"].lower() == "true":
+				server.public = True
+			elif "public" in data and data["public"].lower() == "false":
+					server.public = False
+			else:
+					server.public = server.public
+			db.session.commit()
+			return server.to_dict()
 		else:
-				server.public = server.public
-		db.session.commit()
-		return server.to_dict()
-	else:
-		return {'errors': {'message': 'Unauthorized'}}, 401
+			return {'errors': {'message': 'Unauthorized'}}, 401
+	return form.errors, 401
 
 #DELETE A SERVER BY SERVER ID
 @server_routes.route('/<int:id>', methods=["DELETE"])

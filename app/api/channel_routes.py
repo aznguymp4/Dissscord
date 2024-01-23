@@ -1,5 +1,6 @@
 from flask import Blueprint, request, redirect
 from app.models import Channel, db, Message, Server
+from app.forms import ChannelForm, MessageForm
 from flask_login import current_user,login_required
 
 channel_routes = Blueprint("channels", __name__)
@@ -40,39 +41,46 @@ def channel(channel_id):
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
 
+#Post a message in a channel by channel id
 @channel_routes.route('/<int:channel_id>/messages', methods=['POST'])
 @login_required
 def create_message(channel_id):
   channel = Channel.query.get(channel_id)
-  data = request.json
+  form = MessageForm()
+  form['csrf_token'].data = request.cookies['csrf_token']
   server = Server.query.get(channel.server_id)
 
-  if current_user in server.joined_users:
-    params = {
-      "author_id": current_user.id,
-      "channel_id": channel_id,
-      "content": data["content"]
-    }
-    message = Message(**params)
-    db.session.add(message)
-    db.session.commit()
-    # print("MESSAGE: -------", message.to_dict())
-    redirect('/<int:channel_id>/messages')
-    return message.to_dict()
-  else:
-    return {'errors': {'message': 'You must first join the server before sending a message'}}
+  if form.validate_on_submit():
+    if current_user in server.joined_users:
+      params = {
+        "author_id": current_user.id,
+        "channel_id": channel_id,
+        "content": form.data["content"]
+      }
+      message = Message(**params)
+      db.session.add(message)
+      db.session.commit()
+      # print("MESSAGE: -------", message.to_dict())
+      redirect('/<int:channel_id>/messages')
+      return message.to_dict()
+    else:
+      return {'errors': {'message': 'You must first join the server before sending a message'}}
+  return form.errors, 401
 
 
 #modify Channel
 @channel_routes.route('/<int:channel_id>', methods=["PUT"])
 @login_required
 def modify_channel_name(channel_id):
-  data = request.json
+  form = ChannelForm()
+  form['csrf_token'].data = request.cookies['csrf_token']
   channel = Channel.query.get(channel_id)
   if channel and channel.server.owner_id == current_user.id:
-    channel.displayname = data["displayname"]
-    db.session.commit()
-    return channel.to_dict()
+    if form.validate_on_submit():
+      channel.displayname = form.data["displayname"]
+      db.session.commit()
+      return channel.to_dict()
+    return form.errors, 401
   return redirect('api/auth/unauthorized')
 
 # create a channel based on server id
