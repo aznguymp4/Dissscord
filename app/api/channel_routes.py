@@ -92,4 +92,3 @@ def delete_channel(channel_id):
       return {"message": "Forbidden"}, 403
   else:
     return {"errors": {"message": "Channel couldn't be found"}}, 404
-
