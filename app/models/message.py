@@ -18,6 +18,22 @@ class Message(db.Model):
     channel = db.relationship('Channel', back_populates='message')
     reaction = db.relationship('Reaction', back_populates='message', cascade='all, delete-orphan')
 
+    @property
+    def set_content(self):
+        return self.content
+
+    @set_content.setter
+    def set_content(self, val):
+        self.content = val
+
+    @property
+    def ret_channel_id(self):
+        return self.channel_id
+
+    @ret_channel_id.setter
+    def ret_channel_id(self, val):
+         self.channel_id = val
+
     def to_dict(self):
         return {
             'id': self.id,

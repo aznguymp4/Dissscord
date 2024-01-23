@@ -7,7 +7,7 @@ from random import randint
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
-    if environment == "production":
+    if environment == 'production':
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
@@ -23,6 +23,7 @@ class User(db.Model, UserMixin):
     server = db.relationship('Server', back_populates='owner', cascade='all, delete-orphan')
     message = db.relationship('Message', back_populates='author')
     reaction = db.relationship('Reaction', back_populates='author')
+    joined_servers = db.relationship('Server', secondary='server_users', back_populates='joined_users')
 
     @property
     def password(self):
