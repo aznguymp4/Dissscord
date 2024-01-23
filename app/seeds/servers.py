@@ -6,11 +6,15 @@ def seed_servers():
     db.session.add(Server(
         owner_id = 1,
         displayname = 'Dissscord Server Test 1',
+        banner = 'https://cdn.discordapp.com/attachments/860985407452479508/1199094253285032026/2024-01-22_14.52.24.png',
+        desc = 'Join our server! We have an amazing community.',
         public = True
     ))
     db.session.add(Server(
         owner_id = 2,
         displayname = 'Dissscord Server Test 2',
+        banner = 'https://cdn.discordapp.com/attachments/860985407452479508/1199094306812735619/2024-01-22_14.52.37.png',
+        desc = 'The server that likes to share beautiful photos of nature! 🌲',
         public = True
     ))
     db.session.commit()
