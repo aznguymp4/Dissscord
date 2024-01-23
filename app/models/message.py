@@ -37,6 +37,7 @@ class Message(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'author': self.author.to_dict(),
             'author_id': self.author_id,
             'channel_id': self.channel_id,
             'content': self.content,

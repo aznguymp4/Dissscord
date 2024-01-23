@@ -9,6 +9,7 @@ function ServerSidebar() {
   const sessionUser = useSelector((state) => state.session.user)
   const myServers = useSelector(state => state.myServer)
   const { serverId } = useParams()
+  const isHomeStr = location.pathname=='/'?' selected':''
 
   useEffect(()=>{
     dispatch(callFetchMyServers())
@@ -20,7 +21,16 @@ function ServerSidebar() {
         myServers && <div
           id="serverBar"
           className={sessionUser?'auth':''}
-        >
+          >
+          <Link className="serverBarDiv" to='/'>
+            <img className={`serverBarIcon${isHomeStr}`} src="/icons/serverSidebar/home.png" alt=""/>
+            <div className="serverBarBalloon">
+              <div className="serverBarName">Home</div>
+              <div className="serverBarBalloonArrow"></div>
+            </div>
+            <div className={`serverBarIconLamp${isHomeStr}`}></div>
+          </Link>
+          <div className="serverBarHr"></div>
           {
             Object.values(myServers).map(s =>
               {
@@ -32,7 +42,7 @@ function ServerSidebar() {
                 >
                   <img className={`serverBarIcon${selStr}`} src={s.icon} alt=""/>
                   <div className="serverBarBalloon">
-                    <div className="serverBarName">{s.id} {s.displayname}</div>
+                    <div className="serverBarName">{s.displayname}</div>
                     <div className="serverBarBalloonArrow"></div>
                   </div>
                   <div className={`serverBarIconLamp${selStr}`}></div>

@@ -36,8 +36,7 @@
     display: grid;
     grid-template-columns: repeat(5, 5fr);
     gap: 16px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding: 0px 8px 8px;
     transition: .3s padding-left var(--bezierQuartOut);
 }
 #discoveryHeader.auth {
