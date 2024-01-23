@@ -16,7 +16,6 @@ export default function Layout() {
   return (
     <>
       <ModalProvider>
-        {/* <Navigation /> */}
         <ServerSidebar />
         {isLoaded && <Outlet />}
         <Modal />

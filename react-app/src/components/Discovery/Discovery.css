@@ -24,6 +24,9 @@
     --serverTileDesc: #b5bac1;
     --btnBlack: #23272a;
     --btnBlackHover: #313338;
+    --btnRed: #da373c;
+    --btnRedHover: #a12828;
+    --btnRedActive: #8f2022;
 }
 
 .serverGrid.auth {
@@ -35,16 +38,16 @@
     gap: 16px;
     padding-left: 8px;
     padding-right: 8px;
-    transition: .3s padding-left ease-out;
+    transition: .3s padding-left var(--bezierQuartOut);
 }
 #discoveryHeader.auth {
-    margin: 0 8px 16px 80px;
+    margin: 16px 8px 16px 80px;
     width: calc(100% - 88px);
 }
 #discoveryHeader {
-    margin: 0 8px 16px 8px;
+    margin: 16px 8px 16px 8px;
     width: calc(100% - 16px);
-    transition: .3s ease-out;
+    transition: .3s var(--bezierQuartOut);
     transition-property: margin width;
     aspect-ratio: 266/83;
     background-size: cover;
@@ -63,6 +66,7 @@
     text-shadow: 0 4px 8px #00000033;
     font-weight: 600;
     font-size: xx-large;
+    user-select: none;
 }
 #discoveryButtons {
     display: flex;
@@ -72,41 +76,35 @@
 #discoveryButtons > div {
     margin: 0 4px;
     cursor: pointer;
-    transition-duration: .1s;
-    transition-property: transform color background-color;
+    transition-duration: .125s;
+    transition-property: transform color background-color box-shadow;
     transition-timing-function: ease-out;
 }
-#discoveryButtons > div:hover {
+.btn:hover {
     box-shadow: 0 6px 12px #00000033;
     transform: translateY(-1.5px);
+}
+.btn:active {
+    box-shadow: 0 2px 8px #00000033;
+    transform: translateY(1px);
 }
 .btn {
     width: max-content;
     padding: 8px 16px;
     border-radius: 4px;
     box-shadow: 0 4px 8px #00000022;
-}
-#btnLogin {
-    color: var(--btnBlack);
-    background-color: white;
-}
-#btnLogin:hover {
-    color: var(--colBlurple);
-}
-#btnLogout {
     color: white;
-    background-color: var(--colRed);
+    user-select: none;
 }
-#btnLogout:hover {
-    background-color: var(--btnBlackHover);
-}
-#btnSignup {
-    color: white;
-    background-color: var(--btnBlack);
-}
-#btnSignup:hover {
-    background-color: var(--btnBlackHover);
-}
+#btnLogin { color: var(--btnBlack); background-color: white; }
+#btnLogin:hover { color: var(--colBlurple); }
+#btnLogin:active { background-color: var(--serverTileDesc); }
+#btnLogout { background-color: var(--btnRed); }
+#btnLogout:hover { background-color: var(--btnRedHover); }
+#btnLogout:active { background-color: var(--btnRedActive); }
+#btnSignup { background-color: var(--btnBlack); }
+#btnSignup:hover { background-color: var(--btnBlackHover); }
+#btnSignup:active { background-color: var(--serverTileBgHover); }
 
 .serverTile {
     width: 100%;
