@@ -26,6 +26,8 @@ class Server(db.Model):
             'id': self.id,
             'owner_id': self.owner_id,
             'displayname': self.displayname,
+            'desc': self.desc,
+            'banner': self.banner,
             'icon': self.icon,
             'public': self.public,
             'created_at': self.created_at,
