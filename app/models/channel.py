@@ -17,10 +17,10 @@ class Channel(db.Model):
     message = db.relationship('Message', back_populates='channel', cascade='all, delete-orphan')
 
 
+
     @property
     def display_name(self):
         return self.displayname
-
 
     @display_name.setter
     def display_name(self, val):
