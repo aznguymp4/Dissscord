@@ -9,7 +9,7 @@ class Server(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    displayname = db.Column(db.String(40))
+    displayname = db.Column(db.String(40), nullable = False)
     icon = db.Column(db.String(256), default='https://cdn.discordapp.com/embed/avatars/0.png')
     desc = db.Column(db.String(512), default='This is a Dissscord Server! JOIN NOW 😡')
     banner = db.Column(db.String(256), default='https://cdn.discordapp.com/attachments/860985407452479508/1198067113538093076/default_dissscord_banner.jpg')
@@ -29,6 +29,8 @@ class Server(db.Model):
             'desc': self.desc,
             'banner': self.banner,
             'icon': self.icon,
+            'desc': self.desc,
+            'banner': self.banner,
             'public': self.public,
             'created_at': self.created_at,
             'updated_at': self.updated_at

@@ -16,10 +16,20 @@ class Channel(db.Model):
     server = db.relationship('Server', back_populates='channel')
     message = db.relationship('Message', back_populates='channel', cascade='all, delete-orphan')
 
+
+
+    @property
+    def display_name(self):
+        return self.displayname
+
+    @display_name.setter
+    def display_name(self, val):
+        self.displayname = val
+
     def to_dict(self):
         return {
             'id': self.id,
-            'server_id': self.owner_id,
+            'server_id': self.server_id,
             'displayname': self.displayname,
             'created_at': self.created_at,
             'updated_at': self.updated_at
