@@ -4,6 +4,8 @@
   --textWhite: #f2f3f5;
   --colBlurple: #5865F2;
   --colRed: #ED4245;
+  --bezierBounceOut: cubic-bezier(0,.7,.3,1.5);
+  --bezierQuartOut: cubic-bezier(0,.75,.25,1);
 }
 
 body {
@@ -12,4 +14,7 @@ body {
   text-rendering: optimizeLegibility;
   color: var(--textWhite);
 }
-
+a, a:visited, a:hover, a:active {
+  color: inherit;
+  text-decoration: none;
+}

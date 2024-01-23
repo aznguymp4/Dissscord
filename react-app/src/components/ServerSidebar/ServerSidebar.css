@@ -2,12 +2,16 @@
     --serverBarBg: #1e1f22;
     --serverBarNameBg: #111214;
     --serverBarNameTxt: #dbdee1;
+    --serverBarIconLamp: #f2f3f5;
 }
 
+#serverBar.auth {
+    left: 0
+}
 #serverBar {
     position: fixed;
     top: 0;
-    left: 0;
+    left: -72px;
     bottom: 0;
     z-index: 1;
     width: 48px;
@@ -15,6 +19,7 @@
     row-gap: 8px;
     background-color: var(--serverBarBg);
     padding: 12px;
+    transition: .3s left var(--bezierQuartOut)
 }
 .serverBarDiv {
     width: 48px;
@@ -47,7 +52,7 @@
     transform: scale(.9) translate(70px, -50.5px);
     height: 37.5px;
     transition-duration: .3s;
-    transition-timing-function: cubic-bezier(0,.7,.3,1.5);
+    transition-timing-function: var(--bezierBounceOut);
     transition-property: opacity transform;
     transform-origin: 100% 0%;
 }
@@ -59,4 +64,26 @@
 .serverBarIcon.selected, .serverBarIcon:hover {
     cursor: pointer;
     border-radius: 35%;
+}
+.serverBarIconLamp {
+    width: 8px;
+    margin-top: 16px;
+    height: 8px;
+    opacity: 0;
+    background-color: var(--serverBarIconLamp);
+    border-radius: 4px;
+    transform: translate(-16px, -86.5px);
+    transition-duration: .15s;
+    transition-property: height margin-top opacity;
+    transition-timing-function: ease-out;
+}
+.serverBarDiv:hover > .serverBarIconLamp {
+    margin-top: 10px;
+    height: 20px;
+    opacity: 1;
+}
+.serverBarIconLamp.selected {
+    margin-top: 0px !important;
+    height: 40px !important;
+    opacity: 1 !important;
 }

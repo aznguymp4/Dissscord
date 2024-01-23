@@ -20,7 +20,6 @@ function Discovery() {
   const logout = (e) => {
     e.preventDefault();
     dispatch(thunkLogout());
-    closeMenu();
   };
 
   const isAuthStr = sessionUser?' auth':''
