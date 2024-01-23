@@ -12,17 +12,16 @@ function ChannelSidebar({ server, channels }) {
   const { channelId } = useParams()
 
   // if server is undefined or list of channels is empty
-  if(!server || channels.channel) return
-  const isOwner = server.owner_id == sessionUser.id
+  // if(!server || channels.channel) return <div id="channelSidebar"></div>
 
   return (
     <div id="channelSidebar">
       <div id="channelListHeader">
         <div id="channelListHeaderBg">
-          <div id="channelListHeaderServerName">{server.displayname}</div>
+          {server && <div id="channelListHeaderServerName">{server.displayname}</div>}
         </div>
       </div>
-      <div id="channelList">{
+      {server && !channels.channel && <div id="channelList">{
         Object.values(channels).map(c => <Link
           key={c.id}
           className={`channelLi${channelId==c.id?' select':''}`}
@@ -30,9 +29,9 @@ function ChannelSidebar({ server, channels }) {
         >
           <div className="channelLiIcon"><img src="/icons/channel/text.svg"/></div>
           <div className="channelLiName">{c.displayname.toLowerCase()}</div>
-          {isOwner && <div className="iconBtn"><img src="/icons/settings.svg"/></div>}
+          {server.owner_id == sessionUser.id && <div className="iconBtn"><img src="/icons/settings.svg"/></div>}
         </Link>)
-      }</div>
+      }</div>}
       <div id="channelListFooter">
         <div id="channelListFooterIcon">
           <img src={sessionUser.icon}/>

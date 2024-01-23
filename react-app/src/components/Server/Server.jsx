@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import ChannelSidebar from "../ChannelSidebar"
+import ChatBar from "../ChatBar"
 import "./Server.css";
 
 function Server() {
@@ -22,6 +23,7 @@ function Server() {
   return (
     <>
       <ChannelSidebar channels={channels} server={server}/>
+      <ChatBar/>
     </>
   );
 }
