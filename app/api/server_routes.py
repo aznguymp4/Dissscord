@@ -159,3 +159,10 @@ def join_server(server_id):
 
 		db.session.commit()
 		return redirect(f'/servers/{server_id}')
+
+@server_routes.route('/search')
+def search_server():
+	query = request.args.get('query')
+	filter_server = Server.query.filter(Server.displayname.ilike(f'%{query}%')).all()
+	return [{'id': server.id, 'server_name': server.displayname} for server in filter_server]
+
