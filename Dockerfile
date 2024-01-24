@@ -17,7 +17,7 @@ COPY requirements.txt .
 RUN pip install pipenv
 RUN pipenv install -r requirements.txt
 RUN pipenv install psycopg2
-RUN pipenv shell
+# RUN pipenv shell
 
 COPY . .
 
