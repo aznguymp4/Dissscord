@@ -6,12 +6,22 @@
 
 #channelListHeaderServerName {
     padding: 13px 1em 13.5px;
+    user-select: none;
+}
+#channelListHeaderBg {
+    display: flex;
     border-bottom: 1px solid var(--serverNameHr);
     box-shadow: -1px 1px 1px var(--serverNameHrShadow);
-    user-select: none;
     transition: .1s background-color ease-out;
 }
-#channelListHeaderServerName:hover {
+#channelListHeaderBg:hover {
     cursor: pointer;
     background-color: var(--serverNameHoverBg);
+}
+#channelListHeaderServerName {
+    width: 100%;
+}
+#channelListHeaderBg > .fa-chevron-down {
+    margin: auto 16px auto 0;
+    color: var(--textGrayLight)
 }

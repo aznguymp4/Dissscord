@@ -21,7 +21,6 @@
     --serverTileBg: #232428;
     --serverTileBgHover: #1e1f22;
     --serverTileName: #f2f3f5;
-    --serverTileDesc: #b5bac1;
     --btnBlack: #23272a;
     --btnBlackHover: #313338;
     --btnRed: #da373c;
@@ -97,7 +96,7 @@
 }
 #btnLogin { color: var(--btnBlack); background-color: white; }
 #btnLogin:hover { color: var(--colBlurple); }
-#btnLogin:active { background-color: var(--serverTileDesc); }
+#btnLogin:active { background-color: var(--textGrayLight); }
 #btnLogout { background-color: var(--btnRed); }
 #btnLogout:hover { background-color: var(--btnRedHover); }
 #btnLogout:active { background-color: var(--btnRedActive); }
@@ -153,7 +152,7 @@
     transform: translateY(-28px);
 }
 .serverTileDesc {
-    color: var(--serverTileDesc);
+    color: var(--textGrayLight);
     font-weight: 200;
     margin: 0 16px;
     transform: translateY(-25px);

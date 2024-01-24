@@ -1,8 +1,6 @@
 :root {
     --channelListFooterBg: #232428;
     --channelListFooterBtnHover: #3d3e45;
-    --channelListFooterTxtDisplay: #F2F3F5; 
-    --channelListFooterTxtUser: #B5BAC1;
     --statusOnline: #23a55a;
 }
 
@@ -38,12 +36,12 @@
 #channelListFooterNameDisplay {
     font-size: 14px;
     transform: translateY(-.75px);
-    color: var(--channelListFooterTxtDisplay);
+    color: var(--textWhite);
 }
 #channelListFooterNameUser {
     font-size: 12px;
     transform: translateY(-1px);
-    color: var(--channelListFooterTxtUser);
+    color: var(--textGrayLight);
 }
 .iconBtn {
     margin: auto 8px auto auto;
