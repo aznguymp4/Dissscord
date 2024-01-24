@@ -1,0 +1,161 @@
+@media screen and (max-width: 1440px) {
+    .serverGrid {
+        grid-template-columns: repeat(4, 4fr) !important;
+    }
+}
+@media screen and (max-width: 1000px) {
+    .serverGrid {
+        grid-template-columns: repeat(3, 3fr) !important;
+    }
+}
+@media screen and (max-width: 720px) {
+    .serverGrid {
+        grid-template-columns: repeat(2, 2fr) !important;
+    }
+    #discoveryTitle {
+        font-size: 24px !important;
+    }
+}
+
+:root {
+    --serverTileBg: #232428;
+    --serverTileBgHover: #1e1f22;
+    --serverTileName: #f2f3f5;
+    --serverTileDesc: #b5bac1;
+    --btnBlack: #23272a;
+    --btnBlackHover: #313338;
+    --btnRed: #da373c;
+    --btnRedHover: #a12828;
+    --btnRedActive: #8f2022;
+}
+
+.serverGrid.auth {
+    padding-left: 80px;
+}
+.serverGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 5fr);
+    gap: 16px;
+    padding: 0px 8px 8px;
+    transition: .3s padding-left var(--bezierQuartOut);
+}
+#discoveryHeader.auth {
+    margin: 16px 8px 16px 80px;
+    width: calc(100% - 88px);
+}
+#discoveryHeader {
+    margin: 16px 8px 16px 8px;
+    width: calc(100% - 16px);
+    transition: .3s var(--bezierQuartOut);
+    transition-property: margin width;
+    aspect-ratio: 266/83;
+    background-size: cover;
+    height: max-content;
+    border-radius: 12px;
+    background-image: url("/discoveryHeader.svg");
+    text-align: center;
+}
+#discoveryContent {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+#discoveryTitle {
+    text-shadow: 0 4px 8px #00000033;
+    font-weight: 600;
+    font-size: xx-large;
+    user-select: none;
+}
+#discoveryButtons {
+    display: flex;
+    padding-top: .5em;
+    justify-content: center;
+}
+#discoveryButtons > div {
+    margin: 0 4px;
+    cursor: pointer;
+    transition-duration: .125s;
+    transition-property: transform color background-color box-shadow;
+    transition-timing-function: ease-out;
+}
+.btn:hover {
+    box-shadow: 0 6px 12px #00000033;
+    transform: translateY(-1.5px);
+}
+.btn:active {
+    box-shadow: 0 2px 8px #00000033;
+    transform: translateY(1px);
+}
+.btn {
+    width: max-content;
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px #00000022;
+    color: white;
+    user-select: none;
+}
+#btnLogin { color: var(--btnBlack); background-color: white; }
+#btnLogin:hover { color: var(--colBlurple); }
+#btnLogin:active { background-color: var(--serverTileDesc); }
+#btnLogout { background-color: var(--btnRed); }
+#btnLogout:hover { background-color: var(--btnRedHover); }
+#btnLogout:active { background-color: var(--btnRedActive); }
+#btnSignup { background-color: var(--btnBlack); }
+#btnSignup:hover { background-color: var(--btnBlackHover); }
+#btnSignup:active { background-color: var(--serverTileBgHover); }
+
+.serverTile {
+    width: 100%;
+    background-color: var(--serverTileBg);
+    border-radius: 12px;
+    overflow-x: hidden;
+}
+.serverTile:hover {
+    background-color: var(--serverTileBgHover);
+    cursor: pointer;
+    box-shadow: 0 8px 16px #00000033;
+}
+.serverTileInfo, .serverTileIcon, .serverTile, .serverTileBanner {
+    transition-duration: .175s;
+    transition-property: background-color, transform, border-color, box-shadow;
+    transition-timing-function: ease-in-out;
+}
+.serverTile:hover > .serverTileInfo {
+    transform: translateY(-1px);
+}
+.serverTile:hover > .serverTileIcon {
+    transform: translate(12px, -36px);
+    border-color: var(--serverTileBgHover);
+}
+.serverTile:hover > .serverTileBanner {
+    transform: scale(101.5%);
+}
+.serverTile > img {
+    object-fit: cover;
+}
+.serverTileBanner {
+    width: 100%;
+    height: 150px;
+    transform-origin: bottom center;
+}
+.serverTileIcon {
+    width: 42px;
+    border-radius: 15px;
+    transform: translate(12px, -35px);
+    border: 4px solid var(--serverTileBg);
+    background-color: var(--serverTileBg);
+}
+.serverTileName {
+    color: var(--serverTileName);
+    font-weight: 400;
+    margin: 0 16px;
+    transform: translateY(-28px);
+}
+.serverTileDesc {
+    color: var(--serverTileDesc);
+    font-weight: 200;
+    margin: 0 16px;
+    transform: translateY(-25px);
+    font-size: 14px;
+}
