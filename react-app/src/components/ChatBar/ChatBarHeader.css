@@ -3,12 +3,15 @@
 }
 
 #chatBarHeader {
+    position: fixed;
     width: calc(100vw - 312px);
     height: 48px;
     border-bottom: 1px solid var(--chatBarHeaderBorder);
     box-shadow: -1px 1px 1px var(--serverNameHrShadow);
     display: flex;
     user-select: none;
+    background-color: var(--bodyBg);
+    z-index: 1;
 }
 
 #chatBarHeaderIcon {

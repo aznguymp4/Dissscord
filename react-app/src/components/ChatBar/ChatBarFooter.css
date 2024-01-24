@@ -53,6 +53,7 @@
     display: flex;
     height: 24px;
     background-color: var(--bodyBg);
+    user-select: none;
 }
 #chatBarFooterType > img {
     margin-left: 25px;
@@ -60,6 +61,8 @@
     margin: auto 4px 9px 25px;
     width: 25px;
     object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 #chatBarFooterType > span {
     font-weight: 300;
