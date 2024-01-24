@@ -164,6 +164,4 @@ def join_server(server_id):
 def search_server():
 	query = request.args.get('query')
 	filter_server = Server.query.filter(Server.displayname.ilike(f'%{query}%')).all()
-	return [{'id': server.id, 'server_name': server.displayname} for server in filter_server]
-
-
+	return [server.to_dict() for server in filter_server]
