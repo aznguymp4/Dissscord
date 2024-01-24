@@ -14,6 +14,7 @@ WORKDIR /var/www
 
 COPY requirements.txt .
 
+RUN pip install pipenv
 RUN pipenv install -r requirements.txt
 RUN pipenv install psycopg2
 
