@@ -20,12 +20,14 @@
     row-gap: 8px;
     background-color: var(--serverBarBg);
     padding: 12px;
-    transition: .3s left var(--bezierQuartOut)
+    transition: .3s left var(--bezierQuartOut);
+    display: flex;
+    flex-direction: column;
 }
 .serverBarDiv {
     width: 48px;
     height: 48px;
-    margin: auto;
+    margin: 0 auto;
     user-select: none;
     -webkit-user-drag: none;
 }
@@ -33,7 +35,7 @@
     background-color: var(--serverBarHr);
     width: 32px;
     height: 2px;
-    margin: auto;
+    margin: 0 auto;
 }
 .serverBarIcon {
     width: 100%;
