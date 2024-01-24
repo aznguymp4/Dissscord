@@ -45,6 +45,17 @@ export const callDeleteMsg = msgId => dispatch => {
 	.then(() => dispatch(removeMsg(msgId)))
 	.catch(console.error)
 }
+export const callEditMsg = (msgId, content) => dispatch => {
+	csrfFetch('/api/messages/'+msgId, {
+		method: 'PUT',
+		body: JSON.stringify({content})
+	})
+	.then(r=>r.json())
+	.then(d => {
+		dispatch(editMsg(d))
+	})
+	.catch(console.error)
+}
 
 const msgReducer = (state = { msg: {} }, action) => {
 	switch (action.type) {
@@ -57,8 +68,8 @@ const msgReducer = (state = { msg: {} }, action) => {
 		}
 		case RECEIVE_MSG:
 			return { ...state, [action.msg.id]: action.msg };
-		/* case UPDATE_MSG:
-			return { ...state, [action.msg.id]: action.msg }; */
+		case UPDATE_MSG:
+			return { ...state, [action.msg.id]: action.msg };
 		case REMOVE_MSG: {
 			const newState = { ...state };
 			delete newState[action.msgId];

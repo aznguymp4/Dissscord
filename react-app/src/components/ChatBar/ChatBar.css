@@ -4,6 +4,8 @@
     --chatMsgDate: #949ba4;
     --chatMsgEdited: #959ba3; 
     --chatMsgTxt: #dbdee1; 
+    --chatMsgBtnBorder: #27292d; 
+    --chatMsgBtnBgActive: #37383e; 
 }
 #chatBar {
     position: fixed;
@@ -25,14 +27,49 @@
 .chatMsg {
     height: 48px;
     display: flex;
-    margin-top: 8px;
-    margin-bottom: 9px;
+    margin-top: 17px;
+    margin-bottom: 0px;
+}
+.chatMsg.short {
+    margin-top: 0px;
+    margin-bottom: 3px;
+    height: 24px;
 }
 .chatMsg:hover {
     background-color: var(--chatMsgBgHover);
 }
-.chatMsg:hover>.chatMsgRight > .chatMsgTop > .iconBtn {
-    display: unset;
+.chatMsgTop > .chatMsgBtns {
+    display: flex;
+    position: absolute;
+    right: 0px;
+    transform: translateY(-22px);
+    float: right;
+    margin: 8px;
+    border-radius: 4px;
+    opacity: 0;
+    background-color: var(--bodyBg);
+    border: 1px solid var(--chatMsgBtnBorder);
+}
+.chatMsg.short > .chatMsgRight > .chatMsgTop > .chatMsgBtns {
+    transform: translateY(-14px);
+}
+.chatMsg:hover>.chatMsgRight > .chatMsgTop > .chatMsgBtns, .chatMsg.short:hover>.chatMsgLeft>.chatMsgDate.short {
+    opacity: 1;
+}
+.chatMsg:hover>.chatMsgRight > .chatMsgTop > .chatMsgBtns > .iconBtn:hover {
+    background-color: var(--chatMsgBtnBgActive);
+}
+.chatMsg:hover>.chatMsgRight > .chatMsgTop > .chatMsgBtns > .iconBtn:active > img {
+    margin-top: 1px;
+}
+.chatMsgBtns > .iconBtn {
+    margin: auto;
+}
+.chatMsgBtns > .iconBtn > img {
+    width: 20px;
+}
+.chatMsgLeft {
+    width: 72px;
 }
 .chatMsgLeft > img {
     width: 40px;
@@ -47,14 +84,6 @@
 }
 .chatMsgLeft > img:active {
     transform: translateY(1px);
-}
-.chatMsgTop > .iconBtn {
-    display: none;
-    float: right;
-    margin: 8px;
-}
-.chatMsgTop > .iconBtn > img {
-    width: 20px;
 }
 .chatMsgName {
     font-weight: 300;
@@ -71,6 +100,12 @@
     color: var(--chatMsgDate);
     cursor: default;
 }
+.chatMsgDate.short {
+    margin-left: 17px;
+    opacity: 0;
+    font-size: 11px;
+    user-select: none;
+}
 .chatMsgTxt {
     color: var(--chatMsgTxt);
     line-height: 24px;
@@ -81,4 +116,5 @@
     font-size: 10px;
     user-select: none;
     margin-left: 4px;
+    line-height: 0;
 }

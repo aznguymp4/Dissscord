@@ -60,4 +60,6 @@
 }
 .iconBtn > img {
     margin: auto;
+    user-select: none;
+    -webkit-user-drag: none;
 }
