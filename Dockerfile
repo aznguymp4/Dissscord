@@ -17,10 +17,13 @@ COPY requirements.txt .
 RUN pip install pipenv
 RUN pipenv install -r requirements.txt
 RUN pipenv install psycopg2
+# RUN pipenv shell
 
 COPY . .
 
-RUN flask db upgrade
-RUN flask seed all
+RUN pipenv run flask db init
+RUN pipenv run flask db migrate
+RUN pipenv run flask db upgrade
+RUN pipenv run flask seed all
 # CMD gunicorn app:app
 CMD gunicorn --worker-class eventlet -w 1 app:app
