@@ -5,6 +5,8 @@ import { useParams, Link } from "react-router-dom";
 import "./ChannelSidebar.css";
 import "./ChannelSidebarHeader.css";
 import "./ChannelSidebarFooter.css";
+import OpenModalMenuItem from "../Discovery/OpenModalMenuItem";
+import CreateChannelModal from "../CreateChannelModal/CreateChannelModal";
 
 function ChannelSidebar({ server, channels }) {
   // const dispatch = useDispatch();
@@ -19,6 +21,12 @@ function ChannelSidebar({ server, channels }) {
       <div id="channelListHeader">
         <div id="channelListHeaderBg">
           {server && <div id="channelListHeaderServerName">{server.displayname}</div>}
+          {server?.owner_id == sessionUser.id && <OpenModalMenuItem
+            id="btnLogin"
+            className="btn"
+            itemText="Add Channel"
+            modalComponent={<CreateChannelModal server={server}/>}
+          />}
         </div>
       </div>
       {server && !channels.channel && <div id="channelList">{
