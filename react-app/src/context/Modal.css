@@ -1,3 +1,29 @@
+:root {
+  --modalBorder: #151617;
+  --modalBg: #000000cc;
+  
+}
+
+@keyframes modalPopup {
+  0% {
+    scale: 0.65;
+    opacity: 0;
+    animation-timing-function: var(--bezierQuartOut);
+  }
+  65% {
+    scale: 1.025;
+    opacity: 1;
+    animation-timing-function: var(--bezierQuartInOut);
+  }
+  100% {
+    scale: 1;
+  }
+}
+@keyframes modalBgFade {
+  0% { background-color: #00000000; }
+  100% { background-color: var(--modalBg); }
+}
+
 #modal {
   position: fixed;
   top: 0;
@@ -15,10 +41,25 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  animation-name: modalBgFade;
+  animation-duration: .25s;
+  background-color: var(--modalBg);
 }
 
 #modal-content {
   position: absolute;
-  background-color:white;
+  background-color: var(--bodyBg);
+  animation-name: modalPopup;
+  animation-duration: .25s;
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid var(--modalBorder);
+}
+
+#modalTitle {
+  font-size: 26px;
+  text-align: center;
+  font-weight: 400;
+  color: var(--textWhite);
+  padding-bottom: 16px;
 }
