@@ -56,16 +56,4 @@ def leave_server(server_id):
         return {}, 204
     return {'errors': {'message': 'Server not joined'}}, 401
 
-# TODO: Move to server_routes.py
-@user_routes.route('/join/<int:server_id>')
-@login_required
-def join_server(server_id):
-    server = Server.query.get(server_id)
 
-    if not server.public:
-        return {'errors': {'message': 'Server is not accepting joins'}}, 401
-
-    current_user.joined_servers.append(server)
-
-    db.session.commit()
-    return redirect(f'/servers/{server_id}')
