@@ -2,7 +2,6 @@
     --serverBarBg: #1e1f22;
     --serverBarHr: #35363c;
     --serverBarNameBg: #111214;
-    --serverBarNameTxt: #dbdee1;
     --serverBarIconLamp: #f2f3f5;
 }
 
@@ -47,7 +46,7 @@
 }
 .serverBarName {
     background-color: var(--serverBarNameBg);
-    color: var(--serverBarNameTxt);
+    color: var(--textWhiteIpt);
     width: max-content;
     padding: 8px 12px;
     border-radius: 6px;

@@ -1,6 +1,5 @@
 :root {
     --chatBarTxtIptBg: #383a40;
-    --chatBarTxtIptCol: #dbdee1;
 }
 
 #chatBarFooter {
@@ -21,7 +20,7 @@
     border: unset;
     border-radius: 8px 0 0 8px;
     min-height: 32px;
-    color: var(--chatBarTxtIptCol);
+    color: var(--textWhiteIpt);
     font-size: 16px;
     font-weight: 200;
     padding: 12px 12px 0px 16px;

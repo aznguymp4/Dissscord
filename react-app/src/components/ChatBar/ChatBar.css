@@ -3,7 +3,6 @@
     --chatMsgDisplayName: #f2f3f5; 
     --chatMsgDate: #949ba4;
     --chatMsgEdited: #959ba3; 
-    --chatMsgTxt: #dbdee1; 
     --chatMsgBtnBorder: #27292d; 
     --chatMsgBtnBgActive: #37383e; 
 }
@@ -22,7 +21,7 @@
     top: 48px;
     bottom: 60px;
     overflow-y: scroll;
-    padding-bottom: 16px;
+    padding-bottom: 24px;
 }
 .chatMsg {
     height: 48px;
@@ -107,7 +106,7 @@
     user-select: none;
 }
 .chatMsgTxt {
-    color: var(--chatMsgTxt);
+    color: var(--textWhiteIpt);
     line-height: 24px;
     font-weight: 200;
 }

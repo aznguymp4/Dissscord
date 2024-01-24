@@ -28,8 +28,8 @@ function LoginFormModal() {
     }
   };
 
-  return (
-    <>
+  /* return (
+    {<>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -54,8 +54,32 @@ function LoginFormModal() {
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">Log In</button>
       </form>
-    </>
-  );
+    </>}
+    
+  ); */
+
+  return <>
+    <div id="modalTitle">Log In</div>
+    <form onSubmit={handleSubmit} className="accountForm">
+      <label for="email">EMAIL</label>
+      <input
+        type="text"
+        name="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <label for="password">PASSWORD</label>
+      <input
+        type="password"
+        name="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <input type="submit" value="Log In" />
+    </form>
+  </>
 }
 
 export default LoginFormModal;
