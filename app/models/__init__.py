@@ -7,4 +7,4 @@ from .message import Message
 from .reaction import Reaction
 
 # Join Tables
-from .server_users import server_users
+from .server_users import ServerUser
