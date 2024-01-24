@@ -21,9 +21,9 @@ RUN pipenv install psycopg2
 
 COPY . .
 
-RUN pipenv run flask db init
-RUN pipenv run flask db migrate
-RUN pipenv run flask db upgrade
-RUN pipenv run flask seed all
+RUN pipenv run flask run db init
+RUN pipenv run flask run db migrate
+RUN pipenv run flask run db upgrade
+RUN pipenv run flask run seed all
 # CMD gunicorn app:app
 CMD gunicorn --worker-class eventlet -w 1 app:app
