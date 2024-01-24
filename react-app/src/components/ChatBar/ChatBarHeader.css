@@ -1,0 +1,25 @@
+:root {
+    --chatBarHeaderBorder: #26282c;
+}
+
+#chatBarHeader {
+    position: fixed;
+    width: calc(100vw - 312px);
+    height: 48px;
+    border-bottom: 1px solid var(--chatBarHeaderBorder);
+    box-shadow: -1px 1px 1px var(--serverNameHrShadow);
+    display: flex;
+    user-select: none;
+    background-color: var(--bodyBg);
+    z-index: 1;
+}
+
+#chatBarHeaderIcon {
+    margin: 12px 8px auto 16px;
+}
+#chatBarHeaderIcon > img {
+    -webkit-user-drag: none;
+}
+#chatBarHeaderName {
+    margin: auto auto 13.5px 0;
+}

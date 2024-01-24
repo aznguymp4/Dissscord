@@ -1,4 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
+import Discovery from '../components/Discovery';
+import Server from '../components/Server';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
@@ -9,7 +11,14 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Welcome!</h1>,
+        element: <Discovery/>,
+      },
+      {
+        element: <Server/>,
+        children: [
+          { path: "/server/:serverId" },
+          { path: "/server/:serverId/channel/:channelId" }
+        ]
       },
       {
         path: "login",

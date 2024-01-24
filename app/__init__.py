@@ -7,20 +7,24 @@ from flask_login import LoginManager
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.channel_routes import channel_routes
+from .api.messages_routes import message_routes
+from .api.server_routes import server_routes
+from .api.reaction_routes import reaction_routes
 from .seeds import seed_commands
 from .config import Config
+from .socket import socketio
 
 app = Flask(__name__, static_folder='../react-app/dist', static_url_path='/')
+socketio.init_app(app)
 
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
 
-
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
 
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
@@ -28,12 +32,18 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(channel_routes, url_prefix='/api/channels')
+app.register_blueprint(message_routes, url_prefix='/api/messages')
+app.register_blueprint(server_routes, url_prefix='/api/servers')
+app.register_blueprint(reaction_routes, url_prefix='/api/reactions')
 db.init_app(app)
 Migrate(app, db)
 
+if __name__ == '__main__':
+    socketio.run(app)
+
 # Application Security
 CORS(app)
-
 
 # Since we are deploying with Docker and Flask,
 # we won't be using a buildpack when we deploy to Heroku.

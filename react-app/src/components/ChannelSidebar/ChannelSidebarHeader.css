@@ -1,0 +1,17 @@
+:root {
+    --serverNameHr: #1f2123;
+    --serverNameHrShadow: #1f212344;
+    --serverNameHoverBg: #35373c;
+}
+
+#channelListHeaderServerName {
+    padding: 13px 1em 13.5px;
+    border-bottom: 1px solid var(--serverNameHr);
+    box-shadow: -1px 1px 1px var(--serverNameHrShadow);
+    user-select: none;
+    transition: .1s background-color ease-out;
+}
+#channelListHeaderServerName:hover {
+    cursor: pointer;
+    background-color: var(--serverNameHoverBg);
+}

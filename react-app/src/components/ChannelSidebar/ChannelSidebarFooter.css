@@ -1,0 +1,65 @@
+:root {
+    --channelListFooterBg: #232428;
+    --channelListFooterBtnHover: #3d3e45;
+    --channelListFooterTxtDisplay: #F2F3F5; 
+    --channelListFooterTxtUser: #B5BAC1;
+    --statusOnline: #23a55a;
+}
+
+#channelListFooter {
+    background-color: var(--channelListFooterBg);
+    width: 240px;
+    height: 53px;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+}
+#channelListFooterIcon {
+    width: 32px;
+    height: 32px;
+    margin: 10px 8px 0 8px;
+}
+#channelListFooterIcon > img {
+    width: 100%;
+    border-radius: 16px;
+}
+#channelListFooterIconStatus {
+    width: 10px;
+    height: 10px;
+    background-color: var(--statusOnline);
+    transform: translate(19px, -18px);
+    border-radius: 50%;
+    border: 3.25px solid var(--channelListFooterBg);
+}
+#channelListFooterNames {
+    font-weight: 200;
+    margin: auto 0 auto
+}
+#channelListFooterNameDisplay {
+    font-size: 14px;
+    transform: translateY(-.75px);
+    color: var(--channelListFooterTxtDisplay);
+}
+#channelListFooterNameUser {
+    font-size: 12px;
+    transform: translateY(-1px);
+    color: var(--channelListFooterTxtUser);
+}
+.iconBtn {
+    margin: auto 8px auto auto;
+    width: 20px;
+    height: 21px;
+    padding: 6px;
+    border-radius: 4px;
+    transition: .1s background-color var(--bezierQuartOut);
+    aspect-ratio: 1;
+}
+.iconBtn:hover {
+    background-color: var(--channelListFooterBtnHover);
+    cursor: pointer;
+}
+.iconBtn > img {
+    margin: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+}
