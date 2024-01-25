@@ -107,6 +107,9 @@
 .btnBlue { background-color: var(--colBlurple); }
 .btnBlue:hover { background-color: var(--colBlurpleDark1); }
 .btnBlue:active { background-color: var(--colBlurpleDark2); }
+.btnRed { background-color: var(--colRed); }
+.btnRed:hover { background-color: var(--colRedDark1); }
+.btnRed:active { background-color: var(--colRedDark2); }
 
 .serverTile {
     width: 100%;

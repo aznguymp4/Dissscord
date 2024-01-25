@@ -116,93 +116,100 @@ function ChatBar() {
   
   return (
     <div id='chatBar'>
-      <div id='chatBarHeader'>
+      {channel? <>
+        <div id='chatBarHeader'>
         <div id='chatBarHeaderIcon'><img src='/icons/channel/text.svg'/></div>
         <div id='chatBarHeaderName'>{channel && channel.displayname}</div>
-      </div>
-      <div
-        id='chatBarContent'
-        
-      >{
-        msgs && Object.values(msgs).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at)).map((m,i,a) => {
-          const breakMsgChain = !a[i-1] || (a[i-1].author_id !== m.author_id)
-          return <div key={m.id} className={`chatMsg${breakMsgChain?'':' short'}`}>
-            <div className='chatMsgLeft'>
-              {breakMsgChain?
-                <img src={msgs && m.author && m.author.icon}/>
-                : <span className='chatMsgDate short' title={formatTime(m.created_at, 'full')}>{formatTime(m.created_at, 'timeOnly')}</span>
-              }
-            </div>
-            <div className='chatMsgRight'>
-              <div className='chatMsgTop'>
-                {
-                  breakMsgChain && <>
-                    <span className='chatMsgName'>{msgs && m.author && (m.author.displayname || m.author.username)}</span>
-                    <span className='chatMsgDate' title={formatTime(m.created_at, 'full')}>{formatTime(m.created_at)}</span>
-                  </>
-                }
-                {msgs && m.author && (m.author_id == sessionUser.id) && <div className='chatMsgBtns'>
-                  <div
-                    className="iconBtn"
-                    onClick={()=>{
-                      prompt('Add Reaction (COMING SOON)', '😀')
-                    }}
-                  >
-                    <img src="/icons/smile.svg"/>
-                  </div>
-                  <div
-                    className="iconBtn"
-                    onClick={()=>{
-                      dispatch(callEditMsg(m.id, prompt('Edit Message', m.content)))
-                    }}
-                  >
-                    <img src="/icons/pencil.svg"/>
-                  </div>
-                  <div
-                    className="iconBtn"
-                    onClick={()=>{
-                      dispatch(callDeleteMsg(m.id))
-                    }}
-                  >
-                    <img src="/icons/trash.svg"/>
-                  </div>
-                </div>}
-              </div>
-              <div className='chatMsgTxt'>
-                {m.content}
-                {m.created_at !== m.updated_at && <span className='chatMsgTxtEdited' title={formatTime(m.updated_at,'full')}>(edited)</span>}
-              </div>
-            </div>
-          </div>
-        })
-      }</div>
-      <div id='chatBarFooter'>
-        <div id='chatBarFooterInput' onInput={e=>setMsgIpt(e.target.value)}>
-          <textarea
-            id='chatBarFooterTxt'
-            rows='1'
-            placeholder={`Message #${channel && channel.displayname}`}
-            value={msgIpt}
-            onChange={e => setMsgIpt(e.target.value)}
-          />
-          <div id='chatBarFooterSend'
-            onClick={submitMsg}
-          >
-            <img className={msgIpt.length?'':'btnDisabled'} src='/icons/send.svg'/>
-          </div>
         </div>
-        <div id='chatBarFooterType'>{
-          (typers.length!=0) && <>
-            <img src='/icons/typing.gif'/>
-            <span>
-              {typers.length <= 3?
-                <><b>{arrayToSentence(typers)}</b> {typers.length==1?'is':'are'} typing...</>
-                : <>Several people are typing...</>
-              }
-            </span>
-          </>
+        <div
+          id='chatBarContent'
+          
+        >{
+          msgs && Object.values(msgs).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at)).map((m,i,a) => {
+            const breakMsgChain = !a[i-1] || (a[i-1].author_id !== m.author_id)
+            return <div key={m.id} className={`chatMsg${breakMsgChain?'':' short'}`}>
+              <div className='chatMsgLeft'>
+                {breakMsgChain?
+                  <img src={msgs && m.author && m.author.icon}/>
+                  : <span className='chatMsgDate short' title={formatTime(m.created_at, 'full')}>{formatTime(m.created_at, 'timeOnly')}</span>
+                }
+              </div>
+              <div className='chatMsgRight'>
+                <div className='chatMsgTop'>
+                  {
+                    breakMsgChain && <>
+                      <span className='chatMsgName'>{msgs && m.author && (m.author.displayname || m.author.username)}</span>
+                      <span className='chatMsgDate' title={formatTime(m.created_at, 'full')}>{formatTime(m.created_at)}</span>
+                    </>
+                  }
+                  {msgs && m.author && (m.author_id == sessionUser.id) && <div className='chatMsgBtns'>
+                    <div
+                      className="iconBtn"
+                      onClick={()=>{
+                        prompt('Add Reaction (COMING SOON)', '😀')
+                      }}
+                    >
+                      <img src="/icons/smile.svg"/>
+                    </div>
+                    <div
+                      className="iconBtn"
+                      onClick={()=>{
+                        dispatch(callEditMsg(m.id, prompt('Edit Message', m.content)))
+                      }}
+                    >
+                      <img src="/icons/pencil.svg"/>
+                    </div>
+                    <div
+                      className="iconBtn"
+                      onClick={()=>{
+                        dispatch(callDeleteMsg(m.id))
+                      }}
+                    >
+                      <img src="/icons/trash.svg"/>
+                    </div>
+                  </div>}
+                </div>
+                <div className='chatMsgTxt'>
+                  {m.content}
+                  {m.created_at !== m.updated_at && <span className='chatMsgTxtEdited' title={formatTime(m.updated_at,'full')}>(edited)</span>}
+                </div>
+              </div>
+            </div>
+          })
         }</div>
-      </div>
+        <div id='chatBarFooter'>
+          <div id='chatBarFooterInput' onInput={e=>setMsgIpt(e.target.value)}>
+            <textarea
+              id='chatBarFooterTxt'
+              rows='1'
+              placeholder={`Message #${channel && channel.displayname}`}
+              value={msgIpt}
+              onChange={e => setMsgIpt(e.target.value)}
+            />
+            <div id='chatBarFooterSend'
+              onClick={submitMsg}
+            >
+              <img className={msgIpt.length?'':'btnDisabled'} src='/icons/send.svg'/>
+            </div>
+          </div>
+          <div id='chatBarFooterType'>{
+            (typers.length!=0) && <>
+              <img src='/icons/typing.gif'/>
+              <span>
+                {typers.length <= 3?
+                  <><b>{arrayToSentence(typers)}</b> {typers.length==1?'is':'are'} typing...</>
+                  : <>Several people are typing...</>
+                }
+              </span>
+            </>
+          }</div>
+        </div>
+      </>
+      : <div id='chatBarPlaceholder'>
+        <img src="/icons/noChannels/dark.svg" alt="No Channel Selected" />
+        <h3>SELECT A TEXT CHANNEL</h3>
+        <div>Looks like there's nothing to display here...</div>
+      </div>}
     </div>
   );
 }

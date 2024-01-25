@@ -61,8 +61,15 @@ export const thunkDeleteChannel = channelId => dispatch => {
         method: 'DELETE'
     })
 	.then(r=>r.json())
-	.then(d => dispatch(deleteChannel(d)))
+	.then(() => dispatch(deleteChannel(channelId)))
 	.catch(console.error)
+}
+
+export const spaceToHyphen = str => str.toLowerCase().replace(/\W/g,'-').replace(/-{2,}/,'-')
+const processChannelName = c => {
+	c.rawname = c.displayname
+	c.displayname = spaceToHyphen(c.displayname)
+	return c
 }
 
 const channelReducer = (state = { channel: {} }, action) => {
@@ -70,14 +77,14 @@ const channelReducer = (state = { channel: {} }, action) => {
 		case LOAD_CHANNELS: {
 			const channelsState = {};
 			action.channels.forEach(channel => {
-				channelsState[channel.id] = channel;
+				channelsState[channel.id] = processChannelName(channel);
 			});
 			return channelsState;
 		}
 		case RECEIVE_CHANNEL:
-			return { ...state, [action.channel.id]: action.channel };
+			return { ...state, [action.channel.id]: processChannelName(action.channel) };
 		case UPDATE_CHANNEL:
-			return { ...state, [action.channel.id]: action.channel };
+			return { ...state, [action.channel.id]: processChannelName(action.channel) };
 		case REMOVE_CHANNEL: {
 			const newState = { ...state };
 			delete newState[action.channelId];

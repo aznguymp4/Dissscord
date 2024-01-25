@@ -6,7 +6,8 @@ function OpenModalMenuItem({
   onItemClick, // optional: callback function that will be called once the button that opens the modal is clicked
   onModalClose, // optional: callback function that will be called once the modal is closed
   id,
-  className
+  className,
+  iconClassName
 }) {
   const { setModalContent, setOnModalClose } = useModal();
 
@@ -17,7 +18,10 @@ function OpenModalMenuItem({
   };
 
   return (
-    <div id={id} className={className} onClick={onClick}>{itemText}</div>
+    <div id={id} className={className} onClick={onClick} style={{display:'flex'}}>
+      <span>{itemText}</span>
+      {iconClassName && <i style={{margin:'auto 0 auto auto'}} className={iconClassName}/>}
+    </div>
   );
 }
 
