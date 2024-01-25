@@ -146,7 +146,7 @@ def delete_server(id):
 	else:
 		return {'errors': {'message': 'Unauthorized'}}, 401
 
-
+#JOIN A SERVER
 @server_routes.route('/join/<int:server_id>')
 @login_required
 def join_server(server_id):
@@ -164,5 +164,4 @@ def join_server(server_id):
 def search_server():
 	query = request.args.get('query')
 	filter_server = Server.query.filter(Server.displayname.ilike(f'%{query}%')).all()
-	return [{'id': server.id, 'server_name': server.displayname} for server in filter_server]
-
+	return [server.to_dict() for server in filter_server]

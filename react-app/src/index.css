@@ -2,11 +2,15 @@
 @import url('/src/fonts.css');
 :root {
   --textWhite: #f2f3f5;
+  --textWhiteIpt: #dbdee1;
+  --textGrayLight: #b5bac1;
   --colBlurple: #5865F2;
   --colRed: #ED4245;
   --bodyBg: #313338;
   --bezierBounceOut: cubic-bezier(0,.7,.3,1.5);
   --bezierQuartOut: cubic-bezier(0,.75,.25,1);
+  --bezierQuartIn: cubic-bezier(.75,0,1,.25);
+  --bezierQuartInOut: cubic-bezier(.75,0,.25,1);
 }
 
 body {

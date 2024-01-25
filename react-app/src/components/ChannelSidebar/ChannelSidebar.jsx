@@ -14,14 +14,12 @@ function ChannelSidebar({ server, channels }) {
   const sessionUser = useSelector((state) => state.session.user);
   const { channelId } = useParams()
 
-  // if server is undefined or list of channels is empty
-  // if(!server || channels.channel) return <div id="channelSidebar"></div>
-
   return (
     <div id="channelSidebar">
       <div id="channelListHeader">
         <div id="channelListHeaderBg">
           {server && <div id="channelListHeaderServerName">{server.displayname}</div>}
+          <i className="fas fa-chevron-down"/>
           {server?.owner_id == sessionUser.id && <OpenModalMenuItem
             id="btnLogin"
             className="btn"
