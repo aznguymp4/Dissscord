@@ -34,7 +34,7 @@ function CreateChannelModal({server}) {
         />
         <img id="modalChannelNameIcon" src="/icons/channel/text.svg"/>
         <div id="modalFooter">
-          <div className="btnText" onClick={closeModal}>Close</div>
+          <div className="btnText" onClick={closeModal}>Cancel</div>
           <input type="submit" className={`btnBlue${displayname.length?'':' disabled'}`} value="Create" />
           <div id="modalFooterBg"/>
         </div>

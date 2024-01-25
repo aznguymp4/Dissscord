@@ -21,8 +21,8 @@ RUN pip install pipenv
 
 COPY . .
 
-RUN pipenv run flask db init
-RUN pipenv run flask db migrate
+# RUN pipenv run flask db init
+# RUN pipenv run flask db migrate
 RUN pipenv run flask db upgrade
 RUN pipenv run flask seed all
 # CMD gunicorn app:app

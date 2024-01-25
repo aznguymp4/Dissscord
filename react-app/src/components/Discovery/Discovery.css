@@ -85,6 +85,7 @@
     transition-property: transform color background-color box-shadow;
     transition-timing-function: ease-out;
     font-family: unset;
+    font-size: 14px;
 }
 .btn:hover, input[type=submit]:hover {
     box-shadow: 0 6px 12px #00000033;
