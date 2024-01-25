@@ -52,7 +52,7 @@ def create_server():
 			icon = form.data["icon"] if "icon" in form.data else None,
 			desc = form.data["desc"] if "desc" in form.data else None,
 			banner = form.data["banner"] if "banner" in form.data else None,
-			public = False if form.data["public"].lower() == "false" else None
+			public = form.data["public"] if "public" in form.data else None
 		)
 
 		db.session.add(server)
@@ -65,6 +65,9 @@ def create_server():
 		)
 
 		db.session.add(channel)
+		db.session.commit()
+
+		current_user.joined_servers.append(server)
 		db.session.commit()
 		return server.to_dict()
 	return form.errors, 401

@@ -35,7 +35,7 @@ function ServerSidebar() {
             Object.values(myServers).map(s =>
               {
                 const selStr = s.id==serverId?' selected':''
-                return s.public && <Link
+                return s.id && <Link
                   className="serverBarDiv"
                   to={`/server/${s.id}`}
                   key={s.id}
