@@ -61,7 +61,7 @@ function LoginFormModal() {
   return <>
     <div id="modalTitle">Log In</div>
     <form onSubmit={handleSubmit} className="accountForm">
-      <label for="email">EMAIL</label>
+      <label htmlFor="email">EMAIL {errors.email && <span>{errors.email}</span>}</label>
       <input
         type="text"
         name="email"
@@ -69,7 +69,7 @@ function LoginFormModal() {
         onChange={(e) => setEmail(e.target.value)}
         required
       />
-      <label for="password">PASSWORD</label>
+      <label htmlFor="password">PASSWORD {errors.password && <span>{errors.password}</span>}</label>
       <input
         type="password"
         name="password"
@@ -77,7 +77,11 @@ function LoginFormModal() {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <input type="submit" value="Log In" />
+      <div id="modalFooter">
+        <div className="btnText" onClick={closeModal}>Close</div>
+        <input type="submit" className="btnBlue" value="Log In" />
+        <div id="modalFooterBg"/>
+      </div>
     </form>
   </>
 }

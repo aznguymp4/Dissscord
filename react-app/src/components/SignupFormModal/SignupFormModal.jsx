@@ -38,55 +38,48 @@ function SignupFormModal() {
     }
   };
 
-  return (
-    <>
-      <h1>Sign Up</h1>
-      {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Username
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        {errors.username && <p>{errors.username}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <label>
-          Confirm Password
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
-      </form>
-    </>
-  );
+  return <>
+  <div id="modalTitle">Sign Up</div>
+  <form onSubmit={handleSubmit} className="accountForm">
+    <label htmlFor="email">EMAIL {errors.email && <span>{errors.email}</span>}</label>
+    <input
+      type="text"
+      name="email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      required
+    />
+    <label htmlFor="username">USERNAME {errors.username && <span>{errors.username}</span>}</label>
+    <input
+      type="text"
+      name="username"
+      value={username}
+      onChange={(e) => setUsername(e.target.value)}
+      required
+    />
+    <label htmlFor="password">PASSWORD {errors.password && <span>{errors.password}</span>}</label>
+    <input
+      type="password"
+      name="password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      required
+    />
+    <label htmlFor="confirmPassword">CONFIRM PASSWORD {errors.confirmPassword && <span>{errors.confirmPassword}</span>}</label>
+    <input
+      type="password"
+      name="confirmPassword"
+      value={confirmPassword}
+      onChange={(e) => setConfirmPassword(e.target.value)}
+      required
+    />
+    <div id="modalFooter">
+      <div className="btnText" onClick={closeModal}>Close</div>
+      <input type="submit" className="btnBlue" value="Log In" />
+      <div id="modalFooterBg"/>
+    </div>
+  </form>
+</>
 }
 
 export default SignupFormModal;
