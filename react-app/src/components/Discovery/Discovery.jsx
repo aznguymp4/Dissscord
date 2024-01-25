@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { callFetchServers } from "../../redux/server";
+import { callFetchServers, callJoinServer } from "../../redux/server";
 import { thunkLogout } from "../../redux/session";
 import { useDispatch, useSelector } from "react-redux";
-// import { Navigate, useNavigate } from "react-router-dom";
+import { useModal } from '../../context/Modal';
+import { useNavigate } from "react-router-dom";
 import "./Discovery.css";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
@@ -10,8 +11,11 @@ import SignupFormModal from "../SignupFormModal";
 
 function Discovery() {
   const dispatch = useDispatch();
+  const nav = useNavigate()
+  const { setModalContent, closeModal } = useModal();
   const sessionUser = useSelector((state) => state.session.user);
   const servers = useSelector(state => state.server)
+  const myServers = useSelector(state => state.myServer)
 
   useEffect(()=>{
     dispatch(callFetchServers())
@@ -21,6 +25,11 @@ function Discovery() {
     e.preventDefault();
     dispatch(thunkLogout());
   };
+
+  const joinServer = async serverId => {
+    dispatch(callJoinServer(serverId))
+    location.pathname = `/server/${serverId}`
+  }
 
   const isAuthStr = sessionUser?' auth':''
 
@@ -56,7 +65,36 @@ function Discovery() {
       {
         servers && <div className={`serverGrid${isAuthStr}`}>
           {
-            Object.values(servers).map(s => s.public && <div className="serverTile" key={s.id}>
+            Object.values(servers).map(s => s.public && <div
+              className="serverTile"
+              onClick={() => {
+                setModalContent(
+                  <div id="modalServer">
+                    <div id="modalTitle">Server Info</div>
+                    <img id="modalServerBanner" src={s.banner}/>
+                    <img id="modalServerIcon" src={s.icon}/>
+                    <div id="modalServerOwner" title={`Server Owner: @${s.owner.username}`}>
+                      <img id="modalServerOwnerIcon" src={s.owner.icon}/>
+                      <div id="modalServerOwnerName"><div>SERVER OWNER</div>{s.owner.displayname || s.owner.username}</div>
+                    </div>
+                    <div id="modalServerName">{s.displayname}</div>
+                    <div id="modalServerDesc">{s.desc}</div>
+                    <div id="modalFooter">
+                      <div className="btnText" onClick={closeModal}>Cancel</div>
+                      <div className="btn" onClick={() => {
+                        if(!myServers[s.id]) joinServer(s.id)
+                        else nav(`/server/${s.id}`)
+                        closeModal()
+                      }}>{
+                        myServers[s.id]? 'View':'Join'
+                      }</div>
+                      <div id="modalFooterBg"/>
+                    </div>
+                  </div>
+                )
+              }}
+              key={s.id}
+            >
               <img className="serverTileBanner" src={s.banner} alt=""/>
               <img className="serverTileIcon" src={s.icon} alt=""/>
               <div className="serverTileInfo">

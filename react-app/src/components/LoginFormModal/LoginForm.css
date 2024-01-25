@@ -19,3 +19,11 @@
     padding: 8px 12px;
     margin-bottom: 16px;
 }
+.accountForm label > span {
+    color: var(--colRed);
+    font-weight: 400;
+    margin-left: 8px;
+}
+.accountForm label > span::before {
+    content: "× ";
+}

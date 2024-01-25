@@ -29,6 +29,7 @@ class Server(db.Model):
         return {
             'id': self.id,
             'owner_id': self.owner_id,
+            'owner': self.owner.to_dict(),
             'displayname': self.displayname,
             'desc': self.desc,
             'banner': self.banner,
@@ -37,5 +38,5 @@ class Server(db.Model):
             'banner': self.banner,
             'public': self.public,
             'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'updated_at': self.updated_at,
         }
