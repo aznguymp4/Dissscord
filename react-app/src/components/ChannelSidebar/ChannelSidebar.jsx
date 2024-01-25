@@ -7,6 +7,7 @@ import "./ChannelSidebarHeader.css";
 import "./ChannelSidebarFooter.css";
 import OpenModalMenuItem from "../Discovery/OpenModalMenuItem";
 import CreateChannelModal from "../CreateChannelModal/CreateChannelModal";
+import UpdateChannelModal from "../UpdateChannelModal";
 
 function ChannelSidebar({ server, channels }) {
   // const dispatch = useDispatch();
@@ -37,7 +38,10 @@ function ChannelSidebar({ server, channels }) {
         >
           <div className="channelLiIcon"><img src="/icons/channel/text.svg"/></div>
           <div className="channelLiName">{c.displayname.toLowerCase()}</div>
-          {server.owner_id == sessionUser.id && <div className="iconBtn"><img src="/icons/settings.svg"/></div>}
+          {server.owner_id == sessionUser.id && <div className="iconBtn"><OpenModalMenuItem
+            itemText={<img src="/icons/settings.svg"/>}
+            modalComponent={<UpdateChannelModal channel={c}/>}
+          /></div>}
         </Link>)
       }</div>}
       <div id="channelListFooter">

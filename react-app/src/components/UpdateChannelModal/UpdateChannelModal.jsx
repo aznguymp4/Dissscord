@@ -1,24 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { thunkUpdateChannel } from "../../redux/channel";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import OpenModalMenuItem from "../Discovery/OpenModalMenuItem";
+import DeleteChannelModal from "../DeleteChannelModal/DeleteChannelModal";
 import "./UpdateChannelModal.css"
 
-function UpdateChannelModal({server}) {
+function UpdateChannelModal({channel}) {
     const dispatch = useDispatch();
     const [displayname, setDisplayname] = useState("");
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
+    useEffect(() => {
+        setDisplayname(channel.displayname)
+    }, [])
+
     const handleSubmit = async (e) => {
       e.preventDefault();
 
-      const newChannel = {
+      const updatedChannel = {
         displayname
       }
 
       const serverResponse = await dispatch(
-        thunkUpdateChannel(server, newChannel)
+        thunkUpdateChannel(channel, updatedChannel)
       );
 
       if (serverResponse) {
@@ -30,7 +36,7 @@ function UpdateChannelModal({server}) {
 
     return (
       <>
-        <h1>Overview</h1>
+        <h2>Edit Channel</h2>
         <form onSubmit={handleSubmit}>
           <label>
             Channel Name
@@ -41,8 +47,17 @@ function UpdateChannelModal({server}) {
               required
             />
           </label>
-          {errors.email && <p>{errors.email}</p>}
-          <button type="submit">Save Changes</button>
+          {errors.displayname && <p>{errors.displayname}</p>}
+          <div>
+          <OpenModalMenuItem
+            className="btn"
+            itemText="Delete"
+            modalComponent={<DeleteChannelModal channel={channel}/>}
+          />
+          </div>
+          <div id="updateChannelFooter">
+            <button type="submit">Save Changes</button>
+          </div>
         </form>
       </>
     );

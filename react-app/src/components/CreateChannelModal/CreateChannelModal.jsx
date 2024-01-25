@@ -34,14 +34,18 @@ function CreateChannelModal({server}) {
         <form onSubmit={handleSubmit}>
           <label>
             Channel Name
-            <input
-              type="text"
-              value={displayname}
-              onChange={(e) => setDisplayname(e.target.value)}
-              required
-            />
+            <div>
+                <span className="channelLiIcon"><img src="/icons/channel/text.svg"/></span>
+                <input
+                  type="text"
+                  placeholder="new-channel"
+                  value={displayname}
+                  onChange={(e) => setDisplayname(e.target.value)}
+                  required
+                />
+            </div>
           </label>
-          {errors.email && <p>{errors.email}</p>}
+          {errors.displayname && <p>{errors.displayname}</p>}
           <button type="submit">Create Channel</button>
         </form>
       </>

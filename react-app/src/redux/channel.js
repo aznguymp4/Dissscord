@@ -14,6 +14,11 @@ const createChannel = channel => ({
 const updateChannel = channel => ({
 	type: UPDATE_CHANNEL,
 	channel
+});
+
+const deleteChannel = channelId => ({
+	type: REMOVE_CHANNEL,
+	channelId
 })
 
 export const callFetchChannelsByServerId = (serverId) => dispatch => {
@@ -40,14 +45,23 @@ export const thunkCreateChannel = (server, channel) => dispatch => {
 	.catch(console.error)
 }
 
-export const thunkUpdateChannel = (channel) => dispatch => {
+export const thunkUpdateChannel = (channel, updatedChannel) => dispatch => {
 	csrfFetch(`/api/channels/${channel.id}`,{
-		method: "POST",
+		method: "PUT",
 		headers: {"Content-Type": "application/json"},
-		body: JSON.stringify(channel)
+		body: JSON.stringify(updatedChannel)
 	})
 	.then(r=>r.json())
-	.then(d => dispatch(createChannel(d)))
+	.then(d => dispatch(updateChannel(d)))
+	.catch(console.error)
+}
+
+export const thunkDeleteChannel = channelId => dispatch => {
+	csrfFetch(`/api/channels/${channelId}`, {
+        method: 'DELETE'
+    })
+	.then(r=>r.json())
+	.then(d => dispatch(deleteChannel(d)))
 	.catch(console.error)
 }
 
@@ -64,11 +78,11 @@ const channelReducer = (state = { channel: {} }, action) => {
 			return { ...state, [action.channel.id]: action.channel };
 		case UPDATE_CHANNEL:
 			return { ...state, [action.channel.id]: action.channel };
-		/*case REMOVE_CHANNEL: {
+		case REMOVE_CHANNEL: {
 			const newState = { ...state };
 			delete newState[action.channelId];
 			return newState;
-		} */
+		}
 		default:
 			return state;
 	}
