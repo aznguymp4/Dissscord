@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
 export const [LOAD_SERVERS,LOAD_MY_SERVERS,RECEIVE_SERVER,REMOVE_SERVER,UPDATE_SERVER] = ['servers/LOAD_SERVERS','servers/LOAD_MY_SERVERS','servers/RECEIVE_SERVER','servers/REMOVE_SERVER','servers/UPDATE_SERVER'];
+export const CREATE_SERVER = 'servers/CREATE_SERVER'
 
 const loadServers = servers => ({
 	type: LOAD_SERVERS,
@@ -14,6 +15,39 @@ const loadMyServers = servers => ({
 	servers
 });
 
+const createNewServer = server =>({
+	type: CREATE_SERVER,
+	server
+})
+
+// export const callCreateServer = (server) => async (dispatch) => {
+// 	try{
+// 	const response = await csrfFetch(`/api/servers`, {
+// 		method:'POST',
+// 		headers:{
+// 			'content-type':'application/json',
+// 		},
+// 		body: JSON.stringify(server)
+// 	})
+// 	if(response.ok){
+// 		const newServer = await response.json();
+// 		dispatch(createNewServer(newServer))
+// 		return newServer
+// 	}else{
+//         const errorData = await response.json();
+//         return { error: errorData };
+//     }
+// }catch(error){
+// 	console.error('Error in callCreateServer:',error)
+// }
+// }
+
+export const callCreateServer = body => dispatch => {
+    csrfFetch(`/api/servers`, {method:'POST', body})
+    .then(r=>r.json())
+    .then(d => dispatch(createNewServer(d)))
+    .catch(console.error)
+}
 export const callFetchServers = () => dispatch => {
 	csrfFetch(`/api/servers`)
 	.then(r=>r.json())
@@ -57,6 +91,10 @@ const serverReducer = (state = { server: {} }, action) => {
 			delete newState[action.serverId];
 			return newState;
 		} */
+		case CREATE_SERVER:
+			return {
+				...state,  [action.server.id]: action.server
+			}
 		default:
 			return state;
 	}

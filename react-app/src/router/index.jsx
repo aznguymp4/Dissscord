@@ -4,6 +4,8 @@ import Server from '../components/Server';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
+import ServerFormModal from '../components/ServerFormModal/ServerFormModal';
+import SearchPage from '../components/Discovery/SearchPage'
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ export const router = createBrowserRouter([
         path: "signup",
         element: <SignupFormPage />,
       },
+      {
+        path:'/add-server',
+        element:<ServerFormModal/>
+      },
+      {
+        path:'/discover-search',
+        element:<SearchPage/>
+      }
     ],
   },
 ]);
