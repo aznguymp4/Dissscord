@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
+from .server import Server
 
 class Channel(db.Model):
     __tablename__ = 'channels'
@@ -8,15 +9,13 @@ class Channel(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    server_id = db.Column(db.Integer, db.ForeignKey('servers.id'), nullable=False)
+    server_id = db.Column(db.Integer, db.ForeignKey(Server.id), nullable=False)
     displayname = db.Column(db.String(40))
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     server = db.relationship('Server', back_populates='channel')
     message = db.relationship('Message', back_populates='channel', cascade='all, delete-orphan')
-
-
 
     @property
     def display_name(self):

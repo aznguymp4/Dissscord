@@ -1,5 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
+from .user import User
+from .message import Message
 
 class Reaction(db.Model):
     __tablename__ = 'reactions'
@@ -8,8 +10,8 @@ class Reaction(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    message_id = db.Column(db.Integer, db.ForeignKey('messages.id'), nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    message_id = db.Column(db.Integer, db.ForeignKey(Message.id), nullable=False)
     emoji = db.Column(db.String(16))
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)

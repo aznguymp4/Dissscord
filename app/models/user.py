@@ -12,9 +12,9 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
-    displayname = db.Column(db.String(40))
+    displayname = db.Column(db.String(128))
     bio = db.Column(db.String(256))
-    icon = db.Column(db.String(256), default=f'https://cdn.discordapp.com/embed/avatars/{randint(0,5)}.png')
+    icon = db.Column(db.String(256), default=lambda: f'https://cdn.discordapp.com/embed/avatars/{randint(0,5)}.png')
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
@@ -23,7 +23,9 @@ class User(db.Model, UserMixin):
     server = db.relationship('Server', back_populates='owner', cascade='all, delete-orphan')
     message = db.relationship('Message', back_populates='author')
     reaction = db.relationship('Reaction', back_populates='author')
-    joined_servers = db.relationship('Server', secondary='server_users', back_populates='joined_users')
+    joined_servers = db.relationship('Server', secondary=add_prefix_for_prod('server_users'), back_populates='joined_users')
+    # joined_servers = db.relationship('ServerUser')
+    # joined_servers = db.relationship('ServerUser', back_populates='user_id')
 
     @property
     def password(self):
