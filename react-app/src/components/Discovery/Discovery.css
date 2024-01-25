@@ -71,28 +71,29 @@
     padding-top: .5em;
     justify-content: center;
 }
-#discoveryButtons > div {
+.btn, input[type=submit] {
+    width: max-content;
+    padding: 8px 16px;
+    border: unset;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px #00000022;
+    color: white;
+    user-select: none;
     margin: 0 4px;
     cursor: pointer;
     transition-duration: .125s;
     transition-property: transform color background-color box-shadow;
     transition-timing-function: ease-out;
+    font-family: unset;
 }
-.btn:hover {
+.btn:hover, input[type=submit]:hover {
     box-shadow: 0 6px 12px #00000033;
     transform: translateY(-1.5px);
 }
-.btn:active {
+.btn:active, input[type=submit]:active {
     box-shadow: 0 2px 8px #00000033;
+    transition-timing-function: var(--bezierQuartOut);
     transform: translateY(1px);
-}
-.btn {
-    width: max-content;
-    padding: 8px 16px;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px #00000022;
-    color: white;
-    user-select: none;
 }
 #btnLogin { color: var(--btnBlack); background-color: white; }
 #btnLogin:hover { color: var(--colBlurple); }
@@ -103,12 +104,16 @@
 #btnSignup { background-color: var(--btnBlack); }
 #btnSignup:hover { background-color: var(--btnBlackHover); }
 #btnSignup:active { background-color: var(--serverTileBgHover); }
+.btnBlue { background-color: var(--colBlurple); }
+.btnBlue:hover { background-color: var(--colBlurpleDark1); }
+.btnBlue:active { background-color: var(--colBlurpleDark2); }
 
 .serverTile {
     width: 100%;
     background-color: var(--serverTileBg);
     border-radius: 12px;
     overflow-x: hidden;
+    user-select: none;
 }
 .serverTile:hover {
     background-color: var(--serverTileBgHover);
@@ -137,6 +142,7 @@
     width: 100%;
     height: 150px;
     transform-origin: bottom center;
+    -webkit-user-drag: none;
 }
 .serverTileIcon {
     width: 42px;
@@ -157,4 +163,79 @@
     margin: 0 16px;
     transform: translateY(-25px);
     font-size: 14px;
+}
+#modalServer {
+    width: 380px;
+    height: 420px;
+}
+#modalServer > #modalFooter > .btn {
+    background-color: var(--colBlurple);
+    margin: 0;
+}
+#modalServer > #modalFooter > .btn:hover {background-color: var(--colBlurpleDark1);}
+#modalServer > #modalFooter > .btn:active {background-color: var(--colBlurpleDark2);}
+#modalServerBanner {
+    width: 412px;
+    height: 150px;
+    transform: translateX(-16px);
+    object-fit: cover;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+#modalServerIcon {
+    transform: translateY(-56px);
+    width: 72px;
+    height: 72px;
+    border: solid 6px var(--bodyBg);
+    background-color: var(--bodyBg);
+    border-radius: 25%;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+#modalServerOwner {
+    display: flex;
+    float: right;
+    justify-content: right;
+    margin-top: 8px;
+}
+#modalServerOwnerName {
+    max-width: 120px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: auto 0px auto 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+#modalServerOwnerName > div {
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--textGrayLight);
+    padding: 0;
+    margin: 0;
+}
+#modalServerOwnerIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: auto;
+}
+#modalServerName {
+    font-size: 20px;
+    font-weight: 600;
+    transform: translateY(-56px);
+    max-width: 256px;
+    margin-bottom: 48px;
+}
+#modalServerDesc {
+    font-size: 14px;
+    font-weight: 200;
+    position: absolute;
+    width: 380px;
+    height: 96px;
+    transform: translateY(-100px);
+    color: var(--textWhiteIpt);
+    text-overflow: ellipsis;
+    overflow-y: hidden;
+    white-space: wrap;
 }
