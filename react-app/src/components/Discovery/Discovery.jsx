@@ -81,12 +81,13 @@ function Discovery() {
                     <div id="modalServerDesc">{s.desc}</div>
                     <div id="modalFooter">
                       <div className="btnText" onClick={closeModal}>Cancel</div>
-                      <div className="btn" onClick={() => {
+                      <div className="btn" aria-disabled={sessionUser?'false':'true'} onClick={() => {
+                        if(!sessionUser) return setModalContent(<LoginFormModal />)
                         if(!myServers[s.id]) joinServer(s.id)
                         else nav(`/server/${s.id}`)
                         closeModal()
                       }}>{
-                        myServers[s.id]? 'View':'Join'
+                        sessionUser && myServers[s.id]? 'View':'Join'
                       }</div>
                       <div id="modalFooterBg"/>
                     </div>

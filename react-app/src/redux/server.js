@@ -1,5 +1,5 @@
 import { csrfFetch } from './csrf';
-export const [LOAD_SERVERS,LOAD_MY_SERVERS,RECEIVE_SERVER,REMOVE_SERVER,UPDATE_SERVER] = ['servers/LOAD_SERVERS','servers/LOAD_MY_SERVERS','servers/RECEIVE_SERVER','servers/REMOVE_SERVER','servers/UPDATE_SERVER'];
+export const [LOAD_SERVERS,LOAD_MY_SERVERS,RECEIVE_SERVER,REMOVE_SERVER,REMOVE_MY_SERVER,UPDATE_SERVER] = ['servers/LOAD_SERVERS','servers/LOAD_MY_SERVERS','servers/RECEIVE_SERVER','servers/REMOVE_SERVER','servers/REMOVE_MY_SERVER','servers/UPDATE_SERVER'];
 
 const loadServers = servers => ({
 	type: LOAD_SERVERS,
@@ -13,7 +13,28 @@ const loadMyServers = servers => ({
 	type: LOAD_MY_SERVERS,
 	servers
 });
+const removeServer = serverId => ({
+	type: REMOVE_SERVER,
+	serverId
+})
+const removeMyServer = serverId => ({
+	type: REMOVE_MY_SERVER,
+	serverId
+})
 
+export const callCreateServer = body => dispatch => {
+    csrfFetch(`/api/servers/new`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(body)
+	})
+    .then(r=>r.json())
+    .then(d => {
+		dispatch(receiveServer(d))
+		location.pathname = `/server/${d.id}`
+	})
+    .catch(console.error)
+}
 export const callFetchServers = () => dispatch => {
 	csrfFetch(`/api/servers`)
 	.then(r=>r.json())
@@ -38,6 +59,19 @@ export const callJoinServer = serverId => dispatch => {
 	.then(d => dispatch(receiveServer(d)))
 	.catch(console.error)
 }
+export const callLeaveServer = serverId => dispatch => {
+	csrfFetch(`/api/users/@me/servers/${serverId}`, {method: 'DELETE'})
+	.then(d => dispatch(removeMyServer(d)))
+	.catch(console.error)
+}
+export const callDeleteServer = serverId => dispatch => {
+	csrfFetch(`/api/servers/${serverId}`, {method: 'DELETE'})
+	.then(d => {
+		dispatch(removeServer(d))
+		dispatch(removeMyServer(d))
+	})
+	.catch(console.error)
+}
 
 const serverReducer = (state = { server: {} }, action) => {
 	switch (action.type) {
@@ -50,22 +84,28 @@ const serverReducer = (state = { server: {} }, action) => {
 		}
 		case RECEIVE_SERVER:
 			return { ...state, [action.server.id]: action.server };
-		/* case UPDATE_SERVER:
+		case UPDATE_SERVER:
 			return { ...state, [action.server.id]: action.server };
 		case REMOVE_SERVER: {
 			const newState = { ...state };
 			delete newState[action.serverId];
 			return newState;
-		} */
+		}
 		default:
 			return state;
 	}
 };
 export const myServerReducer = (state = {server:{}}, action) => {
-	if(action.type === LOAD_MY_SERVERS) {
-		action.type = LOAD_SERVERS
-		return { ...serverReducer(state, action), action }
+	switch (action.type) {
+		case LOAD_MY_SERVERS:
+			action.type = LOAD_SERVERS
+			return { ...serverReducer(state, action), action }
+		case REMOVE_MY_SERVER: {
+			action.type = REMOVE_SERVER
+			return { ...serverReducer(state, action), action }
+		}
+		default:
+			return state;
 	}
-	return state
 }
 export default serverReducer;

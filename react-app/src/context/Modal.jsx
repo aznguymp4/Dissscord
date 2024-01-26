@@ -9,15 +9,26 @@ export function ModalProvider({ children }) {
   const [modalContent, setModalContent] = useState(null);
   // callback function that will be called when modal is closing
   const [onModalClose, setOnModalClose] = useState(null);
+  // const [modalClosing, setModalClosing] = useState(false)
 
   const closeModal = () => {
-    setModalContent(null); // clear the modal contents
-    // If callback function is truthy, call the callback function and reset it
-    // to null:
-    if (typeof onModalClose === 'function') {
-      setOnModalClose(null);
-      onModalClose();
-    }
+    const modalDiv = document.getElementById('modal-content')
+    const modalBg = document.getElementById('modal-background')
+    if(modalDiv.classList.contains('modalClosing')) return
+    modalDiv.classList.add('modalClosing')
+    modalBg.classList.add('modalBgClosing')
+    
+    setTimeout(()=>{
+      setModalContent(null); // clear the modal contents
+      modalDiv.classList.remove('modalClosing')
+      modalBg.classList.remove('modalBgClosing')
+      // If callback function is truthy, call the callback function and reset it
+      // to null:
+      if (typeof onModalClose === 'function') {
+        setOnModalClose(null);
+        onModalClose();
+      }
+    },120) // fade out animation takes 90ms
   };
 
   const contextValue = {

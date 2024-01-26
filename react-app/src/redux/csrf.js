@@ -26,6 +26,19 @@ export async function csrfFetch(url, options = {}) {
 	return res;
 }
 
+export const uploadImg = files => new Promise((res,rej) => {
+	const formData = new FormData()
+	for(const file of files) formData.append('files', file, file.name)
+
+	fetch(`/api/cdn/upload`, {
+		method: 'POST',
+		body: formData
+	})
+	.then(r=>r.json())
+	.then(res)
+	.catch(rej)
+})
+
 /* export function restoreCSRF() {
 	return csrfFetch('/api/csrf/restore');
 } */
