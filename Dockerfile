@@ -23,7 +23,8 @@ COPY . .
 
 # RUN pipenv run flask db init
 # RUN pipenv run flask db migrate
-RUN pipenv run flask db upgrade
-RUN pipenv run flask seed all
+# RUN pipenv run flask db upgrade
+# RUN pipenv run flask seed all
+
 # CMD gunicorn app:app
 CMD gunicorn --worker-class eventlet -w 1 app:app
