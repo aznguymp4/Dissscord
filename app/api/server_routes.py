@@ -10,6 +10,7 @@ server_routes = Blueprint('servers', __name__)
 @server_routes.route('/')
 def servers():
 	servers = Server.query.filter(Server.public == True)
+	print('GET /servers')
 	return { 'servers': [server.to_dict() for server in servers]}
 
 
@@ -38,7 +39,7 @@ def channels(id):
 
 
 # CREATE A NEW SERVER
-@server_routes.route('/', methods=['POST'])
+@server_routes.route('/new', methods=['POST'])
 @login_required
 def create_server():
 	form = ServerForm()

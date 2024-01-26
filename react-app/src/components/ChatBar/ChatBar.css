@@ -4,7 +4,10 @@
     --chatMsgDate: #949ba4;
     --chatMsgEdited: #959ba3; 
     --chatMsgBtnBorder: #27292d; 
-    --chatMsgBtnBgActive: #37383e; 
+    --chatMsgBtnBgActive: #37383e;
+    --chatMsgReactionGlowBg: #373a54;
+    --chatMsgReactionHoverBorder: #5a5c60;
+    --chatMsgReactionGlowTxt: #dee0fc;
 }
 #chatBar {
     position: fixed;
@@ -37,6 +40,9 @@
     font-size: 14px;
     font-weight: 200;
 }
+#chatBarSpace {
+    flex-grow: 1;
+}
 #chatBarContent {
     display: flex;
     flex-direction: column;
@@ -46,17 +52,24 @@
     bottom: 60px;
     overflow-y: scroll;
     padding-bottom: 24px;
+    margin-bottom: auto;
 }
 .chatMsg {
-    height: 48px;
+    /* height: 48px; */
     display: flex;
     margin-top: 17px;
     margin-bottom: 0px;
+    padding-bottom: 2px;
 }
+/* .chatMsg > .chatMsgRight > .chatMsgReactions {
+    background-color: aqua;
+} */
 .chatMsg.short {
     margin-top: 0px;
-    margin-bottom: 3px;
-    height: 24px;
+    margin-bottom: 4px;
+    padding-bottom: 0px;
+    padding-left: 72px;
+    /* height: 24px; */
 }
 .chatMsg:hover {
     background-color: var(--chatMsgBgHover);
@@ -93,6 +106,10 @@
 }
 .chatMsgLeft {
     width: 72px;
+    height: 0;
+}
+.chatMsg.short > .chatMsgLeft {
+    width: 0px;
 }
 .chatMsgLeft > img {
     width: 40px;
@@ -124,10 +141,12 @@
     cursor: default;
 }
 .chatMsgDate.short {
-    margin-left: 17px;
     opacity: 0;
     font-size: 11px;
+    width: 58px;
+    margin-top: 5px;
     user-select: none;
+    float: right;
 }
 .chatMsgTxt {
     color: var(--textWhiteIpt);
@@ -140,4 +159,63 @@
     user-select: none;
     margin-left: 4px;
     line-height: 0;
+}
+.chatMsgReactions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.chatMsgReaction {
+    background-color: var(--channelListBg);
+    display: flex;
+    height: 16px;
+    width: max-content;
+    padding: 4px 6px;
+    border-radius: 8px;
+    border: 1px solid var(--channelListBg);
+    cursor: pointer;
+    user-select: none;
+    transition-duration: .1s;
+    transition-property: background-color border-color color;
+    transition-timing-function: ease-out;
+}
+.chatMsgReaction:hover {
+    background-color: var(--bodyBg);
+    border-color: var(--chatMsgReactionHoverBorder);
+}
+.chatMsgReaction:active {
+    background-color: var(--serverTileBg);
+    border-color: var(--serverTileBg);
+}
+.chatMsgReaction.glow {
+    background-color: var(--chatMsgReactionGlowBg);
+    border-color: var(--colBlurple);
+}
+.chatMsgReaction.glow > .chatMsgReactionAmt {
+    color: var(--chatMsgReactionGlowTxt);
+}
+.chatMsgReactionEmoji {
+    aspect-ratio: 1;
+    font-size: 17px;
+    line-height: 17px;
+    height: 100%;
+}
+.chatMsgReactionAmt {
+    height: 100%;
+    min-width: 9px;
+    font-weight: 600;
+    line-height: 16px;
+    font-size: 15px;
+    text-align: left;
+    margin-left: 6px;
+    color: var(--textGrayLight);
+}
+.chatReactPicker {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+}
+.EmojiPickerReact {
+    box-shadow: 0 4px 24px #00000077;
 }

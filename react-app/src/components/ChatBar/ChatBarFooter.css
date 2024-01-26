@@ -28,6 +28,9 @@
     width: calc(100vw - 368px);
     line-height: 20px;
 }
+#chatBarFooterTxt:focus {
+    outline: none;
+}
 #chatBarFooterSend {
     background-color: var(--chatBarTxtIptBg);
     width: 50px;

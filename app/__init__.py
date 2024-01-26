@@ -1,4 +1,5 @@
 import os
+import requests
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -95,6 +96,15 @@ def react_root(path):
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
 
+@app.route('/api/cdn/upload', methods=['POST'])
+def upload_file():
+    f = request.files['file']
+    res = requests.post(os.environ.get('DISCORD_WEBHOOK'), headers={}, files=[
+        ('file',(f.filename,f))
+    ])
+    if res.ok:
+        return res.json()['attachments'], res.status_code
+    return res.json(), 413
 
 @app.errorhandler(404)
 def not_found(e):

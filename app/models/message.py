@@ -34,7 +34,7 @@ class Message(db.Model):
 
     @ret_channel_id.setter
     def ret_channel_id(self, val):
-         self.channel_id = val
+        self.channel_id = val
 
     def to_dict(self):
         return {
@@ -43,6 +43,7 @@ class Message(db.Model):
             'author_id': self.author_id,
             'channel_id': self.channel_id,
             'content': self.content,
+            'reactions': [r.to_dict() for r in self.reaction],
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }

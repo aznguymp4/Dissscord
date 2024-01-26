@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { callCreateServer } from "../../redux/server";
 
@@ -8,8 +8,10 @@ function ServerFormModal() {
   const { closeModal } = useModal();
   const [displayname, setDisplayname] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const sessionUser = useSelector((state) => state.session.user);
   const [preview, setpreview] = useState(null);
   const [errors, setErrors] = useState({});
+  const usersName = sessionUser.displayname || sessionUser.username
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -30,58 +32,49 @@ function ServerFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // const formData = new FormData();
-    // formData.append('displayname', displayname);
-    // if (selectedImage) {
-    //   formData.append('icon', selectedImage);
-    // }
-
-    try {
-      const serverResponse = await dispatch(callCreateServer({displayname}));
-      if (serverResponse.error) {
-        setErrors(serverResponse.error);
-      } else {
-        closeModal();
-      }
-    } catch (error) {
-    //   console.error("Error creating server:", error);
-    }
+    dispatch(callCreateServer({ displayname }));
+    closeModal()
   };
 
   return (
     <>
       <div id="modalTitle">Customize Your Server</div>
-      <p>Give your new server a personality with a name and an icon. You can always change it later.</p>
+      <form onSubmit={handleSubmit} className="accountForm">
+        <p>Give your new server a personality with a name and an icon. You can always change it later.</p>
 
-      <input
-        type="file"
-        id="imageUpload"
-        style={{ display: 'none' }}
-        onChange={handleImageChange}
-        accept="image/*"
-      />
 
-      {preview ? (
-        <div onClick={triggerFileInput}>
-          <img src={preview} alt="Image preview" style={{ width: '80px', height: '80px', cursor: 'pointer',borderRadius:'50%' }} />
+        <input
+          type="file"
+          id="imageUpload"
+          style={{ display: 'none' }}
+          onChange={handleImageChange}
+          accept="image/*"
+        />
+
+        {preview ? (
+          <div onClick={triggerFileInput}>
+            <img src={preview} alt="Image preview" style={{ width: '80px', height: '80px', cursor: 'pointer',borderRadius:'50%' }} />
+          </div>
+        ) : (
+          <button onClick={triggerFileInput}>Upload</button>
+        )}
+
+
+
+        <label htmlFor="displayname">SERVER NAME {errors.displayname && <span>{errors.displayname}</span>}</label>
+        <input
+          type="text"
+          name="displayname"
+          placeholder={`${usersName}'${usersName.endsWith('s')?'':'s'} server`}
+          value={displayname}
+          onChange={(e) => setDisplayname(e.target.value.substr(0,128))}
+        />
+        <p>By creating a server, you agree to Dissscord&apos;s Community Guidelines.</p>
+        <div id="modalFooter">
+          <div className="btnText" onClick={closeModal}>Cancel</div>
+          <input type="submit" className={`btnBlue${displayname.length?'':' disabled'}`} value="Create" />
+          <div id="modalFooterBg"/>
         </div>
-      ) : (
-        <button onClick={triggerFileInput}>Upload</button>
-      )}
-
-      <form onSubmit={handleSubmit}>
-        <label>SERVER NAME
-          <input
-            type="text"
-            name="displayname"
-            value={displayname}
-            onChange={(e) => setDisplayname(e.target.value)}
-            required
-          />
-        </label>
-        <div>By creating a server, you agree to Dissscord&apos;s Community Guidelines.</div>
-        <input type="submit" value="Create" />
       </form>
     </>
   );

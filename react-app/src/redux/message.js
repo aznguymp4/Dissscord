@@ -25,10 +25,17 @@ export const callFetchMsgsByChannel = channelId => dispatch => {
 	.catch(e => {
 		console.error(e)
 		dispatch(loadMsgs([]))
-		// alert("Couldn't get msgs; Server not found")
 	})
 };
-export const callCreateMsg = (channelId, body) => dispatch => {
+export const callFetch1Msg = msgId => dispatch => {
+	csrfFetch(`/api/messages/${msgId}`)
+	.then(r=>r.json())
+	.then(d => dispatch(receiveMsg(d)))
+	.catch(e => {
+		console.error(e)
+	})
+};
+export const callCreateMsg = (channelId, body, callback) => dispatch => {
 	csrfFetch(`/api/channels/${channelId}/messages`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -37,6 +44,7 @@ export const callCreateMsg = (channelId, body) => dispatch => {
 	.then(r=>r.json())
 	.then(d => {
 		dispatch(receiveMsg(d))
+		callback(d)
 	})
 	.catch(console.error)
 }

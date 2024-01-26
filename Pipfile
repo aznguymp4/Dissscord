@@ -31,6 +31,7 @@ zipp = "==3.17.0"
 eventlet = "==0.30.2"
 python-socketio = "==5.11.0"
 psycopg2-binary = "*"
+requests = "*"
 
 [dev-packages]
 

@@ -1,6 +1,10 @@
 .accountForm {
-    width: 300px;
+    width: 100vw;
+    max-width: 360px;
     display: grid;
+}
+.accountForm > div {
+    word-break: break-word;
 }
 .accountForm > label {
     color: var(--textGrayLight);

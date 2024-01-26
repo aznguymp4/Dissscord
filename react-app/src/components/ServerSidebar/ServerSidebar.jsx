@@ -3,19 +3,19 @@ import { callFetchMyServers } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from 'react-router-dom';
 import "./ServerSidebar.css";
-import OpenServerModalButton from "../OpenModalButton/OpenServerModalButton";
+import OpenModalMenuItem from "../Discovery/OpenModalMenuItem";
 import ServerFormModal from "../ServerFormModal/ServerFormModal";
 
 function ServerSidebar() {
   const dispatch = useDispatch()
-  const sessionUser = useSelector((state) => state.session.user)
+  const sessionUser = useSelector(state => state.session.user)
   const myServers = useSelector(state => state.myServer)
   const { serverId } = useParams()
   const isHomeStr = location.pathname == '/' ? ' selected' : ''
 
   useEffect(() => {
     dispatch(callFetchMyServers())
-  }, [dispatch])
+  }, [dispatch, sessionUser])
 
   return (
     <>
@@ -36,7 +36,7 @@ function ServerSidebar() {
           {
             Object.values(myServers).map(s => {
               const selStr = s.id == serverId ? ' selected' : ''
-              return s.public && <Link
+              return s.id && <Link
                 className="serverBarDiv"
                 to={`/server/${s.id}`}
                 key={s.id}
@@ -51,27 +51,16 @@ function ServerSidebar() {
             }
             )
           }
-          <OpenServerModalButton
-                  modalComponent={<ServerFormModal />}
-          >
-            <div className="serverBarDiv">
-            <img className="serverBarIcon" src="/icons/serverSidebar/add.png" alt="Add a Server" />
-            <div className="serverBarBalloon">
-              <div className="serverBarName">Add a Server</div>
-              <div className="serverBarBalloonArrow"></div>
-            </div>
-          </div>
-          </OpenServerModalButton>
-
-          <Link className="serverBarDiv" to='/discover-search'>
-            <img className={`serverBarIcon${isHomeStr}`} src="/icons/discover.svg" alt="Discover Search Page" />
-            <div className="serverBarBalloon">
-              <div className="serverBarName">Explore Discoverable Serves</div>
-              <div className="serverBarBalloonArrow"></div>
-            </div>
-            <div className={`serverBarIconLamp${isHomeStr}`}></div>
-          </Link>
-
+          <OpenModalMenuItem
+            modalComponent={<ServerFormModal/>}
+            children={<div className="serverBarDiv">
+              <img className="serverBarIcon" src="/icons/serverSidebar/add.png" alt="Add a Server" />
+              <div className="serverBarBalloon">
+                <div className="serverBarName">Add a Server</div>
+                <div className="serverBarBalloonArrow"></div>
+              </div>
+            </div>}
+          />
         </div>
       }
     </>
