@@ -18,6 +18,9 @@
 #channelListHeaderServerName {
     padding: 13px 1em 13.5px;
     user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 #channelListHeaderBg {
     display: flex;

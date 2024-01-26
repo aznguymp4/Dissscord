@@ -41,7 +41,7 @@ function ServerSidebar() {
                 to={`/server/${s.id}`}
                 key={s.id}
               >
-                <img className={`serverBarIcon${selStr}`} src={s.icon} alt="" />
+                <img className={`serverBarIcon${selStr}`} src={s.icon || 'https://cdn.discordapp.com/embed/avatars/0.png'} alt="" />
                 <div className="serverBarBalloon">
                   <div className="serverBarName">{s.displayname}</div>
                   <div className="serverBarBalloonArrow"></div>

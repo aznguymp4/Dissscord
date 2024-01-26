@@ -50,7 +50,7 @@ def create_server():
 		server = Server(
 			owner_id = user["id"],
 			displayname = form.data["displayname"],
-			icon = form.data["icon"] if "icon" in form.data else None,
+			icon = form.data["icon"] if "icon" in form.data else 'https://cdn.discordapp.com/embed/avatars/0.png',
 			desc = form.data["desc"] if "desc" in form.data else None,
 			banner = form.data["banner"] if "banner" in form.data else None,
 			public = form.data["public"] if "public" in form.data else None

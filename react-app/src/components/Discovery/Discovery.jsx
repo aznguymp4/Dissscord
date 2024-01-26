@@ -87,7 +87,7 @@ function Discovery() {
                         else nav(`/server/${s.id}`)
                         closeModal()
                       }}>{
-                        myServers[s.id]? 'View':'Join'
+                        sessionUser && myServers[s.id]? 'View':'Join'
                       }</div>
                       <div id="modalFooterBg"/>
                     </div>

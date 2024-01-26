@@ -8,6 +8,7 @@
   --colBlurple: #5865F2;
   --colBlurpleDark1: #4752c4;
   --colBlurpleDark2: #3c45a5;
+  --colCerulean: #00a8fc;
   --colRed: #ED4245;
   --colRedDark1: #C94543;
   --colRedDark2: #94322E;
@@ -27,9 +28,26 @@ body {
   color: var(--textWhite);
 }
 a, a:visited, a:hover, a:active {
-  color: inherit;
+  color: var(--colCerulean);
   text-decoration: none;
+}
+.underlineHover:hover {
+  text-decoration: underline;
 }
 .epr_-7cq3xd * {
   font-family: var(--globalFontFamily) !important;
+}
+
+.hCaption {
+  font-size: 16px;
+  font-weight: 200;
+  color: var(--textGrayLight);
+}
+.hCaption3 {
+  font-size: 12px;
+  font-weight: 200;
+  color: var(--textGrayLight);
+}
+.center {
+  text-align: center;
 }

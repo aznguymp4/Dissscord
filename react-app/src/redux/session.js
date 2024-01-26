@@ -1,3 +1,4 @@
+import { csrfFetch } from './csrf';
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
 
@@ -62,6 +63,16 @@ export const thunkLogout = () => async (dispatch) => {
   await fetch("/api/auth/logout");
   dispatch(removeUser());
 };
+
+export const thunkEditUser = body => dispatch => {
+  csrfFetch(`/api/users/@me`, {
+    method: 'PUT',
+    body: JSON.stringify(body)
+  })
+  .then(r=>r.json())
+  .then(d => dispatch(setUser(d)))
+  .catch(console.error)
+}
 
 const initialState = { user: null };
 

@@ -20,8 +20,8 @@
   }
 }
 @keyframes modalBgFade {
-  0% { background-color: #00000000; }
-  100% { background-color: var(--modalBg); }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 #modal {
@@ -33,6 +33,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.modalClosing {
+  scale: .5;
+  opacity: 0;
+}
+.modalBgClosing {
+  opacity: 0;
+}
+.modalClosing,.modalBgClosing {
+  transition-duration: .09s;
+  transition-property: scale opacity;
+  transition-timing-function: ease-in;
 }
 
 #modal-background {
