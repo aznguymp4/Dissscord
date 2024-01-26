@@ -2,11 +2,25 @@
     --serverNameHr: #1f2123;
     --serverNameHrShadow: #1f212344;
     --serverNameHoverBg: #35373c;
+    --dropdownBg: #111214;
+}
+@keyframes dropdownOpen {
+    0%,25% {
+        opacity: 0;
+        transform: scale(.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 #channelListHeaderServerName {
     padding: 13px 1em 13.5px;
     user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 #channelListHeaderBg {
     display: flex;
@@ -21,7 +35,57 @@
 #channelListHeaderServerName {
     width: 100%;
 }
-#channelListHeaderBg > .fa-chevron-down {
+#channelListHeaderBg > .fas {
     margin: auto 16px auto 0;
     color: var(--textGrayLight)
+}
+
+.dropdownMenu {
+    background-color: var(--dropdownBg);
+    border-radius: 4px;
+    margin: 10px 10px 0;
+    padding: 8px;
+    width: 204px;
+    position: absolute;
+    animation-name: dropdownOpen;
+    animation-duration: .15s;
+    animation-timing-function: ease-out;
+    transform-origin: top center;
+}
+.dropdownMenu.hidden {
+    visibility: hidden;
+    opacity: 0;
+    animation-name: unset;
+}
+.dropdownMenu > .dropdownBtn {
+    padding: 7px 8px 6px;
+    padding-right: 7px;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--textGrayLight2);
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.dropdownBtn + .dropdownBtn {
+    margin-top: 2px;
+}
+.dropdownMenu > .dropdownBtn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: var(--colBlurpleDark1);
+}
+.dropdownMenu > .dropdownBtn:active {
+    background-color: var(--colBlurpleDark2);
+}
+.dropdownMenu > .dropdownBtn.btnRed {
+    background-color: unset;
+    color: var(--colRed);
+}
+.dropdownMenu > .dropdownBtn.btnRed:hover {
+    color: white;
+    background-color: var(--colRed);
+}
+.dropdownMenu > .dropdownBtn.btnRed:active {
+    background-color: var(--colRedDark2);
 }

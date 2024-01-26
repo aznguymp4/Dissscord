@@ -5,13 +5,13 @@
 }
 
 @keyframes modalPopup {
-  0% {
+  0%,20% {
     scale: 0.65;
     opacity: 0;
     animation-timing-function: var(--bezierQuartOut);
   }
   65% {
-    scale: 1.025;
+    scale: 1.02;
     opacity: 1;
     animation-timing-function: var(--bezierQuartInOut);
   }
@@ -20,8 +20,8 @@
   }
 }
 @keyframes modalBgFade {
-  0% { background-color: #00000000; }
-  100% { background-color: var(--modalBg); }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 #modal {
@@ -34,6 +34,18 @@
   justify-content: center;
   align-items: center;
 }
+.modalClosing {
+  scale: .5;
+  opacity: 0;
+}
+.modalBgClosing {
+  opacity: 0;
+}
+.modalClosing,.modalBgClosing {
+  transition-duration: .09s;
+  transition-property: scale opacity;
+  transition-timing-function: ease-in;
+}
 
 #modal-background {
   position: fixed;
@@ -42,24 +54,61 @@
   left: 0;
   bottom: 0;
   animation-name: modalBgFade;
-  animation-duration: .25s;
+  animation-duration: .3s;
   background-color: var(--modalBg);
+  z-index: 2;
 }
 
 #modal-content {
   position: absolute;
   background-color: var(--bodyBg);
   animation-name: modalPopup;
-  animation-duration: .25s;
+  animation-duration: .3s;
   padding: 16px;
   border-radius: 6px;
   border: 1px solid var(--modalBorder);
+  z-index: 3;
 }
 
 #modalTitle {
   font-size: 26px;
   text-align: center;
-  font-weight: 400;
+  font-weight: 600;
   color: var(--textWhite);
   padding-bottom: 16px;
+}
+
+#modalFooter {
+  display: flex;
+  padding-top: 16px;
+}
+.btnText {
+  font-weight: 300;
+  font-size: 14px;
+  margin: auto;
+  color: var(--colBlurple);
+}
+.btnText:hover {
+  cursor: pointer;
+  text-decoration: underline
+}
+#modalFooter > * {
+  z-index: 5;
+}
+#modalFooter > .btnText {
+  margin: auto auto auto 16px;
+}
+#modalFooter > input[type=submit] {
+  float: right;
+  margin: 0;
+  font-size: 14px;
+}
+#modalFooterBg {
+  background-color: var(--serverBarBg);
+  width: 100%;
+  height: 67px;
+  position: absolute;
+  z-index: 4;
+  transform: translate(-16px,-16px);
+  border-radius: 0 0 4px 4px;
 }

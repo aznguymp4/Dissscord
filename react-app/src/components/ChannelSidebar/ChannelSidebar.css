@@ -21,10 +21,11 @@
 .channelLi {
     display: flex;
     height: 32px;
-    width: 100%;
+    width: 224px;
     border-radius: 4px;
     cursor: pointer;
     user-select: none;
+    -webkit-user-drag: none;
 }
 .channelLi, .channelLiName {
     transition-duration: .1s;
@@ -48,6 +49,9 @@
     font-weight: 300;
     color: var(--channelListName);
     margin-bottom: 6px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 .channelLi:hover {
     background-color: var(--channelListHoverBg);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { thunkUpdateChannel } from "../../redux/channel";
+import { thunkUpdateChannel, spaceToHyphen } from "../../redux/channel";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import OpenModalMenuItem from "../Discovery/OpenModalMenuItem";
@@ -34,33 +34,31 @@ function UpdateChannelModal({channel}) {
       }
     };
 
-    return (
-      <>
-        <h2>Edit Channel</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Channel Name
-            <input
-              type="text"
-              value={displayname}
-              onChange={(e) => setDisplayname(e.target.value)}
-              required
-            />
-          </label>
-          {errors.displayname && <p>{errors.displayname}</p>}
-          <div>
+    return <>
+      <div id="modalTitle">Edit Channel</div>
+      <form onSubmit={handleSubmit} className="accountForm">
+        <label htmlFor="displayname">CHANNEL NAME {errors.displayname && <span>{errors.displayname}</span>}</label>
+        <input
+          type="text"
+          name="displayname"
+          id="modalChannelNameIpt"
+          placeholder="new-channel"
+          value={displayname}
+          onChange={(e) => setDisplayname(spaceToHyphen(e.target.value).substr(0,40))}
+        />
+        <img id="modalChannelNameIcon" src="/icons/channel/text.svg"/>
+        <div id="modalFooter">
+          <div className="btnText" onClick={closeModal}>Cancel</div>
           <OpenModalMenuItem
-            className="btn"
+            className="btn btnRed"
             itemText="Delete"
             modalComponent={<DeleteChannelModal channel={channel}/>}
           />
-          </div>
-          <div id="updateChannelFooter">
-            <button type="submit">Save Changes</button>
-          </div>
-        </form>
-      </>
-    );
+          <input type="submit" className={`btnBlue${displayname.length?'':' disabled'}`} value="Confirm" />
+          <div id="modalFooterBg"/>
+        </div>
+      </form>
+    </>
   }
 
   export default UpdateChannelModal;

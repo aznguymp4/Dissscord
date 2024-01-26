@@ -1,0 +1,9 @@
+#modalChannelNameIpt {
+    padding-left: 33px;
+}
+
+#modalChannelNameIcon {
+    position: absolute;
+    transform: translate(8px,29px);
+    height: 20px;
+}

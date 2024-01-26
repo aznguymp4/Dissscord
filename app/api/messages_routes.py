@@ -40,7 +40,7 @@ def update_message(message_id):
 def delete_message(message_id):
   message = Message.query.get(message_id)
   if message:
-    if message.author_id == current_user.id:
+    if message.author_id == current_user.id or current_user.id == message.channel.server.owner_id:
       db.session.delete(message)
       db.session.commit()
       return {"message":"Successfully deleted"}
@@ -59,7 +59,7 @@ def get_reaction(message_id):
   if message:
     return {"reactions": [reaction.to_dict() for reaction in reactions]}
   else:
-    return {"errors": {"message": "Message couldn't be found"}}
+    return {"errors": {"message": "Message couldn't be found"}}, 404
 
 
 #GET all reactions of a specific reaction by id for a message
@@ -71,7 +71,7 @@ def get_single_reaction(message_id, reaction_id):
     reactions = Reaction.query.filter(Reaction.emoji == reaction.emoji and Reaction.author_id == reaction.author_id).all()
     return {"reactions": [reaction.to_dict() for reaction in reactions]}
   else:
-    return {"errors": {"message": "Reaction couldn't be found"}}
+    return {"errors": {"message": "Reaction couldn't be found"}}, 404
 
 
 #CREATE REACTION
@@ -83,10 +83,14 @@ def create_reaction(message_id):
   reactions_dict = [reaction.to_dict() for reaction in reactions]
 
   if message:
-    for react in reactions_dict:
-      if react["author_id"] == current_user.id:
-        return {"errors": {"message": "Current user has already reacted to this message"}}
     data = request.json
+    # Check if user already reacted with this emoji
+    for react in reactions_dict:
+      if react["author_id"] == current_user.id and react["emoji"] == data['emoji']:
+        return {"errors": {"message": "Reaction already exists"}}, 403
+    # Check if emoji count (not reaction count) is maxed out (20)
+    if len({react['emoji'] for react in reactions_dict}) >= 20 and (data['emoji'] not in [r['emoji'] for r in reactions_dict]):
+      return {"errors": {"reaction": "Unique reaction limit reached"}}, 403
     new_reaction = Reaction(
       author_id = current_user.id,
       message_id = message_id,
@@ -97,4 +101,4 @@ def create_reaction(message_id):
     db.session.commit()
     return new_reaction.to_dict()
   else:
-    return {"errors": {"message": "Message couldn't be found"}}
+    return {"errors": {"message": "Message couldn't be found"}}, 404

@@ -23,7 +23,7 @@ function Server() {
   return (
     <>
       <ChannelSidebar channels={channels} server={server}/>
-      <ChatBar/>
+      <ChatBar server={server}/>
     </>
   );
 }

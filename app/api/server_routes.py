@@ -10,6 +10,7 @@ server_routes = Blueprint('servers', __name__)
 @server_routes.route('/')
 def servers():
 	servers = Server.query.filter(Server.public == True)
+	print('GET /servers')
 	return { 'servers': [server.to_dict() for server in servers]}
 
 
@@ -38,7 +39,7 @@ def channels(id):
 
 
 # CREATE A NEW SERVER
-@server_routes.route('/', methods=['POST'])
+@server_routes.route('/new', methods=['POST'])
 @login_required
 def create_server():
 	form = ServerForm()
@@ -49,10 +50,10 @@ def create_server():
 		server = Server(
 			owner_id = user["id"],
 			displayname = form.data["displayname"],
-			icon = form.data["icon"] if "icon" in form.data else None,
+			icon = form.data["icon"] if "icon" in form.data else 'https://cdn.discordapp.com/embed/avatars/0.png',
 			desc = form.data["desc"] if "desc" in form.data else None,
 			banner = form.data["banner"] if "banner" in form.data else None,
-			public = False if form.data["public"].lower() == "false" else None
+			public = form.data["public"] if "public" in form.data else None
 		)
 
 		db.session.add(server)
@@ -65,6 +66,9 @@ def create_server():
 		)
 
 		db.session.add(channel)
+		db.session.commit()
+
+		current_user.joined_servers.append(server)
 		db.session.commit()
 		return server.to_dict()
 	return form.errors, 401
@@ -150,15 +154,15 @@ def delete_server(id):
 @server_routes.route('/join/<int:server_id>')
 @login_required
 def join_server(server_id):
-		server = Server.query.get(server_id)
+	server = Server.query.get(server_id)
 
-		if not server.public:
-			return {'errors': {'message': 'Server is not accepting joins'}}, 401
+	if not server.public:
+		return {'errors': {'message': 'Server is not accepting joins'}}, 401
 
-		current_user.joined_servers.append(server)
+	current_user.joined_servers.append(server)
 
-		db.session.commit()
-		return redirect(f'/servers/{server_id}')
+	db.session.commit()
+	return server.to_dict()
 
 @server_routes.route('/search')
 def search_server():
