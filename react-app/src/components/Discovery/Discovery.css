@@ -158,6 +158,8 @@
 }
 .serverTileIcon {
     width: 42px;
+    height: 42px;
+    object-fit: cover;
     border-radius: 15px;
     transform: translate(12px, -35px);
     border: 4px solid var(--serverTileBg);
@@ -198,6 +200,7 @@
     transform: translateY(-56px);
     width: 72px;
     height: 72px;
+    object-fit: cover;
     border: solid 6px var(--bodyBg);
     background-color: var(--bodyBg);
     border-radius: 25%;
@@ -229,6 +232,7 @@
 #modalServerOwnerIcon {
     width: 32px;
     height: 32px;
+    object-fit: cover;
     border-radius: 50%;
     margin-left: auto;
 }

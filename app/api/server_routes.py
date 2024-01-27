@@ -119,12 +119,12 @@ def modify_server(id):
 			server.icon = data["icon"] if "icon" in data else server.icon
 			server.desc = data["desc"] if "desc" in data else server.desc
 			server.banner = data["banner"] if "banner" in data else server.banner
-			if "public" in data and data["public"].lower() == "true":
-				server.public = True
-			elif "public" in data and data["public"].lower() == "false":
-					server.public = False
+
+			if 'public' in data:
+				server.public = data['public']
 			else:
-					server.public = server.public
+				server.public = server.public
+				
 			db.session.commit()
 			return server.to_dict()
 		else:

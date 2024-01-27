@@ -152,6 +152,8 @@
     color: var(--textWhiteIpt);
     line-height: 24px;
     font-weight: 200;
+    word-break: break-word;
+    padding-right: 32px;
 }
 .chatMsgTxtEdited {
     color: var(--chatMsgEdited);

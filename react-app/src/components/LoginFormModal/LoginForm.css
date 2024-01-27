@@ -1,0 +1,18 @@
+#modalLoginDemo {
+    display: flex;
+    flex-direction: column;
+    height: 35px;
+    gap: 4px;
+    /* margin: auto; */
+}
+#modalLoginDemo > .btn {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1.25px;
+    text-align: center;
+    width: 66px;
+    opacity: .7;
+}
+#modalLoginDemo > .btn:hover {
+    opacity: 1;
+}

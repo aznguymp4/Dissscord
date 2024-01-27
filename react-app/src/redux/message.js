@@ -35,7 +35,7 @@ export const callFetch1Msg = msgId => dispatch => {
 		console.error(e)
 	})
 };
-export const callCreateMsg = (channelId, body, callback) => dispatch => {
+export const callCreateMsg = (channelId, body) => dispatch => {
 	csrfFetch(`/api/channels/${channelId}/messages`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -44,13 +44,16 @@ export const callCreateMsg = (channelId, body, callback) => dispatch => {
 	.then(r=>r.json())
 	.then(d => {
 		dispatch(receiveMsg(d))
-		callback(d)
+		window.socket.emit('sendMsg', d)
 	})
 	.catch(console.error)
 }
 export const callDeleteMsg = msgId => dispatch => {
 	csrfFetch('/api/messages/'+msgId, { method: 'DELETE' })
-	.then(() => dispatch(removeMsg(msgId)))
+	.then(() => {
+		dispatch(removeMsg(msgId))
+		window.socket.emit('deleteMsg', msgId)
+	})
 	.catch(console.error)
 }
 export const callEditMsg = (msgId, content) => dispatch => {
@@ -61,6 +64,7 @@ export const callEditMsg = (msgId, content) => dispatch => {
 	.then(r=>r.json())
 	.then(d => {
 		dispatch(editMsg(d))
+		window.socket.emit('editMsg', d)
 	})
 	.catch(console.error)
 }

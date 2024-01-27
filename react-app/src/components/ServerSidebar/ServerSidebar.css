@@ -15,13 +15,23 @@
     bottom: 0;
     z-index: 1;
     width: 48px;
-    display: grid;
+    display: flex;
     row-gap: 8px;
-    background-color: var(--serverBarBg);
     padding: 12px;
     transition: .3s left var(--bezierQuartOut);
-    display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+}
+#serverBar.mouseIn {
+    padding: 12px 100vw 12px 12px;
+}
+#serverBarBg {
+    background-color: var(--serverBarBg);
+    width: 72px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
 }
 .serverBarDiv {
     width: 48px;
@@ -33,7 +43,7 @@
 .serverBarHr {
     background-color: var(--serverBarHr);
     width: 32px;
-    height: 2px;
+    padding-top: 2px;
     margin: 0 auto;
 }
 .serverBarIcon {
@@ -43,6 +53,7 @@
     transition: .15s ease-out border-radius;
     user-select: none;
     -webkit-user-drag: none;
+    object-fit: cover;
 }
 .serverBarName {
     background-color: var(--serverBarNameBg);

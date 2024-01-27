@@ -1,0 +1,40 @@
+:root {
+    --toggleSwitchBgOff: #80848e;
+    --toggleSwitchBgOn: #23a55a;
+}
+
+.toggleSwitchWrap {
+    background-color: var(--toggleSwitchBgOff);
+    width: 40px;
+    height: 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition-duration: .35s;
+    transition-timing-function: var(--bezierQuartOut);
+    transition-property: background-color;
+}
+.toggleSwitchWrap:active > .toggleSwitchInner { width: 24px; }
+.toggleSwitchWrap[data-checked="1"]:active > .toggleSwitchInner { margin-left: 10px; }
+.toggleSwitchInner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid var(--toggleSwitchBgOff);
+    background-color: white;
+    border-radius: 18px;
+    transition-duration: .35s;
+    transition-timing-function: var(--bezierQuartOut);
+    transition-property: border-color margin-left;
+}
+.toggleSwitchWrap[data-checked="1"] {
+    background-color: var(--toggleSwitchBgOn);
+}
+.toggleSwitchWrap[data-checked="1"] > .toggleSwitchInner {
+    border: 3px solid var(--toggleSwitchBgOn);
+    margin-left: 16px;
+}
+.toggleSwitchRow {
+    display: flex;
+}
+.toggleSwitchLabel {
+    flex-grow: 1;
+}

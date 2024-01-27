@@ -45,7 +45,7 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email,
             'bio': self.bio,
-            'icon': self.icon,
+            'icon': self.icon or f'https://cdn.discordapp.com/embed/avatars/{self.id%6}.png',
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }

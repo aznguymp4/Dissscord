@@ -1,0 +1,48 @@
+#modalServerEditIcon {
+    transform: translate(-50%,-60px) scale(4);
+    height: 24px;
+    width: 24px;
+    left: 50%;
+    position: absolute;
+    /* background-color: aqua; */
+}
+#modalServerEditIcon > .accountConfigUserAvatar {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--bodyBg);
+}
+#modalServerEditIcon > .accountConfigUserAvatarEdit {
+    opacity: 1;
+    width: 10px;
+    height: 10px;
+    padding: 5px;
+}
+#modalServerEditBanner {
+    display: flex;
+    width: 100%;
+    height: 120px;
+    margin-bottom: 48px;
+    /* padding: 0; */
+    /* margin: 0; */
+}
+#modalServerEditBanner > .accountConfigUserAvatarEdit {
+    /* opacity: 1; */
+    width: 350px;
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 35%, rgba(0,0,0,0.8) 65%, rgba(0,0,0,0) 100%);
+    height: 60px;
+    border-radius: 0;
+    object-fit: fill;
+    padding: 10px 20px 50px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+}
+#modalServerEditBanner > img {
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 16px;
+    object-fit: cover;
+}

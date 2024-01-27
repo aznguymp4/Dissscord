@@ -16,11 +16,16 @@ socketio = SocketIO(cors_allowed_origins=origins)
 @socketio.on('sendMsg')
 def send_msg(data):
     emit('receiveMsg', data, broadcast=True, include_self=False)
+@socketio.on('deleteMsg')
+def delete_msg(data):
+    emit('deleteMsg', data, broadcast=True, include_self=False)
+@socketio.on('editMsg')
+def edit_msg(data):
+    emit('editMsg', data, broadcast=True, include_self=False)
 
 @socketio.on('typing')
 def handle_typing(data):
     emit('typing', data, broadcast=True, include_self=False)
-
 
 @socketio.on('sendReaction')
 def send_reaction(data):

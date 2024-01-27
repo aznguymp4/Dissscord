@@ -98,14 +98,39 @@ def react_root(path):
 
 @app.route('/api/cdn/upload', methods=['POST'])
 def upload_file():
-    print('🍊🍊----🍊-🍊-🍊🍊-🍊-🍊-🍊🍊🍊🍊🍊🍊🍊🍊')
     f = request.files['files']
-    print(f)
-    print('🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊🍊')
-    res = requests.post(os.environ.get('DISCORD_WEBHOOK'), headers={}, files=[
-        ('file',(f.filename,f))
-        # ('file',('file.png',f))
-    ])
+    res = requests.post(
+        os
+        .
+        environ
+        .
+        get
+            (
+            'DISCORD_WEBHOOK'
+            )
+            ,
+            headers
+            =
+            {
+
+            }
+            ,
+            files
+            =
+            [
+        (
+            'file'
+            ,
+            (
+                f
+                .
+                filename
+                ,
+                f
+                )
+                )
+    ]
+    )
     if res.ok:
         return res.json()['attachments'], res.status_code
     return res.json(), 413
