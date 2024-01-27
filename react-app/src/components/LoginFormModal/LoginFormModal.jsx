@@ -28,36 +28,6 @@ function LoginFormModal() {
     }
   };
 
-  /* return (
-    {<>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
-      </form>
-    </>}
-    
-  ); */
-
   return <>
     <div id="modalTitle">Log In</div>
     <form onSubmit={handleSubmit} className="accountForm">
@@ -79,6 +49,10 @@ function LoginFormModal() {
       />
       <div id="modalFooter">
         <div className="btnText" onClick={closeModal}>Close</div>
+        <div id="modalLoginDemo">
+          <div className="btn btnBlue" onClick={() => {dispatch(thunkLogin({email: 'demo@aa.io', password: 'password'})); closeModal()}}>Demo User 1</div>
+          <div className="btn btnBlue" onClick={() => {dispatch(thunkLogin({email: 'bobbie@aa.io', password: 'password'})); closeModal()}}>Demo User 2</div>
+        </div>
         <input type="submit" className="btnBlue" value="Log In" />
         <div id="modalFooterBg"/>
       </div>

@@ -5,12 +5,12 @@ import { uploadImg } from "../../redux/csrf";
 import "./ImagePicker.css";
 
 const blank = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC'
-function ImagePicker({ defaultSrc, setStateFunc, delBtnShow = false }) {
+function ImagePicker({ defaultSrc, setStateFunc, delBtnShow = false, style, id }) {
   // const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [src,setSrc] = useState(defaultSrc || blank)
 
-  const triggerFileInput = () => document.getElementById("imageUpload").click()
+  const triggerFileInput = () => document.getElementById(`imageUpload-${id}`).click()
   const clearFile = () => {
     setStateFunc(`https://cdn.discordapp.com/embed/avatars/${sessionUser.id%6}.png`)
     setSrc(blank)
@@ -30,15 +30,15 @@ function ImagePicker({ defaultSrc, setStateFunc, delBtnShow = false }) {
   return <>
     <input
       type="file"
-      id="imageUpload"
+      id={`imageUpload-${id}`}
       style={{ display: 'none' }}
       onChange={handleImageChange}
       accept="image/*"
     />
-    <div id="accountConfigUserIcon">
-      {src!==blank && delBtnShow && <div id="accountConfigUserAvatarDel" onClick={clearFile}><i className="fas fa-times"/></div>}
-      <img id="accountConfigUserAvatar" className={src===blank?'empty':''} onClick={triggerFileInput} src={src}/>
-      {src!==blank && <img id="accountConfigUserAvatarEdit" onClick={triggerFileInput} src="/icons/pencil.svg"/>}
+    <div id={id} className="accountConfigUserIcon" style={style}>
+      {src!==blank && delBtnShow && <div className="accountConfigUserAvatarDel" onClick={clearFile}><i className="fas fa-times"/></div>}
+      <img className={`accountConfigUserAvatar${src===blank?' empty':''}`} onClick={triggerFileInput} src={src}/>
+      {src!==blank && <img className="accountConfigUserAvatarEdit" onClick={triggerFileInput} src="/icons/pencil.svg"/>}
     </div>
   </>
 }

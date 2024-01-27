@@ -33,7 +33,7 @@ class Server(db.Model):
             'displayname': self.displayname,
             'desc': self.desc,
             'banner': self.banner,
-            'icon': self.icon,
+            'icon': self.icon or 'https://cdn.discordapp.com/embed/avatars/0.png',
             'desc': self.desc,
             'banner': self.banner,
             'public': self.public,

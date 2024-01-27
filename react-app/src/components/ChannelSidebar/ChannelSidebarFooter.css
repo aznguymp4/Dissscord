@@ -6,11 +6,12 @@
 
 #channelListFooter {
     background-color: var(--channelListFooterBg);
-    width: 240px;
+    width: 236px;
     height: 53px;
     position: fixed;
     bottom: 0;
     display: flex;
+    padding-right: 4px;
 }
 #channelListFooterIcon {
     width: 32px;
@@ -19,7 +20,9 @@
 }
 #channelListFooterIcon > img {
     width: 100%;
+    height: 100%;
     border-radius: 16px;
+    object-fit: cover;
 }
 #channelListFooterIconStatus {
     width: 10px;
@@ -31,7 +34,8 @@
 }
 #channelListFooterNames {
     font-weight: 200;
-    margin: auto 0 auto
+    margin: auto 0 auto;
+    flex-grow: 1;
 }
 #channelListFooterNameDisplay {
     font-size: 14px;
@@ -44,7 +48,7 @@
     color: var(--textGrayLight);
 }
 .iconBtn {
-    margin: auto 8px auto auto;
+    margin: auto 4px auto auto;
     width: 20px;
     height: 21px;
     padding: 6px;
@@ -56,8 +60,17 @@
     background-color: var(--channelListFooterBtnHover);
     cursor: pointer;
 }
-.iconBtn > img {
+.iconBtn > span > img {
     margin: auto;
     user-select: none;
     -webkit-user-drag: none;
+    user-select: none;
+}
+#channelListFooterLogout {
+    width: 22px;
+    filter: invert(78%) sepia(3%) saturate(507%) hue-rotate(176deg) brightness(97%) contrast(88%);
+    transition: .1s var(--bezierQuartOut) filter;
+}
+.iconBtn:hover > span > #channelListFooterLogout {
+    filter: invert(34%) sepia(69%) saturate(856%) hue-rotate(319deg) brightness(104%) contrast(90%);
 }

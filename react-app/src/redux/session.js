@@ -64,14 +64,21 @@ export const thunkLogout = () => async (dispatch) => {
   dispatch(removeUser());
 };
 
-export const thunkEditUser = body => dispatch => {
+export const thunkEditUser = (body, callback) => dispatch => {
+  const noNullBody = Object.fromEntries(Object.entries(body).filter(([_, v]) => v != null));
   csrfFetch(`/api/users/@me`, {
     method: 'PUT',
     body: JSON.stringify(body)
   })
   .then(r=>r.json())
-  .then(d => dispatch(setUser(d)))
-  .catch(console.error)
+  .then(d => {
+    dispatch(setUser(d))
+    callback(true, d)
+  })
+  .catch(e => {
+    console.error(e)
+    callback(false, e)
+  })
 }
 
 const initialState = { user: null };

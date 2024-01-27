@@ -32,3 +32,6 @@
 .accountForm label > span::before {
     content: "× ";
 }
+.accountForm > .toggleSwitchWrap {
+    scale: 2;
+}

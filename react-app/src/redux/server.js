@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
-export const [LOAD_SERVERS,LOAD_MY_SERVERS,RECEIVE_SERVER,REMOVE_SERVER,REMOVE_MY_SERVER,UPDATE_SERVER] = ['servers/LOAD_SERVERS','servers/LOAD_MY_SERVERS','servers/RECEIVE_SERVER','servers/REMOVE_SERVER','servers/REMOVE_MY_SERVER','servers/UPDATE_SERVER'];
+export const [LOAD_SERVERS,RECEIVE_SERVER,REMOVE_SERVER] = ['servers/LOAD_SERVERS','servers/RECEIVE_SERVER','servers/REMOVE_SERVER'];
+export const [LOAD_MY_SERVERS,REMOVE_MY_SERVER,RECEIVE_MY_SERVER] = ['servers/LOAD_MY_SERVERS','servers/REMOVE_MY_SERVER','servers/RECEIVE_MY_SERVER']
 
 const loadServers = servers => ({
 	type: LOAD_SERVERS,
@@ -7,6 +8,10 @@ const loadServers = servers => ({
 });
 const receiveServer = server => ({
 	type: RECEIVE_SERVER,
+	server
+});
+const receiveMyServer = server => ({
+	type: RECEIVE_MY_SERVER,
 	server
 });
 const loadMyServers = servers => ({
@@ -72,6 +77,23 @@ export const callDeleteServer = serverId => dispatch => {
 	})
 	.catch(console.error)
 }
+export const callEditServer = (serverId, body, callback) => dispatch => {
+	csrfFetch(`/api/servers/${serverId}`, {
+		method: 'PUT',
+		body: JSON.stringify(body)
+	})
+	.then(r=>r.json())
+	.then(d => {
+		dispatch(receiveServer(d))
+		dispatch(receiveMyServer(d))
+		callback(true, d)
+	})
+	.catch(e => {
+		console.error(e)
+		e.json()
+		.then(j => callback(false, j))
+	})
+}
 
 const serverReducer = (state = { server: {} }, action) => {
 	switch (action.type) {
@@ -83,8 +105,6 @@ const serverReducer = (state = { server: {} }, action) => {
 			return serversState;
 		}
 		case RECEIVE_SERVER:
-			return { ...state, [action.server.id]: action.server };
-		case UPDATE_SERVER:
 			return { ...state, [action.server.id]: action.server };
 		case REMOVE_SERVER: {
 			const newState = { ...state };
@@ -102,6 +122,10 @@ export const myServerReducer = (state = {server:{}}, action) => {
 			return { ...serverReducer(state, action), action }
 		case REMOVE_MY_SERVER: {
 			action.type = REMOVE_SERVER
+			return { ...serverReducer(state, action), action }
+		}
+		case RECEIVE_MY_SERVER: {
+			action.type = RECEIVE_SERVER
 			return { ...serverReducer(state, action), action }
 		}
 		default:

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { thunkSignup } from "../../redux/session";
+import { thunkEditUser } from "../../redux/session";
 import { uploadImg } from "../../redux/csrf";
 import ImagePicker from "../ImagePicker";
 import "./AccountConfigModal.css";
@@ -28,9 +28,15 @@ function AccountConfigModal() {
       username,
       displayname: displayName,
       bio,
-      icon
+      icon,
+      email
     }
-    console.log(body)
+    if(!Object.values(body).filter(Boolean).length) return closeModal()
+    
+    dispatch(thunkEditUser(body, (ok, res) => {
+      if(ok) return closeModal()
+      res.json().then(errors => setErrors(errors))
+    }))
   };
 
   return <>
@@ -97,7 +103,8 @@ function AccountConfigModal() {
         rows="4"
         onChange={(e) => setBio(e.target.value.substr(0,256))}
       />
-      <div className="btnText" style={{marginTop:'3px'}} onClick={()=>setPassPage(true)}><b>Change Password</b><br/><br/></div>
+      {/* Change Password option coming soon
+      <div className="btnText" style={{marginTop:'3px'}} onClick={()=>setPassPage(true)}><b>Change Password</b><br/><br/></div> */}
     </>}
     
     <div id="modalFooter">

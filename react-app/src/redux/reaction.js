@@ -29,7 +29,7 @@ export const callFetchReactionsByMessage = msgId => dispatch => {
 		// alert("Couldn't get reactions; Server not found")
 	})
 }; */
-export const callCreateReaction = (messageId, emoji, callback) => dispatch => {
+export const callCreateReaction = (messageId, emoji) => dispatch => {
 	csrfFetch(`/api/messages/${messageId}/reactions`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -37,8 +37,8 @@ export const callCreateReaction = (messageId, emoji, callback) => dispatch => {
 	})
 	.then(r=>r.json())
 	.then(d => {
-		callback(d)
 		dispatch(receiveReaction(d))
+		window.socket.emit('sendReaction', d)
 	})
 	.catch(console.error)
 }
@@ -48,6 +48,7 @@ export const callDeleteReaction = reactionId => dispatch => {
 	.then(msg => {
 		dispatch(removeReaction(reactionId))
 		dispatch(receiveMsg(msg))
+		window.socket.emit('deleteReaction', { reactionId, msgId: msg.id })
 	})
 	.catch(console.error)
 }

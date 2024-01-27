@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { callCreateServer } from "../../redux/server";
 import ImagePicker from "../ImagePicker";
+import ToggleSwitch from "./ToggleSwitch";
 
 function ServerFormModal() {
   const dispatch = useDispatch();
@@ -10,13 +11,15 @@ function ServerFormModal() {
   const [displayname, setDisplayname] = useState("");
   const sessionUser = useSelector((state) => state.session.user);
   const [icon, setIcon] = useState('');
+  const [public_, setPublic] = useState(false)
   const [errors, setErrors] = useState({});
   const usersName = sessionUser.displayname || sessionUser.username
   const placeholder = `${usersName}'${usersName.endsWith('s')?'':'s'} server`
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(callCreateServer({ displayname: displayname || placeholder, icon }));
+    if(displayname.length>128) return setErrors({displayname: 'Name exceeds 128 characters'})
+    dispatch(callCreateServer({ displayname: displayname || placeholder, icon, public: public_ }));
     closeModal()
   };
 
@@ -36,13 +39,19 @@ function ServerFormModal() {
           value={displayname}
           onChange={(e) => setDisplayname(e.target.value.substr(0,128))}
         />
-        <div className="hCaption3">
+        <label>PUBLIC {errors.public && <span>{errors.public}</span>}</label>
+        <ToggleSwitch
+          label={'Allow anyone to join your server'}
+          setState={setPublic}
+          state={public_}
+        />
+        <div className="hCaption3" style={{marginBottom:'10px'}}>
+          <br/>
           By creating a server, you agree to Dissscord&apos;s
           <a className="underlineHover" href="https://discord.com/guidelines" target="_blank">
             <b> Community Guidelines</b>
           </a>.
         </div>
-        <br/>
         <div id="modalFooter">
           <div className="btnText" onClick={closeModal}>Cancel</div>
           <input type="submit" className={`btnBlue${displayname.length?'':' disabled'}`} value="Create" />
