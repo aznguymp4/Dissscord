@@ -26,14 +26,12 @@ To view the backend routes, click [here](https://dissscord.onrender.com/api/docs
 ![image](https://github.com/aznguymp4/Dissscord/assets/143149304/19ea6bfe-cc0d-4160-a70f-429258063725)
 ### Live typing status: 
 ![image](https://github.com/aznguymp4/Dissscord/assets/143149304/4cd1bf7c-3bef-408e-8ad4-0845e860b6db)
-### Live messages:
+### Live messages and reactions:
 ![image](https://github.com/aznguymp4/Dissscord/assets/143149304/782d139e-6975-41ca-bc40-8c09caf4dd28)
-
-
 ![image](https://github.com/aznguymp4/Dissscord/assets/143149304/510a5849-da09-49a5-8c5e-6c34a705cbc2)
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/64740994-b3f1-470b-a606-4c5e79a11bc3)
 ![image](https://github.com/aznguymp4/Dissscord/assets/143149304/53877b76-97d2-4890-883e-70edc0f04ba9)
-
 
 ### Creating a channel for a server:
 ![image](https://github.com/aznguymp4/Dissscord/assets/143149304/fcf1fc6e-a4a5-426f-8508-a15c188da55e)
+![image](https://github.com/aznguymp4/Dissscord/assets/143149304/cf7c1d74-3146-4a8d-80f8-0d75ab6676ad)
+
