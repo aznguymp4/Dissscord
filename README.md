@@ -11,7 +11,11 @@ To view the backend routes, click [here](https://dissscord.onrender.com/api/docs
 - SQLAlchemy
 - PostgreSQL
 - Render
-- socket.io
+- Socket.io
+- Javascript
+- Python
+- Css
+- HTML
 
 ## Features
  - Users can create, update, and delete servers
