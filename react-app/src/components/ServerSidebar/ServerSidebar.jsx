@@ -26,7 +26,7 @@ function ServerSidebar() {
     <>
       {
         myServers && <>
-          <div id="serverBarBg"/>
+          {sessionUser && <div id="serverBarBg"/>}
           <div
             id="serverBar"
             className={sessionUser ? `auth${mouseInBar?' mouseIn':''}` : ''}

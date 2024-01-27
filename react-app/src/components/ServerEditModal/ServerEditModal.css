@@ -12,7 +12,8 @@
     border: 2px solid var(--bodyBg);
 }
 #modalServerEditIcon > .accountConfigUserAvatarEdit {
-    opacity: 1;
+    /* opacity: 1; */
+    display: none;
     width: 10px;
     height: 10px;
     padding: 5px;
