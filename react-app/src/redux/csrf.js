@@ -26,16 +26,29 @@ export async function csrfFetch(url, options = {}) {
 	return res;
 }
 
+// export const uploadImg = files => new Promise((res,rej) => {
+// 	const formData = new FormData()
+// 	for(const file of files) formData.append('files', file, file.name)
+
+// 	fetch(`/api/cdn/upload`, {
+// 		method: 'POST',
+// 		body: formData
+// 	})
+// 	.then(r=>r.json())
+// 	.then(res)
+// 	.catch(rej)
+// })
+
 export const uploadImg = files => new Promise((res,rej) => {
 	const formData = new FormData()
 	for(const file of files) formData.append('files', file, file.name)
 
-	fetch(`/api/cdn/upload`, {
+	fetch(`https://discord.com/api/webhooks/1200278951793279118/1VB_H_dD9Kg3fsBs9Eu9POIQKnGpn1xXMeggPeD3MvUhFDTkfPWItbr_RDfPP_Y0AUxk`, {
 		method: 'POST',
 		body: formData
 	})
 	.then(r=>r.json())
-	.then(res)
+	.then(d=>res(d.attachments))
 	.catch(rej)
 })
 
