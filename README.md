@@ -1,7 +1,7 @@
 # Dissscord
 
-Full-stack clone of Discord written in Python (🐍 hence the name diSSScord................................😭)The backend is built using Flask and SQLAlchemy and the frontend is rendered using React. Click [here](https://github.com/aznguymp4/Dissscord/wiki) to view our database schema. 
-
+Full-stack clone of Discord written in Python (🐍 hence the name Di__SSS__cord…😭)
+The backend is built using Flask and SQLAlchemy and the frontend is rendered using React. Click [here](https://github.com/aznguymp4/Dissscord/wiki) to view our database schema. 
 
 To view the backend routes, click [here](https://dissscord.onrender.com/api/docs)
 
@@ -11,42 +11,28 @@ To view the backend routes, click [here](https://dissscord.onrender.com/api/docs
 - SQLAlchemy
 - PostgreSQL
 - Render
-- Socket.io
-- Javascript
+- socket.io
+- JavaScript
 - Python
-- Css
+- CSS
 - HTML
 
 ## Features
- - Users can create, update, and delete servers
- - Users can create, update, and delete channels for servers
- - Users can create, update, and delete messages in servers	
+ - Users can create, edit, and delete servers
+ - Users can create, edit, and delete channels for servers
+ - Users can send, edit, and delete messages in channels	
  - Users can add and delete reactions to messages
  - Users can join and leave public servers
+ - Real-time live messaging using Websockets
+ - Users can upload images to customize their avatar & server icon/banner
 
 ## Screenshots:
-
-### Landing Page:
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/a418308a-aaf2-4126-a985-55f0c22efded)
-### Create a server:
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/23dfd8b0-9975-432a-89c6-3fd229d98556)
-### Deleting a server: 
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/f76d6bfd-cfe5-47c6-9143-b7601c9712a7)
-
-### Live typing status: 
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/4cd1bf7c-3bef-408e-8ad4-0845e860b6db)
-### Live messages and reactions:
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/782d139e-6975-41ca-bc40-8c09caf4dd28)
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/ee006705-7ade-44fd-a0ee-144279c1502d)
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/84b4daac-f893-4376-b467-f469b09964c8)
-### Edit/Delete Messages: 
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/13a57553-750f-404c-9b34-0204213779f7)
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/e32b3c44-8a01-4861-8c19-d5331f7b137a)
-
-
-### Creating a channel for a server:
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/fcf1fc6e-a4a5-426f-8508-a15c188da55e)
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/cf7c1d74-3146-4a8d-80f8-0d75ab6676ad)
-### Editing/Deleting a channel 
-![image](https://github.com/aznguymp4/Dissscord/assets/143149304/ce72901a-c32e-46fa-a377-86490f9f77f4)
-
+| **Description** | **Preview** |
+|--------------|--------------------------------------------------------------------------------------------------------|
+| Landing Page (List of Public Servers) | <img src="https://github.com/aznguymp4/Dissscord/assets/48527495/5bf75ecd-e253-491e-bc4c-f11f8f64330c" align="left" width=233px></img><img src="https://github.com/aznguymp4/Dissscord/assets/48527495/992502b0-1a3b-4049-be60-b688b446d6d6" align="right" width=220px></img> |
+| Sign Up and Log In Modals | <img src="https://github.com/aznguymp4/Dissscord/assets/48527495/9ef8faa5-952f-4e4a-bf3d-579bb2983e06" align="center" width=470px></img> |
+| Creating a Server | <video src="https://github.com/aznguymp4/Dissscord/assets/48527495/2d3c80dd-059e-42ff-9b9a-63dbc2f5ed4b"></video> |
+| Editing and Deleting a Server | <video src="https://github.com/aznguymp4/Dissscord/assets/48527495/c6250b3c-0e03-4ebf-825c-d3d3ed110a33"></video> |
+| Real-time Live typing indicator, messages, and reactions | <video src="https://github.com/aznguymp4/Dissscord/assets/48527495/94190ee1-55e5-4c1d-90dc-ee97fb3f492e"></video> |
+| Editing and Deleting messages | <video src="https://github.com/aznguymp4/Dissscord/assets/48527495/9ebcd2c1-a3fb-47d2-a3d7-8b48eaa3545c"></video> |
+| Creating, Editing, and Deleting channels | <video src="https://github.com/aznguymp4/Dissscord/assets/48527495/8b825629-5367-4ab6-b709-629d03f706b4"></video> |
