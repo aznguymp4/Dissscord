@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal"
 import { useNavigate } from "react-router-dom";
 import { callJoinServer } from "../../redux/server";
+import LoginFormModal from "../LoginFormModal";
 import './ServerInfo.css'
 
 const ServerInfo = ({ server, altView }) => {
@@ -9,7 +10,7 @@ const ServerInfo = ({ server, altView }) => {
 	const nav = useNavigate()
 	const sessionUser = useSelector(state => state.session.user);
 	const myServers = useSelector(state => state.myServer)
-	const { closeModal } = useModal()
+	const { closeModal, setModalContent } = useModal()
 
 	const joinServer = async serverId => {
 		dispatch(callJoinServer(serverId))
@@ -27,7 +28,7 @@ const ServerInfo = ({ server, altView }) => {
 		<div id="modalServerDesc">{server.desc}</div>
 		<div id="modalFooter">
 			{altView? <div className="btnText"/> : <div className="btnText" onClick={closeModal}>Cancel</div>}
-			<div className="btn" aria-disabled={sessionUser?'false':'true'} onClick={() => {
+			<div className="btn" onClick={() => {
 				if(!sessionUser) return setModalContent(<LoginFormModal />)
 				if(!myServers[server.id]) joinServer(server.id)
 				else if(!altView) nav(`/server/${server.id}`)
