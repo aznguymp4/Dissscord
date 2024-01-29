@@ -1,113 +1,123 @@
-import { useEffect } from "react";
-import { callFetchServers, callJoinServer } from "../../redux/server";
-import { thunkLogout } from "../../redux/session";
+import { useEffect, useState } from "react";
+import { callFetchServers } from "../../redux/server";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from '../../context/Modal';
-import { useNavigate } from "react-router-dom";
 import "./Discovery.css";
+import AccountBar from "../AccountBar/AccountBar";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import ServerInfo from "./ServerInfo";
 
 function Discovery() {
   const dispatch = useDispatch();
-  const nav = useNavigate()
-  const { setModalContent, closeModal } = useModal();
+  const { setModalContent } = useModal();
+  const [query, setQuery] = useState('')
   const sessionUser = useSelector((state) => state.session.user);
   const servers = useSelector(state => state.server)
-  const myServers = useSelector(state => state.myServer)
 
   useEffect(()=>{
     dispatch(callFetchServers())
   },[dispatch])
 
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(thunkLogout());
-  };
-
-  const joinServer = async serverId => {
-    dispatch(callJoinServer(serverId))
-    location.pathname = `/server/${serverId}`
-  }
-
   const isAuthStr = sessionUser?' auth':''
 
   return (
     <>
+      {sessionUser && <AccountBar fullSize={true}/>}
       <div id="discoveryHeader" className={isAuthStr}>
         <div id="discoveryContent">
-          <div id="discoveryTitle">Welcome to Dissscord</div>
+          <div id="discoveryTitle">
+            {sessionUser? <>
+              <div>Find your community on Dissscord</div>
+              <p>From gaming, to music, to learning, there's a place for you.</p>
+            </> : <div>Welcome to Dissscord</div>}
+          </div>
           <div id="discoveryButtons">
-            {sessionUser?
-              <>
-                <div id="btnLogout" className="btn" onClick={logout}>Log Out</div>
-              </>
-              :
-              <>
-                <OpenModalMenuItem
-                  id="btnSignup"
-                  className="btn"
-                  itemText="Sign Up"
-                  modalComponent={<SignupFormModal />}
-                />
-                <OpenModalMenuItem
-                  id="btnLogin"
-                  className="btn"
-                  itemText="Log In"
-                  modalComponent={<LoginFormModal />}
-                />
-              </>
-            }
+            {sessionUser? 
+            <input onChange={(e) => setQuery(e.target.value.substr(0,128))} id="discoverySearch" type="text" placeholder="Explore communities"/>
+            : <>
+              <OpenModalMenuItem
+                id="btnSignup"
+                className="btn"
+                itemText="Sign Up"
+                modalComponent={<SignupFormModal />}
+              />
+              <OpenModalMenuItem
+                id="btnLogin"
+                className="btn"
+                itemText="Log In"
+                modalComponent={<LoginFormModal />}
+              />
+            </>}
           </div>
         </div>
       </div>
-      {
-        servers && <div className={`serverGrid${isAuthStr}`}>
-          {
-            Object.values(servers).map(s => s.public && <div
-              className="serverTile"
-              onClick={() => {
-                setModalContent(
-                  <div id="modalServer">
-                    <div id="modalTitle">Server Info</div>
-                    <img id="modalServerBanner" src={s.banner}/>
-                    <img id="modalServerIcon" src={s.icon}/>
-                    <div id="modalServerOwner" title={`Server Owner: @${s.owner.username}`}>
-                      <img id="modalServerOwnerIcon" src={s.owner.icon}/>
-                      <div id="modalServerOwnerName"><div>SERVER OWNER</div>{s.owner.displayname || s.owner.username}</div>
-                    </div>
-                    <div id="modalServerName">{s.displayname}</div>
-                    <div id="modalServerDesc">{s.desc}</div>
-                    <div id="modalFooter">
-                      <div className="btnText" onClick={closeModal}>Cancel</div>
-                      <div className="btn" aria-disabled={sessionUser?'false':'true'} onClick={() => {
-                        if(!sessionUser) return setModalContent(<LoginFormModal />)
-                        if(!myServers[s.id]) joinServer(s.id)
-                        else nav(`/server/${s.id}`)
-                        closeModal()
-                      }}>{
-                        sessionUser && myServers[s.id]? 'View':'Join'
-                      }</div>
-                      <div id="modalFooterBg"/>
-                    </div>
-                  </div>
-                )
-              }}
-              key={s.id}
-            >
-              <img className="serverTileBanner" src={s.banner} alt=""/>
-              <img className="serverTileIcon" src={s.icon} alt=""/>
-              <div className="serverTileInfo">
-                <div className="serverTileName">{s.displayname}</div>
-                <div className="serverTileDesc">{s.desc}</div>
-              </div>
-            </div>)
-          }
+      {(()=>{
+        let serversToShow = Object.values(servers)
+        if(query) {
+          serversToShow = serversToShow
+            .filter(s => 
+                s.displayname.toLowerCase().includes(query) // Display Name includes query
+              ||s.desc.toLowerCase().includes(query) // Description includes query
+              ||s.displayname.split(' ').some(w => stringSimilar(w, query) > .6) // At least one word in Display Name is 60% close to the query
+              ||s.desc.split(' ').some(w => stringSimilar(w, query) > .65) // At least one word in Description is 65% close to the query
+              ||query.split('').filter(l=>/\w/.test(l)).every(l => s.displayname.toLowerCase().includes(l))) // Display Name contains each letter of query
+            .sort((a,b) => stringSimilar(b.displayname, query) - stringSimilar(a.displayname, query)) // Sort results (most similar to least similar by query)
+            .sort((a,b) => b.displayname.toLowerCase().startsWith(query) - a.displayname.toLowerCase().startsWith(query)) // Results starting with query are prioritized
+        }
+
+        return serversToShow.length? <div className={`serverGrid${isAuthStr}`}>
+          {serversToShow.map(s => s.public && <div
+            className="serverTile"
+            onClick={() => {
+              setModalContent(<ServerInfo server={s}/>)
+            }}
+            key={s.id}
+          >
+            <img className="serverTileBanner" src={s.banner} alt=""/>
+            <img className="serverTileIcon" src={s.icon} alt=""/>
+            <div className="serverTileInfo">
+              <div className="serverTileName">{s.displayname}</div>
+              <div className="serverTileDesc">{s.desc}</div>
+            </div>
+          </div>)}
+        </div> : <div className="serverGridBlank">
+          <img src="/emptyServers.svg"/>
+          <h2 style={{fontWeight:400}}>{`No ${query? 'results' : 'servers'} found`}</h2>
+          <h4 className="hCaption">{query? `Try searching for something else.` : 'Why not make one instead?'}</h4>
         </div>
-      }
+      })()}
     </>
   );
 }
 
 export default Discovery;
+
+function stringSimilar(s1, s2) { // float from 0 to 1 indicating how similar two strings are
+	let [longer,shorter] = [s1.toLowerCase(),s2.toLowerCase()]
+	if (s1.length < s2.length) {
+		longer = s2
+		shorter = s1
+	}
+	let longerLength = longer.length;
+	if (longerLength == 0) return 1
+
+	let costs = new Array()
+	for (let i=0;i<=s1.length;i++) {
+		let lastVal = i
+		for (let j=0;j<=s2.length;j++) {
+			if(!i) costs[j] = j
+			else {
+				if(j) {
+					let newVal = costs[j - 1]
+					if(s1.charAt(i-1)!=s2.charAt(j-1)) newVal = Math.min(Math.min(newVal, lastVal), costs[j])+1
+					costs[j - 1] = lastVal
+					lastVal = newVal
+				}
+			}
+		}
+		if (i) costs[s2.length] = lastVal
+	}
+	return (longerLength - costs[s2.length]) / parseFloat(longerLength)
+}

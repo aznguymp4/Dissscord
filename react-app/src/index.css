@@ -51,3 +51,13 @@ a, a:visited, a:hover, a:active {
 .center {
   text-align: center;
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background-color: #00000000;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #1a1b1e;
+}

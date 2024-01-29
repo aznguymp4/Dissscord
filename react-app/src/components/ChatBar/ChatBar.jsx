@@ -3,6 +3,7 @@ import { callFetchMsgsByChannel, callFetch1Msg, callCreateMsg, editMsg, receiveM
 import { callCreateReaction, receiveReaction, removeReaction } from '../../redux/reaction';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useModal } from '../../context/Modal';
 import { io } from 'socket.io-client';
 import Message from './Message';
 import OutsideAlerter from '../../util/outsideAlerter';
@@ -13,10 +14,13 @@ import './ChatBarFooter.css';
 
 // window.socket;
 let typeTimeout;
+let txtArea
+let defaultHeight
 function ChatBar({ server }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const { channelId } = useParams()
+  const { setModalContent, closeModal } = useModal()
   const channel = useSelector(state => state.channel[channelId])
   const msgs = useSelector(state => state.msg)
   const [msgIpt,setMsgIpt] = useState('')
@@ -30,6 +34,7 @@ function ChatBar({ server }) {
   useEffect(() => {
     window.addEventListener('keydown', ({key}) => { if (key === 'Shift') setShiftHeld(true) })
     window.addEventListener('keyup', ({key}) => { if (key === 'Shift') setShiftHeld(false) })
+    window.addEventListener('resize', resizeTxtArea)
   }, [])
   
   const emitTyping = typing => {
@@ -41,6 +46,12 @@ function ChatBar({ server }) {
     })
   }
 
+  const resizeTxtArea = () => setTimeout(()=>{
+    if(!txtArea) txtArea = document.getElementById('chatBarFooterTxt')
+    txtArea.rows = 1
+    if(!defaultHeight) defaultHeight = txtArea.scrollHeight
+    txtArea.rows = txtArea.scrollHeight==defaultHeight? 1 : ~~(Math.min(txtArea.scrollHeight, window.innerHeight*.5)*.05-1)
+  },0)
   const arrayToSentence = arr => {
     if(arr.length==1) return arr[0]
     if(arr.length==2) return arr.join(' and ')
@@ -49,8 +60,20 @@ function ChatBar({ server }) {
   }
   const submitMsg = () => {
     if(!msgIpt.trim()) return
+    if(msgIpt.trim().length > 2000) return setModalContent(
+      <div id="modalMessageTooLong">
+        <div id="modalTitle">Your message is too long...</div>
+        <div className='hCaption'>Please edit your message to be under the 2,000 character count limit.</div><br/>
+        <div id="modalFooter">
+          <div className="btnText"/>
+          <div className="btn btnBlue" onClick={closeModal}>Okay</div>
+          <div id="modalFooterBg"/>
+        </div>
+      </div>
+    )
     dispatch(callCreateMsg(channelId, { content: msgIpt.trim() }))
     setMsgIpt('')
+    resizeTxtArea()
   }
   const submitReaction = (msgId, emoji) => dispatch(callCreateReaction(msgId, emoji))
   
@@ -89,6 +112,7 @@ function ChatBar({ server }) {
   useEffect(()=>{
     setTypers(new Set())
     setMsgIpt('')
+    resizeTxtArea()
   }, [channelId])
   useEffect(()=>{
     if(!msgIpt) return
@@ -125,7 +149,8 @@ function ChatBar({ server }) {
                 func={{
                   setReactingTo,
                   setEmojiPickerOffset,
-                  submitReaction
+                  submitReaction,
+                  shiftHeld
                 }}
                 fullHeight={!a[i-1] || (a[i-1].author_id !== m.author_id)}
               />
@@ -133,14 +158,23 @@ function ChatBar({ server }) {
           }
         </div>
         <div id='chatBarFooter'>
-          <div id='chatBarFooterInput' onInput={e=>setMsgIpt(e.target.value)}>
+          <div id='chatBarFooterInput'>
             <textarea
               id='chatBarFooterTxt'
-              rows='1'
+              rows={1}
               placeholder={`Message #${channel && channel.displayname}`}
               value={msgIpt}
-              onChange={e => setMsgIpt(e.target.value)}
+              onChange={e => {
+                setMsgIpt(e.target.value)
+                resizeTxtArea()
+              }}
+              onKeyDown={e => {
+                if(e.shiftKey || e.key !== 'Enter') return
+                e.preventDefault()
+                submitMsg()
+              }}
             />
+            <div id="chatBarFooterLine"/>
             <div id='chatBarFooterSend'
               onClick={submitMsg}
             >
@@ -148,7 +182,7 @@ function ChatBar({ server }) {
             </div>
           </div>
           <div id='chatBarFooterType'>{
-            (typers.size!=0) && <>
+            <> {(typers.size!=0) && <>
               <img src='/icons/typing.gif'/>
               <span>
                 {typers.size <= 3?
@@ -156,6 +190,8 @@ function ChatBar({ server }) {
                   : <>Several people are typing...</>
                 }
               </span>
+            </>}
+              {(2000 - msgIpt.trim().length) <= 200 && <div style={{color:2000-msgIpt.trim().length < 0? '#f85b60' : '#bcbec2'}} id='chatBarCharLimit'>{2000 - msgIpt.trim().length}</div>}
             </>
           }</div>
         </div>

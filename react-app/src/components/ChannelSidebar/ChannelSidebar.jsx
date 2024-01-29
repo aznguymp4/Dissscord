@@ -1,27 +1,28 @@
 import { useState } from "react";
 import { callLeaveServer, callDeleteServer } from "../../redux/server";
-import { thunkLogout } from "../../redux/session";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "./ChannelSidebar.css";
 import "./ChannelSidebarHeader.css";
-import "./ChannelSidebarFooter.css";
 import OpenModalMenuItem from "../Discovery/OpenModalMenuItem";
 import CreateChannelModal from "../CreateChannelModal";
 import UpdateChannelModal from "../UpdateChannelModal";
 import ServerEditModal from "../ServerEditModal";
-import AccountConfigModal from "../AccountConfigModal";
+import AccountBar from "../AccountBar/AccountBar";
 import OutsideAlerter from "../../util/outsideAlerter";
+import ServerInfo from "../Discovery/ServerInfo";
 import { useModal } from "../../context/Modal";
 
+const bannerOffsetMax = 87
 function ChannelSidebar({ server, channels }) {
-  const nav = useNavigate()
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const userOwnsServer = server?.owner_id == sessionUser?.id
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [bannerOffset, setBannerOffset] = useState(0)
   const { closeModal } = useModal()
   const { channelId } = useParams()
+  const serverBarNameHt = (dropdownOpen? 48 : 135-bannerOffset) + 'px'
 
   const handleLeaveServer = e => {
     e.preventDefault()
@@ -33,15 +34,32 @@ function ChannelSidebar({ server, channels }) {
 
   return (
     <div id="channelSidebar">
-      <div id="channelListHeader">
+      {server && <div id="channelListHeader">
         <OutsideAlerter
           onOutsideClick={()=>setDropdownOpen(false)}
         >
-          <div id="channelListHeaderBg" onClick={() => setDropdownOpen(x=>!x)}>
-            {server && <div id="channelListHeaderServerName">{server.displayname}</div>}
-            <i className={`fas fa-${dropdownOpen? 'times fa-lg' : 'chevron-down'}`}/>
+          <div id="channelListHeaderBg" style={server.banner && {backgroundImage:`url('${server.banner}')`, height: serverBarNameHt, [dropdownOpen? 'transitionProperty' : undefined]: 'height'}} onClick={() => setDropdownOpen(x=>!x)}>
+            {server?.banner && <>
+              <div id="channelListHeaderBgShadow" style={{height:serverBarNameHt}}/>
+              <div
+                id="channelListHeaderBgCover"
+                style={{
+                  height: serverBarNameHt,
+                  opacity: bannerOffset/bannerOffsetMax + dropdownOpen
+                }}
+              />
+            </>}
+            {<div id="channelListHeaderServerName">{server?.displayname}</div>}
+            <i className={`fas fa-${dropdownOpen? 'times' : 'chevron-down'}`}/>
           </div>
           <div className={`dropdownMenu${dropdownOpen? '' : ' hidden'}`}>
+            <OpenModalMenuItem
+              className="dropdownBtn"
+              itemText="About Server"
+              iconClassName="fas fa-info-circle fa-lg"
+              onItemClick={() => setDropdownOpen(false)}
+              modalComponent={<ServerInfo server={server} altView='-'/>}
+            />
             {userOwnsServer && <>
               <OpenModalMenuItem
                 className="dropdownBtn"
@@ -78,8 +96,16 @@ function ChannelSidebar({ server, channels }) {
             />
           </div>
         </OutsideAlerter>
-      </div>
-      {server && !channels.channel && <div id="channelList">{
+      </div>}
+      {server && channels && !channels.channel && <div
+        id="channelList"
+        onScroll={e => {
+          setBannerOffset(Math.min(bannerOffsetMax, e.target.scrollTop*.6))
+        }}
+        style={{
+          height: `calc(100vh - ${dropdownOpen? 118 : 205-bannerOffset}px)`
+        }}
+      >{
         Object.values(channels).map(c => <Link
           key={c.id}
           className={`channelLi${channelId==c.id?' select':''}`}
@@ -95,37 +121,7 @@ function ChannelSidebar({ server, channels }) {
             </div>}
         </Link>)
       }</div>}
-      <div id="channelListFooter">
-        <div id="channelListFooterIcon">
-          <img src={sessionUser?.icon}/>
-          <div id="channelListFooterIconStatus"></div>
-        </div>
-        <div id="channelListFooterNames">
-          <div id="channelListFooterNameDisplay">{sessionUser?.displayname || sessionUser?.username}</div>
-          <div id="channelListFooterNameUser">@{sessionUser?.username}</div>
-        </div>
-        <OpenModalMenuItem
-          className="iconBtn"
-          itemText={<img src="/icons/settings.svg"/>}
-          modalComponent={<AccountConfigModal/>}
-        />
-        <OpenModalMenuItem
-          className="iconBtn"
-          itemText={<img id="channelListFooterLogout" src="/icons/logout.svg"/>}
-          modalComponent={<>
-            <div id="modalTitle">Log Out</div>
-            <form onSubmit={()=>{dispatch(thunkLogout()); closeModal(); nav('/')}} className="accountForm">
-              <div style={{fontWeight:200,textAlign:'center'}}>Are you sure you want to log out?</div>
-              <br/>
-              <div id="modalFooter">
-                <div className="btnText" onClick={closeModal}>Cancel</div>
-                <input type="submit" className='btnRed' value='Log Out'/>
-                <div id="modalFooterBg"/>
-              </div>
-            </form>
-          </>}
-        />
-      </div>
+      <AccountBar/>
     </div>
   );
 }

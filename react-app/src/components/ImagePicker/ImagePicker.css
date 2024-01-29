@@ -40,6 +40,7 @@
     background-image: url('/icons/uploadPlaceholder.svg');
     position: relative;
     cursor: pointer;
+    transition: .1s var(--bezierQuartOut) box-shadow;
 }
 .accountConfigUserAvatar.empty {
     border-radius: 50% 12px 50% 50%;

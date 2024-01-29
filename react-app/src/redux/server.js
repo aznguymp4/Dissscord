@@ -61,7 +61,10 @@ export const callFetchMyServers = () => dispatch => {
 export const callJoinServer = serverId => dispatch => {
 	csrfFetch(`/api/servers/join/${serverId}`)
 	.then(r=>r.json())
-	.then(d => dispatch(receiveServer(d)))
+	.then(d => {
+		dispatch(receiveServer(d))
+		location.pathname = `/server/${serverId}`
+	})
 	.catch(console.error)
 }
 export const callLeaveServer = serverId => dispatch => {

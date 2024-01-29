@@ -26,18 +26,38 @@
     display: flex;
     border-bottom: 1px solid var(--serverNameHr);
     box-shadow: -1px 1px 1px var(--serverNameHrShadow);
-    transition: .1s background-color ease-out;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-shadow: 0 1px 4px #000;
+    transition-property: background-color;
+    transition-duration: .1s;
+    transition-timing-function: var(--bezierQuartInOut);
 }
-#channelListHeaderBg:hover {
+#channelListHeaderBg:hover, #channelListHeaderBg:hover > #channelListHeaderBgCover {
     cursor: pointer;
     background-color: var(--serverNameHoverBg);
 }
+#channelListHeaderBgShadow, #channelListHeaderBgCover {
+    height: 135px;
+    width: 240px;
+    position: fixed;
+}
+#channelListHeaderBgShadow {
+    background: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 43%);
+}
+#channelListHeaderBgCover {
+    background-color: var(--channelListBg);
+    transition: .1s opacity var(--bezierQuartOut);
+}
 #channelListHeaderServerName {
     width: 100%;
+    z-index: 1;
 }
 #channelListHeaderBg > .fas {
-    margin: auto 16px auto 0;
-    color: var(--textGrayLight)
+    margin: 16px 16px auto 0;
+    color: var(--textGrayLight);
+    z-index: 1;
 }
 
 .dropdownMenu {

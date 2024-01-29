@@ -34,7 +34,7 @@ function ServerEditModal({ server }) {
       public: public_
     }
 
-    dispatch(callEditServer(server.id, body, (ok, res) => {
+    dispatch(callEditServer(server.id, body, ok => {
       if(ok) return closeModal()
       setErrors(errors)
     }));
@@ -49,7 +49,7 @@ function ServerEditModal({ server }) {
             id="modalServerEditBanner"
             setStateFunc={setBanner}
             defaultSrc={banner}
-            />
+          />
           <ImagePicker
             id="modalServerEditIcon"
             setStateFunc={setIcon}
@@ -64,7 +64,7 @@ function ServerEditModal({ server }) {
           value={displayname}
           onChange={(e) => setDisplayname(e.target.value.substr(0,128))}
         />
-        <label htmlFor="bio">DESCRIPTION {errors.desc && <span>{errors.desc}</span>}</label>
+        <label htmlFor="desc">DESCRIPTION {errors.desc && <span>{errors.desc}</span>}</label>
         <textarea
           name="desc"
           value={desc}

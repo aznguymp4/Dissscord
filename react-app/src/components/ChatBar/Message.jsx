@@ -7,14 +7,9 @@ import { useModal } from "../../context/Modal";
 
 const Message = ({ msg, fullHeight, server, func }) => {
 	const sessionUser = useSelector((state) => state.session.user);
-  const reactions = useSelector(state => state.reaction)
+	const reactions = useSelector(state => state.reaction)
 	const dispatch = useDispatch()
-	const { closeModal } = useModal()
-
-	const submitDeleteMsg = mId => {
-		closeModal()
-		dispatch(callDeleteMsg(mId))
-	}
+	const { closeModal, setModalContent } = useModal()
 	
 	return <div key={msg.id} className={`chatMsg${fullHeight?'':' short'}`}>
 		<div className='chatMsgLeft'>
@@ -50,12 +45,15 @@ const Message = ({ msg, fullHeight, server, func }) => {
 							<img src="/icons/pencil.svg"/>
 						</OpenModalMenuItem>
 					}
-					{([server?.owner_id, msg?.author_id].includes(sessionUser.id)) && <OpenModalMenuItem
+					{([server?.owner_id, msg?.author_id].includes(sessionUser.id)) && <div
 						className="iconBtn"
-						modalComponent={<>
+						onClick={() => func.shiftHeld? dispatch(callDeleteMsg(msg.id)) : setModalContent(<>
 							<div id="modalTitle">Delete Message</div>
-							<form onSubmit={e=>{e.preventDefault(); submitDeleteMsg(msg.id)}} className="accountForm">
+							<form onSubmit={e=>{e.preventDefault(); closeModal(); dispatch(callDeleteMsg(msg.id))}} className="accountForm">
 								<div style={{fontWeight:200,textAlign:'center'}}>Are you sure you want to delete this message?</div>
+								<br/>
+                <div style={{color:'#2dc770',fontSize:'12px'}}>PROTIP:</div>
+                <div className='hCaption3'>You can hold down shift when clicking <b>delete message</b> to bypass this confirmation entirely.</div>
 								<br/>
 								<div id="modalFooter">
 									<div className="btnText" onClick={closeModal}>Cancel</div>
@@ -63,10 +61,10 @@ const Message = ({ msg, fullHeight, server, func }) => {
 									<div id="modalFooterBg"/>
 								</div>
 							</form>
-						</>}
+						</>)}
 					>
 						<img src="/icons/trash.svg"/>
-					</OpenModalMenuItem>}
+					</div>}
 				</div>
 			</div>
 			<div className='chatMsgTxt'>
@@ -104,7 +102,7 @@ const Message = ({ msg, fullHeight, server, func }) => {
 
 function formatTime(rawTime, formatLen) {
 	const msgTime = new Date(rawTime)
-	msgTime.setTime(msgTime.getTime() + msgTime.getTimezoneOffset()*6e4)
+	// msgTime.setTime(msgTime.getTime() + msgTime.getTimezoneOffset()*6e4)
 	if(formatLen==='full') return msgTime.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })
 	let now = Date.now();
 	let hours = msgTime.getHours();
@@ -116,12 +114,10 @@ function formatTime(rawTime, formatLen) {
 	let strTime = hours + ':' + minutes + ' ' + ampm;
 	let diff = now-msgTime.getTime();
 	if(formatLen==='timeOnly') return strTime
-	if(diff<864e5) { // 24hr
-		return 'Today at '+strTime;
-	} else if(diff<1728e5) { // 48hr
-		return 'Yesterday at '+strTime;
+	if(diff<1728e5) { // 24hr and 48hr
+		return (diff<864e5?'Today':'Yesterday')+' at '+strTime;
 	} else {
-		return msgTime.toLocaleDateString();
+    return msgTime.toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: 'numeric', minute: 'numeric' })
 	}
 }
 function groupReactions(arr, sessionUserId) {

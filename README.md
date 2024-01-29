@@ -1,8 +1,10 @@
 # Dissscord
+- Check out a live version of Dissscord here: [Dissscord](https://dissscord.onrender.com)
 
-Full-stack clone of Discord written in Python (🐍 hence the name Di__SSS__cord…😭)
-The backend is built using Flask and SQLAlchemy and the frontend is rendered using React. Click [here](https://github.com/aznguymp4/Dissscord/wiki) to view our database schema. 
+Full-stack clone of Discord written in Python (🐍 hence the name DiSSScord… :D)
+The backend was built using Flask and SQLAlchemy, while the frontend was built in React.js.
 
+Click [here](https://github.com/aznguymp4/Dissscord/wiki) to view our database schema. 
 To view the backend routes, click [here](https://dissscord.onrender.com/api/docs)
 
 ## Technologies Used
@@ -28,7 +30,7 @@ To view the backend routes, click [here](https://dissscord.onrender.com/api/docs
 
 ## Screenshots:
 | **Description** | **Preview** |
-|--------------|--------------------------------------------------------------------------------------------------------|
+|-|-|
 | Landing Page (List of Public Servers) | <img src="https://github.com/aznguymp4/Dissscord/assets/48527495/5bf75ecd-e253-491e-bc4c-f11f8f64330c" align="left" width=233px></img><img src="https://github.com/aznguymp4/Dissscord/assets/48527495/992502b0-1a3b-4049-be60-b688b446d6d6" align="right" width=220px></img> |
 | Sign Up and Log In Modals | <img src="https://github.com/aznguymp4/Dissscord/assets/48527495/9ef8faa5-952f-4e4a-bf3d-579bb2983e06" align="center" width=470px></img> |
 | Creating a Server | <video src="https://github.com/aznguymp4/Dissscord/assets/48527495/2d3c80dd-059e-42ff-9b9a-63dbc2f5ed4b"></video> |

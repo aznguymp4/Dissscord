@@ -14,9 +14,13 @@
     left: 72px;
 }
 #channelList {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     row-gap: 2px;
-    margin: 8px;
+    padding: 8px;
+    /* height: calc(100vh - 205px); */
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 .channelLi {
     display: flex;
