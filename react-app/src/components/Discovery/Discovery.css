@@ -1,28 +1,23 @@
 @media screen and (max-width: 1440px) {
-    .serverGrid {
-        grid-template-columns: repeat(4, 4fr) !important;
-    }
+    .serverGrid { grid-template-columns: repeat(4, 4fr) !important; }
 }
 @media screen and (max-width: 1000px) {
-    .serverGrid {
-        grid-template-columns: repeat(3, 3fr) !important;
-    }
+    .serverGrid { grid-template-columns: repeat(3, 3fr) !important; }
+    #discoveryTitle > div { font-size: 22px !important; }
+    #discoveryTitle > p { font-size: 14px !important; }
+    #discoverySearch { width: 350px !important; }
 }
 @media screen and (max-width: 720px) {
-    .serverGrid {
-        grid-template-columns: repeat(2, 2fr) !important;
-    }
-    #discoveryTitle {
-        font-size: 24px !important;
-    }
+    .serverGrid { grid-template-columns: repeat(2, 2fr) !important; }
+    #discoveryTitle > div { font-size: 20px !important; }
+    #discoveryTitle > p { font-size: 12px !important; }
+    #discoverySearch { width: 290px !important; }
 }
-@media screen and (max-width: 520px) {
-    .serverGrid {
-        grid-template-columns: repeat(1, 1fr) !important;
-    }
-    #discoveryTitle {
-        font-size: 18px !important;
-    }
+@media screen and (max-width: 580px) {
+    .serverGrid { grid-template-columns: repeat(1, 1fr) !important; }
+    #discoveryTitle > div { font-size: 18px !important; }
+    #discoveryTitle > p { font-size: 11px !important; }
+    #discoverySearch { width: 250px !important; }
 }
 
 :root {
@@ -47,15 +42,17 @@
     transition: .3s padding-left var(--bezierQuartOut);
 }
 #discoveryHeader.auth {
-    margin: 16px 8px 16px 80px;
+    margin: 69px 8px 16px 80px;
     width: calc(100% - 88px);
 }
 #discoveryHeader {
     margin: 16px 8px 16px 8px;
     width: calc(100% - 16px);
+    max-height: 333px;
     transition: .3s var(--bezierQuartOut);
     transition-property: margin width;
     aspect-ratio: 266/83;
+    object-fit: cover;
     background-size: cover;
     height: max-content;
     border-radius: 12px;
@@ -68,16 +65,49 @@
     left: 50%;
     transform: translate(-50%,-50%);
 }
-#discoveryTitle {
+#discoveryTitle > * {
     text-shadow: 0 4px 8px #00000033;
-    font-weight: 600;
-    font-size: xx-large;
     user-select: none;
+    transition: .2s font-size var(--bezierQuartInOut);
+}
+#discoveryTitle > div {
+    font-weight: 600;
+    font-size: 24px;
+}
+#discoveryTitle > p {
+    font-weight: 300;
+    font-size: 16px;
+    margin: unset;
+    opacity: .6;
 }
 #discoveryButtons {
     display: flex;
     padding-top: .5em;
     justify-content: center;
+}
+#discoverySearch {
+    padding: 10px;
+    font-family: unset;
+    font-weight: 300;
+    border: unset;
+    border-radius: 4px;
+    color: var(--bodyBg);
+    box-shadow: 0 4px 12px #00000066;
+    width: 400px;
+    transition: .2s width var(--bezierQuartInOut);
+}
+.serverGridBlank {
+    /* width: 100%; */
+    background-color: var(--channelListBg);
+    margin-left: 80px;
+    margin-right: 8px;
+    border-radius: 12px;
+    padding: 3em 1em;
+    text-align: center;
+}
+.serverGridBlank > * {
+    text-align: center;
+    margin: 6px;
 }
 .btn, input[type=submit] {
     width: max-content;
@@ -177,81 +207,4 @@
     margin: 0 16px;
     transform: translateY(-25px);
     font-size: 14px;
-}
-#modalServer {
-    width: 380px;
-    height: 420px;
-}
-#modalServer > #modalFooter > .btn {
-    background-color: var(--colBlurple);
-    margin: 0;
-}
-#modalServer > #modalFooter > .btn:hover {background-color: var(--colBlurpleDark1);}
-#modalServer > #modalFooter > .btn:active {background-color: var(--colBlurpleDark2);}
-#modalServerBanner {
-    width: 412px;
-    height: 150px;
-    transform: translateX(-16px);
-    object-fit: cover;
-    -webkit-user-drag: none;
-    user-select: none;
-}
-#modalServerIcon {
-    transform: translateY(-56px);
-    width: 72px;
-    height: 72px;
-    object-fit: cover;
-    border: solid 6px var(--bodyBg);
-    background-color: var(--bodyBg);
-    border-radius: 25%;
-    -webkit-user-drag: none;
-    user-select: none;
-}
-#modalServerOwner {
-    display: flex;
-    float: right;
-    justify-content: right;
-    margin-top: 8px;
-}
-#modalServerOwnerName {
-    max-width: 120px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    margin: auto 0px auto 8px;
-    font-size: 14px;
-    font-weight: 300;
-}
-#modalServerOwnerName > div {
-    font-weight: 600;
-    font-size: 11px;
-    color: var(--textGrayLight);
-    padding: 0;
-    margin: 0;
-}
-#modalServerOwnerIcon {
-    width: 32px;
-    height: 32px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-left: auto;
-}
-#modalServerName {
-    font-size: 20px;
-    font-weight: 600;
-    transform: translateY(-56px);
-    max-width: 256px;
-    margin-bottom: 48px;
-}
-#modalServerDesc {
-    font-size: 14px;
-    font-weight: 200;
-    position: absolute;
-    width: 380px;
-    height: 96px;
-    transform: translateY(-100px);
-    color: var(--textWhiteIpt);
-    text-overflow: ellipsis;
-    overflow-y: hidden;
-    white-space: wrap;
 }

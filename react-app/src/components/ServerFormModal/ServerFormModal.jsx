@@ -9,6 +9,7 @@ function ServerFormModal() {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const [displayname, setDisplayname] = useState("");
+  const [desc, setDesc] = useState("");
   const sessionUser = useSelector((state) => state.session.user);
   const [icon, setIcon] = useState('');
   const [public_, setPublic] = useState(false)
@@ -19,7 +20,7 @@ function ServerFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(displayname.length>128) return setErrors({displayname: 'Name exceeds 128 characters'})
-    dispatch(callCreateServer({ displayname: displayname || placeholder, icon, public: public_ }));
+    dispatch(callCreateServer({ displayname: displayname || placeholder, icon, public: public_, desc }));
     closeModal()
   };
 
@@ -38,6 +39,14 @@ function ServerFormModal() {
           placeholder={placeholder}
           value={displayname}
           onChange={(e) => setDisplayname(e.target.value.substr(0,128))}
+        />
+        <label htmlFor="desc">DESCRIPTION {errors.desc && <span>{errors.desc}</span>}</label>
+        <textarea
+          name="desc"
+          value={desc}
+          placeholder={`What is your server about? (optional)`}
+          rows="4"
+          onChange={(e) => setDesc(e.target.value.substr(0,512))}
         />
         <label>PUBLIC {errors.public && <span>{errors.public}</span>}</label>
         <ToggleSwitch

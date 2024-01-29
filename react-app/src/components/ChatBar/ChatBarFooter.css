@@ -7,7 +7,6 @@
     bottom: 0;
     left: 312px;
     width: calc(100vw - 312px);
-    height: 68px;
 }
 #chatBarFooterInput {
     display: flex;
@@ -19,14 +18,15 @@
     resize: unset;
     border: unset;
     border-radius: 8px 0 0 8px;
-    min-height: 32px;
     color: var(--textWhiteIpt);
     font-size: 16px;
     font-weight: 200;
-    padding: 12px 12px 0px 16px;
+    padding: 12px 12px 12px 16px;
     margin-left: 16px;
     width: calc(100vw - 368px);
     line-height: 20px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 #chatBarFooterTxt:focus {
     outline: none;
@@ -34,18 +34,22 @@
 #chatBarFooterSend {
     background-color: var(--chatBarTxtIptBg);
     width: 50px;
-    height: 44px;
     min-height: 32px;
     margin-right: 16px;
+    padding: 0;
     border-radius: 0 8px 8px 0;
+}
+#chatBarFooterLine {
+    width: 1.5px;
+    background-color: #42444b;
 }
 #chatBarFooterSend > img {
     filter: invert(62%) sepia(16%) saturate(1666%) hue-rotate(199deg) brightness(102%) contrast(94%);
     transition: .15s ease-in-out filter;
     width: 20px;
-    padding: 12px;
+    padding: 10px 12px 9px 12px;
+    transform: translateY(2px);
     cursor: pointer;
-    border-left: 1px solid #42444b44;
 }
 #chatBarFooterSend > img.btnDisabled{
     filter: invert(31%) sepia(5%) saturate(765%) hue-rotate(191deg) brightness(94%) contrast(89%);
@@ -56,6 +60,11 @@
     height: 24px;
     background-color: var(--bodyBg);
     user-select: none;
+}
+#chatBarCharLimit {
+    font-size: 13px;
+    font-weight: 200;
+    margin: auto 16px auto auto;
 }
 #chatBarFooterType > img {
     margin-left: 25px;
@@ -70,4 +79,5 @@
     font-weight: 300;
     font-size: 14px;
     margin: auto auto 3px 0;
+    word-break: keep-all;
 }
