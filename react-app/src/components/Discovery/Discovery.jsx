@@ -35,7 +35,7 @@ function Discovery() {
           </div>
           <div id="discoveryButtons">
             {sessionUser? 
-            <input onChange={(e) => setQuery(e.target.value.substr(0,128))} id="discoverySearch" type="text" placeholder="Explore communities"/>
+            <input onChange={(e) => setQuery(e.target.value.substr(0,128).toLowerCase())} id="discoverySearch" type="text" placeholder="Explore communities"/>
             : <>
               <OpenModalMenuItem
                 id="btnSignup"
