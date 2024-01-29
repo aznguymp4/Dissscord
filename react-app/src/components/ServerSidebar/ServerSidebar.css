@@ -22,6 +22,11 @@
     flex-direction: column;
     overflow-y: scroll;
 }
+
+#serverBar::-webkit-scrollbar{
+    display: none
+}
+
 #serverBar.mouseIn {
     padding: 12px 100vw 12px 12px;
 }
