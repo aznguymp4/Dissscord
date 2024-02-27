@@ -6,20 +6,24 @@
 
 #footerBar {
     background-color: var(--footerBarBg);
-    width: 236px;
-    height: fit-content;
-    position: relative;
-    bottom: 0;
+    border-bottom: 2px solid var(--bodyBg);
+    bottom: -14px;
     display: flex;
-}
-#footerBar.fullSize {
-    bottom: -10px;
-    left: 64px;
+    height: fit-content;
+    justify-content: center;
+    left: -7px;
+    padding-bottom: 12px;
+    position: relative;
     right: 0;
-    width: calc(100% - 56px);
+    width: calc(101% - 4px);
     z-index: 1;
+}
+#footerBar.smallSize {
     border-bottom: 2px solid var(--bodyBg);
     justify-content: center;
+    left: 64px;
+    width: calc(100% - 56px);
+    z-index: 1;
 }
 
 .footerTeamDiv {
