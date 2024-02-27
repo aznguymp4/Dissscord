@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import './Footer.css'
 
 function Footer() {
-    const fullSize = true;
+    const sessionUser = useSelector(state => state.session.user);
     const [randomized, setRandomized] = useState([]);
 
     const team = [
@@ -32,7 +33,7 @@ function Footer() {
         setRandomized(team.sort(() => 0.5 - Math.random()))
     }, [])
 
-    return <div id="footerBar" className={fullSize?'fullSize':''}>
+    return <div id="footerBar" className={sessionUser?'smallSize':''}>
         <div className='footerTeamDiv'>
             <p className='footerTeamHeader'>Development Team</p>
             <div className='membersContainer'>
