@@ -1,0 +1,52 @@
+:root {
+    --footerBarBg: #232428;
+    --footerBarBtnHover: #3d3e45;
+    --statusOnline: #23a55a;
+}
+
+#footerBar {
+    background-color: var(--footerBarBg);
+    width: 236px;
+    height: fit-content;
+    position: relative;
+    bottom: 0;
+    display: flex;
+}
+#footerBar.fullSize {
+    bottom: -10px;
+    left: 64px;
+    right: 0;
+    width: calc(100% - 56px);
+    z-index: 1;
+    border-bottom: 2px solid var(--bodyBg);
+    justify-content: center;
+}
+
+.footerTeamDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.membersContainer {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+
+.footerLinksContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+@media screen and (max-width: 580px) {
+    .membersContainer {flex-direction: column; justify-content: center; align-items: center;}
+    .footerSlashes {visibility: hidden;}
+}
+
+@media screen and (max-width: 654px) {
+    .membersContainer {
+        text-align: center;
+        align-items: center;
+    }
+}
