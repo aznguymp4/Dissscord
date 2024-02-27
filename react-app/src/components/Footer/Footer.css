@@ -14,12 +14,14 @@
 }
 #footerBar.fullSize {
     bottom: -10px;
-    left: 64px;
+    /* left: 64px; commented out because it seemed like the footer was not in center */
+    left: 32px;
     right: 0;
     width: calc(100% - 56px);
     z-index: 1;
     border-bottom: 2px solid var(--bodyBg);
     justify-content: center;
+    border-radius: 7px; /*also added border radius because everything else does, so thought maybe it will blend in a bit better */
 }
 
 .footerTeamDiv {
