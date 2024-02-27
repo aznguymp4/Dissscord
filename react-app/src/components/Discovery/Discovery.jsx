@@ -8,6 +8,7 @@ import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import ServerInfo from "./ServerInfo";
+import Footer from "../Footer/Footer";
 
 function Discovery() {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function Discovery() {
             </> : <div>Welcome to Dissscord</div>}
           </div>
           <div id="discoveryButtons">
-            {sessionUser? 
+            {sessionUser?
             <input onChange={(e) => setQuery(e.target.value.substr(0,128).toLowerCase())} id="discoverySearch" type="text" placeholder="Explore communities"/>
             : <>
               <OpenModalMenuItem
@@ -57,7 +58,7 @@ function Discovery() {
         let serversToShow = Object.values(servers)
         if(query) {
           serversToShow = serversToShow
-            .filter(s => 
+            .filter(s =>
                 s.displayname.toLowerCase().includes(query) // Display Name includes query
               ||s.desc.toLowerCase().includes(query) // Description includes query
               ||s.displayname.split(' ').some(w => stringSimilar(w, query) > .6) // At least one word in Display Name is 60% close to the query
@@ -88,6 +89,7 @@ function Discovery() {
           <h4 className="hCaption">{query? `Try searching for something else.` : 'Why not make one instead?'}</h4>
         </div>
       })()}
+      <Footer />
     </>
   );
 }
