@@ -44,7 +44,7 @@ function Footer() {
                       <div className='footerLinksContainer'>
                       {member.github &&
                         <a
-                          href={member.gitHub}
+                          href={member.github}
                           className='footerLink'
                           target='_blank'
                           rel='noreferrer'
@@ -71,7 +71,7 @@ function Footer() {
                       <div className='footerLinksContainer'>
                         {member.github &&
                         <a
-                          href={member.gitHub}
+                          href={member.github}
                           className='footerLink'
                         >
                           <i className='fa-brands fa-github'></i>
