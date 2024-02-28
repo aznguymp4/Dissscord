@@ -9,7 +9,7 @@ function ImagePicker({ defaultSrc, setStateFunc, delBtnShow = false, style, id }
   // const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [src,setSrc] = useState(defaultSrc || blank)
-  const [msg, setMsg] = useState(<><i className="fas fa-spinner fa-pulse fa-lg"/> Uploading...</>)
+  const [msg, setMsg] = useState(null)
 
   const triggerFileInput = () => document.getElementById(`imageUpload-${id}`).click()
   const clearFile = () => {
