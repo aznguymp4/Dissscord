@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkEditUser } from "../../redux/session";
-import { uploadImg } from "../../redux/csrf";
 import ImagePicker from "../ImagePicker";
 import "./AccountConfigModal.css";
 
