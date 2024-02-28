@@ -1,10 +1,6 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useNavigate } from "react-router-dom";
-import { thunkEditUser } from "../../redux/session";
-import { uploadImg } from "../../redux/csrf";
-import ImagePicker from "../ImagePicker";
 import { thunkLogout } from "../../redux/session";
 
 import OpenModalMenuItem from "../Discovery/OpenModalMenuItem";

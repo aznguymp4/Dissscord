@@ -9,6 +9,7 @@ function ImagePicker({ defaultSrc, setStateFunc, delBtnShow = false, style, id }
   // const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [src,setSrc] = useState(defaultSrc || blank)
+  const [msg, setMsg] = useState(<><i className="fas fa-spinner fa-pulse fa-lg"/> Uploading...</>)
 
   const triggerFileInput = () => document.getElementById(`imageUpload-${id}`).click()
   const clearFile = () => {
@@ -17,14 +18,21 @@ function ImagePicker({ defaultSrc, setStateFunc, delBtnShow = false, style, id }
   }
     
   const handleImageChange = e => {
-    const images = Array.from(e.target.files).filter(f=>f.type.startsWith('image/'))
+    const image = Array.from(e.target.files).filter(f=>f.type.startsWith('image/'))[0]
 
-    uploadImg(images)
-      .then(atts => {
-        setSrc(atts[0].url)
-        setStateFunc(atts[0].url)
+		if(image.size > 8192000) return setMsg(<div style={{color:'var(--colRed)'}}>File size must be under 8 MB</div>)
+
+    setMsg(<><i className="fas fa-spinner fa-pulse fa-lg"/> Uploading...</>)
+    uploadImg(image)
+      .then(src => {
+        setSrc(src)
+        setStateFunc(src)
+        setMsg('Upload Complete!')
       })
-      .catch(console.error)
+      .catch(e => {
+        console.error(e)
+        setMsg(<div style={{color:'var(--colRed)'}}>Upload Failed...</div>)
+      })
   }
 
   return <>
@@ -39,6 +47,7 @@ function ImagePicker({ defaultSrc, setStateFunc, delBtnShow = false, style, id }
       {src!==blank && delBtnShow && <div className="accountConfigUserAvatarDel" onClick={clearFile}><i className="fas fa-times"/></div>}
       <img className={`accountConfigUserAvatar${src===blank?' empty':''}`} onClick={triggerFileInput} src={src}/>
       {src!==blank && <img className="accountConfigUserAvatarEdit" onClick={triggerFileInput} src="/icons/pencil.svg"/>}
+      <div className="imageLoad">{msg || <br/>}</div>
     </div>
   </>
 }
