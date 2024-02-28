@@ -52,8 +52,22 @@ export const uploadImg = files => new Promise((res,rej) => {
 	.catch(rej)
 })
 
-export const createImage = (icon) => async (dispatch) => {
-	const response = await fetch(``)
+export const createImage = (image) => async (dispatch) => {
+	console.log("🚀 ~ createImage ~ image:", image)
+	const response = await fetch(`/api/images/new`, {
+		method: "POST",
+		body: image
+	});
+	console.log("🚀 ~ createImage ~ response:", response)
+
+	if (response.ok) {
+		const url = await response.json();
+		return url
+	} else {
+		const error = await response.json()
+		console.log("ERRORS: ", error)
+		console.log("There was an error uploading img")
+	}
 }
 /* export function restoreCSRF() {
 	return csrfFetch('/api/csrf/restore');

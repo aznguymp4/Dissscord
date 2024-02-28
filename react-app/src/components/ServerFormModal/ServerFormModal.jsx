@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal";
 import { callCreateServer } from "../../redux/server";
 import ImagePicker from "../ImagePicker";
 import ToggleSwitch from "./ToggleSwitch";
+import { createImage } from "../../redux/csrf";
 
 function ServerFormModal() {
   const dispatch = useDispatch();
@@ -21,16 +22,16 @@ function ServerFormModal() {
     e.preventDefault();
     if(displayname.length>128) return setErrors({displayname: 'Name exceeds 128 characters'});
     const formData = new FormData();
-    formData.append("displayname", displayname || placeholder);
-    formData.append("icon", icon);
-    formData.append("public", public_);
-    formData.append("desc", desc);
-    // aws uploads can be a bit slow—displaying
-    // some sort of loading message is a good idea
-    // setImageLoading(true);
-    await dispatch(callCreateServer(formData));
+    formData.append("file", icon);
+
+    const url = await dispatch(createImage(formData));
+    if (url.errors) {
+      console.log("ERRORS IN COMPONENT, ", url, url.errors)
+    } else {
+      console.log("NO ERROR URL: ", url)
+    }
     // history.push("/images");
-    // dispatch(callCreateServer({ displayname: displayname || placeholder, icon, public: public_, desc }));
+    dispatch(callCreateServer({ displayname: displayname || placeholder, icon: url, public: public_, desc }));
     closeModal()
   };
 
