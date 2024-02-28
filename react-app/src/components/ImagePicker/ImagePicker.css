@@ -42,6 +42,11 @@
     cursor: pointer;
     transition: .1s var(--bezierQuartOut) box-shadow;
 }
+.imageLoad {
+    text-align: center;
+    color: var(--colBlurple);
+    user-select: none;
+}
 .accountConfigUserAvatar.empty {
     border-radius: 50% 12px 50% 50%;
 }
