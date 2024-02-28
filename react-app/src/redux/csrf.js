@@ -52,6 +52,9 @@ export const uploadImg = files => new Promise((res,rej) => {
 	.catch(rej)
 })
 
+export const createImage = (icon) => async (dispatch) => {
+	const response = await fetch(``)
+}
 /* export function restoreCSRF() {
 	return csrfFetch('/api/csrf/restore');
 } */

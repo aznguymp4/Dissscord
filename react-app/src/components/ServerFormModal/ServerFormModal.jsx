@@ -19,15 +19,25 @@ function ServerFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(displayname.length>128) return setErrors({displayname: 'Name exceeds 128 characters'})
-    dispatch(callCreateServer({ displayname: displayname || placeholder, icon, public: public_, desc }));
+    if(displayname.length>128) return setErrors({displayname: 'Name exceeds 128 characters'});
+    const formData = new FormData();
+    formData.append("displayname", displayname || placeholder);
+    formData.append("icon", icon);
+    formData.append("public", public_);
+    formData.append("desc", desc);
+    // aws uploads can be a bit slow—displaying
+    // some sort of loading message is a good idea
+    // setImageLoading(true);
+    await dispatch(callCreateServer(formData));
+    // history.push("/images");
+    // dispatch(callCreateServer({ displayname: displayname || placeholder, icon, public: public_, desc }));
     closeModal()
   };
 
   return (
     <>
       <div id="modalTitle">Customize Your Server</div>
-      <form onSubmit={handleSubmit} className="accountForm" style={{maxWidth:'420px'}}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="accountForm" style={{maxWidth:'420px'}}>
         <div className="hCaption center">Give your new server a personality with a name and an icon. You can always change it later.</div><br/>
         <ImagePicker
           setStateFunc={setIcon}

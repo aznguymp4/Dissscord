@@ -10,22 +10,44 @@ function ImagePicker({ defaultSrc, setStateFunc, delBtnShow = false, style, id }
   const sessionUser = useSelector(state => state.session.user);
   const [src,setSrc] = useState(defaultSrc || blank)
 
+
   const triggerFileInput = () => document.getElementById(`imageUpload-${id}`).click()
   const clearFile = () => {
     setStateFunc(`https://cdn.discordapp.com/embed/avatars/${sessionUser.id%6}.png`)
     setSrc(blank)
   }
-    
-  const handleImageChange = e => {
-    const images = Array.from(e.target.files).filter(f=>f.type.startsWith('image/'))
 
-    uploadImg(images)
-      .then(atts => {
-        setSrc(atts[0].url)
-        setStateFunc(atts[0].url)
-      })
-      .catch(console.error)
+  const fileWrap = (e) => {
+    e.stopPropagation();
+
+    const tempFile = e.target.files[0];
+
+    const newImageURL = URL.createObjectURL(tempFile); // Generate a local URL to render the image file inside of the <img> tag.
+    setSrc(newImageURL);
+    // setFile(tempFile);
+    // setFilename(tempFile.name);
   }
+
+  const handleImageChange = e => {
+    setStateFunc(e.target.files[0])
+    fileWrap(e)
+    // uploadImg(images)
+    //   .then(atts => {
+    //     setSrc(atts[0].url)
+    //     setStateFunc(atts[0].url)
+    //   })
+    //   .catch(console.error)
+  }
+  // const handleImageChange = e => {
+  //   const images = Array.from(e.target.files).filter(f=>f.type.startsWith('image/'))
+
+  //   uploadImg(images)
+  //     .then(atts => {
+  //       setSrc(atts[0].url)
+  //       setStateFunc(atts[0].url)
+  //     })
+  //     .catch(console.error)
+  // }
 
   return <>
     <input

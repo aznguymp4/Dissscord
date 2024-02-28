@@ -2,6 +2,9 @@ from flask import Blueprint, request, redirect
 from app.forms import ServerForm, ChannelForm
 from flask_login import login_required, current_user
 from app.models import Server, Channel, db
+from app.api.aws import (
+	upload_file_to_s3, get_unique_filename
+)
 
 server_routes = Blueprint('servers', __name__)
 
@@ -42,16 +45,46 @@ def channels(id):
 @login_required
 def create_server():
 	form = ServerForm()
+	print("IN THE BACK")
 	form['csrf_token'].data = request.cookies['csrf_token']
 	if form.validate_on_submit():
+		print("IN THE BACK but further")
 		user = current_user.to_dict()
+
+		if "icon" in form.data:
+			image = form.data["icon"]
+			image.filename = get_unique_filename(image.filename)
+			upload = upload_file_to_s3(image)
+			print(upload)
+
+			if "url" not in upload:
+				# if the dictionary doesn't have a url key
+				# it means that there was an error when we tried to upload
+				# so we send back that error message (and we printed it above)
+				return {"errors": upload}
+
+			url = upload["url"]
+
+		if "banner" in form.data:
+			banner_image = form.data["banner"]
+			banner_image.filename = get_unique_filename(banner_image.filename)
+			banner_upload = upload_file_to_s3(banner_image)
+			print(banner_upload)
+
+			if "url" not in banner_upload:
+				# if the dictionary doesn't have a url key
+				# it means that there was an error when we tried to upload
+				# so we send back that error message (and we printed it above)
+				return {"errors": banner_upload}
+
+			banner_url = banner_upload["url"]
 
 		server = Server(
 			owner_id = user["id"],
 			displayname = form.data["displayname"],
-			icon = form.data["icon"] if "icon" in form.data else 'https://cdn.discordapp.com/embed/avatars/0.png',
+			icon = url if "icon" in form.data else 'https://cdn.discordapp.com/embed/avatars/0.png',
 			desc = form.data["desc"] if "desc" in form.data else None,
-			banner = form.data["banner"] if "banner" in form.data else None,
+			banner = banner_url if "banner" in form.data else None,
 			public = form.data["public"] if "public" in form.data else None
 		)
 
@@ -123,7 +156,7 @@ def modify_server(id):
 				server.public = data['public']
 			else:
 				server.public = server.public
-				
+
 			db.session.commit()
 			return server.to_dict()
 		else:

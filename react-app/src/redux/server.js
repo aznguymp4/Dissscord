@@ -27,19 +27,40 @@ const removeMyServer = serverId => ({
 	serverId
 })
 
-export const callCreateServer = body => dispatch => {
-    csrfFetch(`/api/servers/new`, {
+export const callCreateServer = (body) => async (dispatch) => {
+  const response = await fetch(`/api/servers/new`, {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(body)
+		body
 	})
-    .then(r=>r.json())
-    .then(d => {
-		dispatch(receiveServer(d))
-		location.pathname = `/server/${d.id}`
-	})
-    .catch(console.error)
+
+	if (response.ok) {
+		console.log("IN OK: ")
+		const res = await response.json()
+		dispatch(receiveServer(res))
+	} else {
+		const error = await response.json()
+		console.log(error)
+	}
+  //   .then(r=>r.json())
+  //   .then(d => {
+	// 	dispatch(receiveServer(d))
+	// 	location.pathname = `/server/${d.id}`
+	// })
+  //   .catch(console.error)
 }
+// export const callCreateServer = body => dispatch => {
+//     csrfFetch(`/api/servers/new`, {
+// 		method: 'POST',
+// 		headers: { 'Content-Type': 'application/json' },
+// 		body: JSON.stringify(body)
+// 	})
+//     .then(r=>r.json())
+//     .then(d => {
+// 		dispatch(receiveServer(d))
+// 		location.pathname = `/server/${d.id}`
+// 	})
+//     .catch(console.error)
+// }
 export const callFetchServers = () => dispatch => {
 	csrfFetch(`/api/servers`)
 	.then(r=>r.json())
