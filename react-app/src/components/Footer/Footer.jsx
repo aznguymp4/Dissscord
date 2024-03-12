@@ -20,7 +20,7 @@ function Footer() {
         {
             name: 'RAN WANG',
             github: 'https://github.com/ranwang0410',
-            linkedin: ''
+            linkedin: 'https://www.linkedin.com/in/ran-wang-80b47a1b8/'
         },
         {
             name:'WILMER SAMPEDRO',
