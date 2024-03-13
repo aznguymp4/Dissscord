@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 44a5847bdadd
+Revision ID: f39d42bda64a
 Revises: 
-Create Date: 2024-01-24 08:19:48.027264
+Create Date: 2024-03-13 19:29:27.659624
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '44a5847bdadd'
+revision = 'f39d42bda64a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=40), nullable=False),
-    sa.Column('displayname', sa.String(length=40), nullable=True),
+    sa.Column('displayname', sa.String(length=128), nullable=True),
     sa.Column('bio', sa.String(length=256), nullable=True),
     sa.Column('icon', sa.String(length=256), nullable=True),
     sa.Column('email', sa.String(length=255), nullable=False),
@@ -35,7 +35,7 @@ def upgrade():
     op.create_table('servers',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('owner_id', sa.Integer(), nullable=False),
-    sa.Column('displayname', sa.String(length=40), nullable=False),
+    sa.Column('displayname', sa.String(length=128), nullable=False),
     sa.Column('icon', sa.String(length=256), nullable=True),
     sa.Column('desc', sa.String(length=512), nullable=True),
     sa.Column('banner', sa.String(length=256), nullable=True),
