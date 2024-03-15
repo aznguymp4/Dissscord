@@ -1,7 +1,6 @@
 :root {
     --footerBarBg: #232428;
     --footerBarBtnHover: #3d3e45;
-    --statusOnline: #23a55a;
 }
 
 #footerBar {
@@ -40,7 +39,12 @@
 
 .footerLinksContainer {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 6px;
+}
+.footerSlashes {
+    opacity: 25%;
+    font-weight: 100;
 }
 
 @media screen and (max-width: 580px) {
