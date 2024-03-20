@@ -1,5 +1,4 @@
 import os
-import requests
 from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -16,23 +15,6 @@ from .api.cdn_routes import cdn_routes
 from .seeds import seed_commands
 from .config import Config
 from .socket import socketio
-
-import threading
-from time import sleep
-
-def keep_alive():
-    print('Keep-alive...')
-    requests.get('https://dissscord.onrender.com/api/auth/unauthorized')
-    print('...!')
-
-def set_interval(func, sec):
-    def func_wrapper():
-        set_interval(func, sec)
-        func()
-    t = threading.Timer(sec, func_wrapper)
-    t.start()
-    return t
-set_interval(keep_alive, 420)
 
 app = Flask(__name__, static_folder='../react-app/dist', static_url_path='/')
 socketio.init_app(app)
