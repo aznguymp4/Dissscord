@@ -5,7 +5,9 @@ import os
 if os.environ.get('FLASK_ENV') == 'production':
     origins = [
         'http://dissscord.onrender.com',
-        'https://dissscord.onrender.com'
+        'https://dissscord.onrender.com',
+        'http://dissscord.aznguy.com',
+        'https://dissscord.aznguy.com'
     ]
 else:
     origins = '*'
