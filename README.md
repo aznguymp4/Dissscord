@@ -38,3 +38,11 @@ To view the backend routes, click [here](https://dissscord.onrender.com/api/docs
 | Real-time Live typing indicator, messages, and reactions | <video src="https://github.com/aznguymp4/Dissscord/assets/48527495/94190ee1-55e5-4c1d-90dc-ee97fb3f492e"></video> |
 | Editing and Deleting messages | <video src="https://github.com/aznguymp4/Dissscord/assets/48527495/9ebcd2c1-a3fb-47d2-a3d7-8b48eaa3545c"></video> |
 | Creating, Editing, and Deleting channels | <video src="https://github.com/aznguymp4/Dissscord/assets/48527495/8b825629-5367-4ab6-b709-629d03f706b4"></video> |
+
+## Getting Started
+1. `pipenv install [-r requirements.txt]`
+2. `pipenv shell`
+3. `flask db migrate` (if migrations/versions directory is empty)
+4. `flask db upgrade`
+5. `flask seed all`
+6. `flask run`

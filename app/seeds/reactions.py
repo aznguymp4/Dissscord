@@ -1,25 +1,22 @@
 from app.models import db, Reaction, environment, SCHEMA
 from sqlalchemy.sql import text
-reactions = [
-    '😀',
-    '👍',
-    '🫡'
-]
+import random
+
+example_react = {
+    "weather": ['🌙','🌤️','⛅','🌥️','🌦️','🌧️','⛈️','🌩️','🌨️','⛄','💨','💧','🫧','🌊','🌫️'],
+    "animals": ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐻‍❄️','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐔','🐧','🐦','🐤','🐣','🪿','🦆','🐦‍⬛','🦅','🦉','🐺','🐗','🐴'],
+    "os": ['📱','💻','🖥️','🖨️','🖱️','🕹️','💾','💿']
+}
 
 # Adds a demo user, you can add other users here if you want
 def seed_reactions():
-    for x in range(0,3):
-        db.session.add(Reaction(
-            message_id=x+1,
-            author_id=(x%3)+1,
-            emoji=reactions[x]
-        ))
-    for x in range(0,3):
-        db.session.add(Reaction(
-            message_id=x+10,
-            author_id=(x%3)+1,
-            emoji=reactions[x]
-        ))
+    for idx,k in enumerate(example_react):
+        for msg_id in range(1,80,4):
+            db.session.add(Reaction(
+                message_id=msg_id+(80*idx),
+                author_id=random.randint(1,3),
+                emoji=random.choice(example_react[k])
+            ))
     db.session.commit()
 
 
