@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from flask_login import current_user, login_required
 import boto3
 from botocore.exceptions import ClientError
+from botocore.config import Config
 import os
 import time
 
@@ -11,7 +12,9 @@ schema_name = os.environ.get("SCHEMA")
 s3 = boto3.client(
   "s3",
   aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-  aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY")
+  aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
+  region_name='us-east-2',
+  config=Config(signature_version='s3v4')
 )
 
 cdn_routes = Blueprint('cdn', __name__)
